@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const pool = require("./config/db");
+const userRoutes = require("./Routes/userRoutes")
 
 const port = process.env.PORT || 8080;
 
