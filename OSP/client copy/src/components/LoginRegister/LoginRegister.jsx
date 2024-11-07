@@ -4,6 +4,7 @@ import './LoginRegister.css';
 import logo from '../assets/img.jpeg';
 import logodaiict from '../assets/imgdaiict.jpg';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 
 const LoginRegister = () => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -43,7 +44,7 @@ const LoginRegister = () => {
             </div>
             <div className="form-side">
                 <div className="title-box">
-                    <span className="portal-title">ONLINE SCHOLARSHIP PORTAL!!</span>
+                    {/* <span className="portal-title">ONLINE SCHOLARSHIP PORTAL</span> */}
                 </div>
 
                 <div className="form-container">
@@ -60,11 +61,11 @@ const LoginRegister = () => {
                                 <h2>Login</h2>
                                 <div className="input-box">
                                     <input type="email" placeholder="Email" required />
-                                    <span className="icon">📧</span>
+                                    <FaUser className='icon'/>
                                 </div>
                                 <div className="input-box">
                                     <input type="password" placeholder="Password" required />
-                                    <span className="icon">🔒</span>
+                                    <FaLock className='icon'/>
                                 </div>
 
                                 <div className="captcha-box">
@@ -73,7 +74,7 @@ const LoginRegister = () => {
                                     <input type="text" placeholder="Enter CAPTCHA" required />
                                 </div>
                                 <div className="role-selection">
-                                    <div className="input-box">
+                                    <div className="input1-box">
                                         <label>
                                             <input
                                                 type="radio"
@@ -85,7 +86,7 @@ const LoginRegister = () => {
                                             Student
                                         </label>
                                     </div>
-                                    <div className="input-box">
+                                    <div className="input1-box">
                                         <label>
                                             <input
                                                 type="radio"
@@ -113,15 +114,15 @@ const LoginRegister = () => {
                                 <h2>Sign Up</h2>
                                 <div className="input-box">
                                     <input type="text" placeholder="Username" required />
-                                    <span className="icon">👤</span>
+                                    <FaUser className='icon'/>
                                 </div>
                                 <div className="input-box">
                                     <input type="email" placeholder="Email" required />
-                                    <span className="icon">📧</span>
+                                    <FaEnvelope className='icon'/>
                                 </div>
                                 <div className="input-box">
                                     <input type="password" placeholder="Password" required />
-                                    <span className="icon">🔒</span>
+                                    <FaLock className='icon'/>
                                 </div>
                                 <button type="submit">Register</button>
                                 <div className="toggle-link">
