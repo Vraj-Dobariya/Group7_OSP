@@ -58,14 +58,24 @@
 .title-box {
     width: 100%;
     text-align: center;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
 
 /* Online Scholarship Portal title styling */
 .portal-title {
     font-size: 30px;
     font-weight: bold;
-    color: #007bff; /* Blue color for title */
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    /* background: url('./Components/Assets/background.jpg') */
+    background: #fff
+    no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #0132fb; 
 }
 
 /* Logo section styling */
@@ -74,14 +84,15 @@
     align-items: center;
     font-size: 32px;
     font-weight: bold;
-    color: #333; /* Keep the original color for logo text */
-    margin-bottom: 20px;
+    color: #333;
+    margin-bottom: 40px;
+    justify-content: center;
 }
 
 /* Circular logo container */
 .osp-logo-o {
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     overflow: hidden;
     display: inline-flex;
@@ -101,8 +112,8 @@
 /* Text in logo */
 
 .osp-logo-text {
-    font-size: 40px;        /* Adjust font size as needed */
-    color: #007BFF;         /* Blue color */
+    font-size: 80px;        /* Adjust font size as needed */
+    color: #0132fb;         /* Blue color */
     font-weight: bold;      /* Optional: makes the text bold */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);  /* Adding a subtle shadow */
 }
@@ -114,7 +125,7 @@
     max-width: 400px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
     padding: 30px;
 }
 
@@ -125,6 +136,7 @@ form h2 {
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
+    font-family: "Poppins", sans-serif;
 }
 
 /* Input box styling */
@@ -132,6 +144,12 @@ form h2 {
     position: relative;
   /*  width: 100%;*/
     margin: 15px 0;
+}
+.input1-box {
+    position: relative;
+    font-family: "Poppins", sans-serif;
+    width: 100%;
+    
 }
 
 /* Input field styling */
@@ -148,7 +166,19 @@ form h2 {
 
 /* Placeholder color */
 .input-box input::placeholder {
-    color: #999;
+    color: #888;
+    /* font-style: italic; */
+     font-family: "Poppins", sans-serif;
+    opacity: 0.7;
+}
+.input1-box label{
+    font-family: "Poppins", sans-serif;
+}
+.captcha-box input::placeholder {
+    color: #888;
+    /* font-style: italic; */
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
 }
 
 /* Icon in input field */
@@ -165,10 +195,13 @@ form h2 {
 .captcha-box {
     display: flex;
     align-items: center;
+    font-family: "Poppins", sans-serif;
     gap: 10px;
     margin: 15px 0;
 }
+
 .form-box {
+    margin-top: 0px;
     width: 80%;            /* Make the form 80% of its parent container */
     max-width: 400px;      /* Optional: you can set a max width for the form to ensure it doesn't stretch too wide */
     margin: 0 auto;        /* Center the form box horizontally */
@@ -180,7 +213,7 @@ form h2 {
 
 /* CAPTCHA text styling */
 .captcha-text {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
     color: #5a67d8; /* Keep the original color for CAPTCHA */
 }
@@ -201,6 +234,7 @@ form h2 {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 15px;
+    font-size:  "Poppins", sans-serif;
     color: #333;
 }
 
@@ -211,6 +245,7 @@ form h2 {
     font-size: 14px;
     margin: 10px 0;
     color: #666;
+    font-weight: bold;
 }
 
 /* Checkbox styling */
@@ -254,6 +289,9 @@ form button:hover {
     text-align: center;
     color: #666;
     margin-top: 15px;
+    font-size:  "Poppins", sans-serif;
+    font-weight: bold;
+    
 }
 
 /* Toggle link text styling */
@@ -261,6 +299,7 @@ form button:hover {
     color: #007bff; /* Blue color for toggle links */
     cursor: pointer;
     font-weight: 600;
+    font-size:  "Poppins", sans-serif;
 }
 
 /* Hover effect for toggle link */
