@@ -7,29 +7,23 @@ const pool = new Pool({
  
     // connectionString: process.env.DATABASE_URL,
     //testDB
-    connectionString: "postgresql://ospdb_user:plPDKR20OhfDsB5wSEBOGilf9RKr7Xea@dpg-crts9d52ng1s73ceertg-a.singapore-postgres.render.com/ospdb",
-    ssl: true, 
+    // connectionString: "postgresql://ospdb_user:plPDKR20OhfDsB5wSEBOGilf9RKr7Xea@dpg-crts9d52ng1s73ceertg-a.singapore-postgres.render.com/ospdb",
+    // ssl: true, 
+  
+      host: "localhost",
+      port: 5432,
+      user: "postgres",
+      password: "12345",
+      database: "SEDB",
+      searchPath: ['osp']  
+    
   });
 
-
-  const createTablesQuery = `
-CREATE TABLE USERS(
-  	id SERIAL PRIMARY KEY,
-  	username TEXT,
-  	email TEXT,
-  	password TEXT,
-  	pic TEXT
-);
-
-`;
-
-pool
-  .query(createTablesQuery)
-  .then(() => {
-    console.log("Tables successfully created or already exist.");
+  pool.connect().then(() => {
+    console.log("Database is successfully Connected");
   })
   .catch((err) => {
-    console.error("Creating tables:", err.message);
+    console.error(err);
   });
 
 

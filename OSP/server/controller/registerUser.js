@@ -6,7 +6,7 @@ const cloudinary = require("./cloud");
 
 const registerUser = async (req, res) => {
 
-    // console.log(req.body);
+
     console.log("Reached registerUser")
   var { name, email, password, preview } = req.body;
 
