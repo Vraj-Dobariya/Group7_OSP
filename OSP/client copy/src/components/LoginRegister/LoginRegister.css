@@ -306,3 +306,19 @@ form button:hover {
 .toggle-link p span:hover {
     text-decoration: underline;
 }
+/* Password visibility toggle styling */
+.password-toggle {
+    position: absolute;
+    right: 45px;             /* Adjust this to position beside the lock icon */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.password-toggle:hover {
+    color: #666;             /* Slight color change on hover */
+}
+

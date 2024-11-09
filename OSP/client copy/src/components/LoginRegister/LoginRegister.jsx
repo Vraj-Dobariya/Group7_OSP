@@ -1,15 +1,15 @@
-// LoginRegister.jsx
 import React, { useState } from 'react';
 import './LoginRegister.css';
 import logo from '../assets/img.jpeg';
 import logodaiict from '../assets/imgdaiict.jpg';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginRegister = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [captcha, setCaptcha] = useState(generateCaptcha());
     const [selectedRole, setSelectedRole] = useState('student');
+    const [passwordVisible, setPasswordVisible] = useState(false); // New state for password visibility
     const navigate = useNavigate();
 
     const toggleForm = () => {
@@ -33,6 +33,10 @@ const LoginRegister = () => {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
     function generateCaptcha() {
         return Math.floor(1000 + Math.random() * 9000).toString();
     }
@@ -43,9 +47,7 @@ const LoginRegister = () => {
                 <img src={logo} alt="College Logo" className="logo-background" />
             </div>
             <div className="form-side">
-                <div className="title-box">
-                    {/* <span className="portal-title">ONLINE SCHOLARSHIP PORTAL</span> */}
-                </div>
+                <div className="title-box"></div>
 
                 <div className="form-container">
                     <div className="osp-logo">
@@ -64,8 +66,15 @@ const LoginRegister = () => {
                                     <FaUser className='icon'/>
                                 </div>
                                 <div className="input-box">
-                                    <input type="password" placeholder="Password" required />
+                                    <input
+                                        type={passwordVisible ? "text" : "password"} // Toggle type
+                                        placeholder="Password"
+                                        required
+                                    />
                                     <FaLock className='icon'/>
+                                    <span onClick={togglePasswordVisibility} className="password-toggle">
+                                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                                    </span>
                                 </div>
 
                                 <div className="captcha-box">
@@ -121,8 +130,15 @@ const LoginRegister = () => {
                                     <FaEnvelope className='icon'/>
                                 </div>
                                 <div className="input-box">
-                                    <input type="password" placeholder="Password" required />
+                                    <input
+                                        type={passwordVisible ? "text" : "password"} // Toggle type
+                                        placeholder="Password"
+                                        required
+                                    />
                                     <FaLock className='icon'/>
+                                    <span onClick={togglePasswordVisibility} className="password-toggle">
+                                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                                    </span>
                                 </div>
                                 <button type="submit">Register</button>
                                 <div className="toggle-link">
