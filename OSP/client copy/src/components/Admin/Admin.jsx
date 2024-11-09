@@ -2,9 +2,7 @@ import Navbar from "./Navbar";
 
 const Admin = () => {
     return ( 
-       <Navbar/>
-       
+        <Navbar/> 
     );
 }
-
 export default Admin;
