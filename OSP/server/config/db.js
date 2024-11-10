@@ -29,14 +29,13 @@ const pool = new Pool({
 
 
 
+
 pool.connect().then(() => {
     console.log("Database connected successfully.");
   })
   .catch((err) => {
     console.error(err);
   });
-
-
 
 
 

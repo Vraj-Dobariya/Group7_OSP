@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginRegister.css";
 import logo from "../assets/img.jpeg";
 import logodaiict from "../assets/imgdaiict.jpg";
@@ -6,20 +6,56 @@ import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useContextState } from "../../context/userProvider";
 
-
-var endpoint = "http://localhost:8080";
-
 const LoginRegister = () => {
+  const navigate = useNavigate();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState(""); // For registration
+  const [username, setUsername] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [captcha, setCaptcha] = useState(generateCaptcha());
   const [selectedRole, setSelectedRole] = useState("student");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const {user , baseURL} = useContextState();
-  const navigate = useNavigate();
+  const { user, baseURL } = useContextState();
+
+  // New useEffect to automatically check for token and validate it on load
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo && userInfo.token) {
+      roleCheck(userInfo); // Call role check function if token exists
+    }
+  }, [navigate]);
+
+  const roleCheck = async (userInfo) => {
+    try {
+      const response = await fetch(`${baseURL}/api/user/authRole`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.token}`,
+        },
+        body: JSON.stringify(userInfo),
+      });
+      
+      const check = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("userInfo", JSON.stringify(check));
+        
+        // Navigate to the appropriate dashboard based on role
+        if (check.role === "student") {
+          navigate("/student-dashboard");
+        } else if (check.role === "admin") {
+          navigate("/admin-dashboard");
+        }
+      } else {
+        localStorage.removeItem("userInfo");
+        alert("Session expired, please log in again.");
+      }
+    } catch (err) {
+      console.log("Unexpected Error. Please login again.");
+    }
+  };
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
@@ -35,17 +71,6 @@ const LoginRegister = () => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    // You can add client-side validation here if needed
-
-    // if(captchaInput != captcha)
-    // {
-    //     return(
-    //         <h3>pls eneter valid captha</h3>
-    //     )
-    // }
-
-    console.log(email, password, captchaInput);
-
     try {
       const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
@@ -60,17 +85,11 @@ const LoginRegister = () => {
         }),
       });
 
-      // Handle successful login (e.g., navigate to dashboard)
       const data = await response.json();
-      console.log(data);
-
-
 
       if (response.ok) {
-
-        localStorage.removeItem("userInfo");
         localStorage.setItem("userInfo", JSON.stringify(data));
-
+        
         if (selectedRole === "student") {
           navigate("/student-dashboard");
         } else if (selectedRole === "admin") {
@@ -87,8 +106,6 @@ const LoginRegister = () => {
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
-
-
     try {
       const response = await fetch(`${baseURL}/api/user/register`, {
         method: "POST",
@@ -103,15 +120,11 @@ const LoginRegister = () => {
         }),
       });
 
-      // Handle successful registration
       const data = await response.json();
-    //   console.log(data);
 
       if (response.ok) {
-
-
         alert("Registration successful! Please log in.");
-        toggleForm(); // Switch to login form
+        toggleForm();
       } else {
         alert("Registration failed: " + response.data.message);
       }
@@ -135,18 +148,9 @@ const LoginRegister = () => {
         <img src={logo} alt="College Logo" className="logo-background" />
       </div>
       <div className="form-side">
-        <div className="title-box"></div>
-
         <div className="form-container">
           <div className="osp-logo">
-            <div className="osp-logo-o">
-              <img
-                src={logodaiict}
-                alt="DAIICT Logo"
-                className="osp-logo-image"
-              />
-            </div>
-            <span className="osp-logo-text">SP</span>
+            <img src={logodaiict} alt="DAIICT Logo" className="osp-logo-image" />
           </div>
 
           <div className="form-box">
@@ -172,21 +176,14 @@ const LoginRegister = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaLock className="icon" />
-                  <span
-                    onClick={togglePasswordVisibility}
-                    className="password-toggle"
-                  >
+                  <span onClick={togglePasswordVisibility} className="password-toggle">
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
 
                 <div className="captcha-box">
                   <span className="captcha-text">{captcha}</span>
-                  <button
-                    type="button"
-                    className="refresh-captcha"
-                    onClick={refreshCaptcha}
-                  >
+                  <button type="button" className="refresh-captcha" onClick={refreshCaptcha}>
                     🔄
                   </button>
                   <input
@@ -198,47 +195,28 @@ const LoginRegister = () => {
                   />
                 </div>
                 <div className="role-selection">
-                  <div className="input1-box">
-                    <label>
-                      <input
-                        type="radio"
-                        name="role"
-                        value="student"
-                        checked={selectedRole === "student"}
-                        onChange={() => setSelectedRole("student")}
-                      />
-                      Student
-                    </label>
-                  </div>
-                  <div className="input1-box">
-                    <label>
-                      <input
-                        type="radio"
-                        name="role"
-                        value="admin"
-                        checked={selectedRole === "admin"}
-                        onChange={() => setSelectedRole("admin")}
-                      />
-                      Admin
-                    </label>
-                  </div>
-                </div>
-
-                <div className="remember-forgot">
                   <label>
-                    <input type="checkbox" /> Remember me
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      checked={selectedRole === "student"}
+                      onChange={() => setSelectedRole("student")}
+                    />
+                    Student
                   </label>
-                  <a href="#" onClick={handleForgotPassword}>
-                    Forgot Password?
-                  </a>
+                  <label>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="admin"
+                      checked={selectedRole === "admin"}
+                      onChange={() => setSelectedRole("admin")}
+                    />
+                    Admin
+                  </label>
                 </div>
                 <button type="submit">Login</button>
-                <div className="toggle-link">
-                  <p>
-                    Don't have an account?{" "}
-                    <span onClick={toggleForm}>Register</span>
-                  </p>
-                </div>
               </form>
             ) : (
               <form className="register-form" onSubmit={handleRegisterSubmit}>
@@ -272,20 +250,11 @@ const LoginRegister = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaLock className="icon" />
-                  <span
-                    onClick={togglePasswordVisibility}
-                    className="password-toggle"
-                  >
+                  <span onClick={togglePasswordVisibility} className="password-toggle">
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
                 <button type="submit">Register</button>
-                <div className="toggle-link">
-                  <p>
-                    Already have an account?{" "}
-                    <span onClick={toggleForm}>Login</span>
-                  </p>
-                </div>
               </form>
             )}
           </div>

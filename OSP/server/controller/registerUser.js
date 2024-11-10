@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
 
     console.log(req.body);
     console.log("Reacheddd registerUser")
-  var { username, email, password, preview } = req.body;
+  var { username, email, password, preview ,role} = req.body;
 
   try {
 
@@ -41,13 +41,13 @@ const registerUser = async (req, res) => {
     try {
       if (preview && pic) {
         await pool.query(
-          "insert into osp.users (username, email, password,pic) values  ($1,$2,$3,$4)",
-          [username, email, password, pic.url]
+          "insert into osp.users (username, email, password,pic,role) values  ($1,$2,$3,$4,$5)",
+          [username, email, password, pic.url,role]
         );
       } else {
         await pool.query(
-          "insert into osp.users (username, email, password) values  ($1,$2,$3)",
-          [username, email, password]
+          "insert into osp.users (username, email, password,role) values  ($1,$2,$3,$4)",
+          [username, email, password,role]
         );
       }
 
@@ -60,6 +60,7 @@ const registerUser = async (req, res) => {
         name: user.rows[0].username,
         email: user.rows[0].email,
         pic: user.rows[0].pic,
+        role: user.rows[0].role,
         token: generateToken(user.rows[0].id),
       });
     } catch (error) {
