@@ -6,7 +6,7 @@ const authUser = async (req, res) => {
   const { email, password } = req.body;
 
   const userExists = await pool.query(
-    `select * from osp.users where email='${email}'`);
+    `select * from users where email='${email}'`);
 
   if (userExists.rows.length) {
     bcrypt.compare(password, userExists.rows[0].password, function (err, response) {
