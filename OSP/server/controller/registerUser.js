@@ -6,9 +6,9 @@ const cloudinary = require("./cloud");
 
 const registerUser = async (req, res) => {
 
-
-    console.log("Reached registerUser")
-  var { name, email, password, preview } = req.body;
+    console.log(req.body);
+    console.log("Reacheddd registerUser")
+  var { username, email, password, preview } = req.body;
 
   try {
 
@@ -18,15 +18,15 @@ const registerUser = async (req, res) => {
 //     });
 //   }
  
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       res.status(400).send(JSON.stringify("Please Input all the Feilds"));
       console.error("Please Input all the Feilds");
       return;
     }
 
     const userExist = await pool.query(
-      "select * from users where username=($1)",
-      [name]
+      "select * from osp.users where username=($1)",
+      [username]
     );
 
     if (userExist.rows.length) {
@@ -41,18 +41,18 @@ const registerUser = async (req, res) => {
     try {
       if (preview && pic) {
         await pool.query(
-          "insert into users (username, email, password,pic) values  ($1,$2,$3,$4)",
-          [name, email, password, pic.url]
+          "insert into osp.users (username, email, password,pic) values  ($1,$2,$3,$4)",
+          [username, email, password, pic.url]
         );
       } else {
         await pool.query(
-          "insert into users (username, email, password) values  ($1,$2,$3)",
-          [name, email, password]
+          "insert into osp.users (username, email, password) values  ($1,$2,$3)",
+          [username, email, password]
         );
       }
 
       const user = await pool.query(
-        `select * from users where username='${name}'`
+        `select * from osp.users where username='${username}'`
       );
       console.log(user.rows);
       res.status(201).json({
