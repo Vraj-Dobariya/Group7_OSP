@@ -13,14 +13,23 @@ const authUser = async (req, res) => {
 
     if (userExists.rows.length) {
 
+      if(userExists.rows[0].role !=role ){
+       return res
+        .status(401)
+        .json({ success: false, message: `You don't have a permission as ${role}` });
+
+      }
+
       // console.log()
-      bcrypt.compare(
+     else bcrypt.compare(
         password,
         userExists.rows[0].password,
         function (err, response) {
+
+
           if (response) {
             // console.log(userExists.rows)
-            res.status(201).json({
+           return res.status(201).json({
               id: userExists.rows[0].id,
               name: userExists.rows[0].username,
               email: userExists.rows[0].email,
@@ -32,25 +41,25 @@ const authUser = async (req, res) => {
             console.log("Login Successful")
           } else {
             console.log(err);
-            res
+           return res
               .status(401)
               .json({ success: false, message: "Invalid Password" });
           }
         }
       );
     } else {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "User not found" });
     }
    } catch (err) {
     console.log(err);
-    res.status(400).json({ success: false, message: err });
+    return res.status(400).json({ success: false, message: err });
   }
 };
 
 const authRole = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { email ,role } = req.body;
   console.log("Reached authRole");
 
@@ -61,7 +70,7 @@ const authRole = async (req, res) => {
 
     if (userExists.rows.length) {
 
-      console.log(userExists.rows[0]);
+      // console.log(userExists.rows[0]);
 
       if(role == userExists.rows[0].role){
         res.status(201).json({
@@ -78,19 +87,19 @@ const authRole = async (req, res) => {
 
       else{
 
-        res
+        return res
         .status(401)
         .json({ success: false, message: `You don't have a permission as ${role}` });
 
        }
     } else {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "User not found Please Login" });
     }
    } catch (err) {
     console.log(err);
-    res.status(400).json({ success: false, message: err });
+    return res.status(400).json({ success: false, message: err });
   }
 };
 

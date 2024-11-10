@@ -55,7 +55,7 @@ const registerUser = async (req, res) => {
         `select * from osp.users where username='${username}'`
       );
       console.log(user.rows);
-      res.status(201).json({
+     return res.status(201).json({
         id: user.rows[0].id,
         name: user.rows[0].username,
         email: user.rows[0].email,
@@ -65,12 +65,13 @@ const registerUser = async (req, res) => {
       });
     } catch (error) {
       console.log(error);
-      console.log("this");
+ 
+      return
     }
 
 } catch (err) {
     console.log(err);
-    res.status(400).json({
+   return res.status(400).json({
         errMsg : "Something went wrong"
     })
   }
