@@ -4,7 +4,8 @@ import logo from "../assets/img.jpeg";
 import logodaiict from "../assets/imgdaiict.jpg";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios"; // For making HTTP requests
+import { useContextState } from "../../context/userProvider";
+
 
 var endpoint = "http://localhost:8080";
 
@@ -17,6 +18,7 @@ const LoginRegister = () => {
   const [captcha, setCaptcha] = useState(generateCaptcha());
   const [selectedRole, setSelectedRole] = useState("student");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const {user , baseURL} = useContextState();
   const navigate = useNavigate();
 
   const toggleForm = () => {
@@ -45,7 +47,7 @@ const LoginRegister = () => {
     console.log(email, password, captchaInput);
 
     try {
-      const response = await fetch("http://localhost:8080/api/user/login", {
+      const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,14 +64,20 @@ const LoginRegister = () => {
       const data = await response.json();
       console.log(data);
 
+
+
       if (response.ok) {
+
+        localStorage.removeItem("userInfo");
+        localStorage.setItem("userInfo", JSON.stringify(data));
+
         if (selectedRole === "student") {
           navigate("/student-dashboard");
         } else if (selectedRole === "admin") {
           navigate("/admin-dashboard");
         }
       } else {
-        alert("Login failed: " + response.data.message);
+        alert("Login failed: " + data.message);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -82,7 +90,7 @@ const LoginRegister = () => {
 
 
     try {
-      const response = await fetch("http://localhost:8080/api/user/register", {
+      const response = await fetch(`${baseURL}/api/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,9 +105,11 @@ const LoginRegister = () => {
 
       // Handle successful registration
       const data = await response.json();
-      console.log(data);
+    //   console.log(data);
 
       if (response.ok) {
+
+
         alert("Registration successful! Please log in.");
         toggleForm(); // Switch to login form
       } else {

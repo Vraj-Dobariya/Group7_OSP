@@ -9,18 +9,28 @@ const pool = new Pool({
     // //testDB
     // connectionString: "postgresql://ospdb_user:plPDKR20OhfDsB5wSEBOGilf9RKr7Xea@dpg-crts9d52ng1s73ceertg-a.singapore-postgres.render.com/ospdb",
     // ssl: true, 
+    
+    
+    // host: "localhost",
+      // port: 5432,
+      // user: "postgres",
+      // password: "admin@123",
+      // database: "OSP",
+      // searchPath: ['osp']
+    
+    // Change it as per you configuration
       host: "localhost",
       port: 5432,
       user: "postgres",
-      password: "admin@123",
-      database: "OSP",
+      password: "12345",
+      database: "SEDB",
       searchPath: ['osp']
   });
 
 
 
 pool.connect().then(() => {
-    console.log("Tables successfully created or already exist.");
+    console.log("Database connected successfully.");
   })
   .catch((err) => {
     console.error(err);
