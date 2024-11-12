@@ -76,6 +76,8 @@ const LoginRegister = () => {
 
    const handleLoginSubmit = async (event) => {
     event.preventDefault();
+    
+    console.log(selectedRole);
     try {
       const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
@@ -91,13 +93,13 @@ const LoginRegister = () => {
       });
 
       const data = await response.json();
-
+      console.log(data);
       if (response.ok) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         
-        if (selectedRole === "student") {
+        if (data.role === "student") {
           navigate("/student-dashboard");
-        } else if (selectedRole === "admin") {
+        } else if (data.role === "admin") {
           navigate("/admin");
         }
       } else {
@@ -139,7 +141,7 @@ const LoginRegister = () => {
     }
   };
 
-  
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };

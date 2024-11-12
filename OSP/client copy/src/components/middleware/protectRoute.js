@@ -45,8 +45,9 @@ const PrivateRoute = ({ children }) => {
   };
 
   useEffect(() => {
-    if (user) {
-      roleCheck(user);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo) {
+      roleCheck(userInfo);
     } else {
         alert("You don't have permission to access")
       navigate("/"); 

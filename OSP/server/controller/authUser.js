@@ -21,10 +21,10 @@ const authUser = async (req, res) => {
       if (response) {
         // console.log(userExists.rows)
        return res
-          .status(201) 
+          .status(201)  
           .json({
-            
-            name: userExists.rows[0].username,
+            role:userExists.rows[0].role,
+            username: userExists.rows[0].username,
             email: userExists.rows[0].email,
             pic: userExists.rows[0].pic,
             token: generateToken(userExists.rows[0].email),
@@ -46,6 +46,8 @@ const authUser = async (req, res) => {
 const authRole = async (req, res) => {
   // console.log(req.body);
   const { email ,role } = req.body;
+
+  console.log(req.body);
   console.log("Reached authRole");
 
   try {
@@ -55,7 +57,7 @@ const authRole = async (req, res) => {
 
     if (userExists.rows.length) {
 
-      console.log(userExists.rows[0]);
+      // console.log(userExists.rows[0]);
 
       if(role == userExists.rows[0].role){
         res.status(201).json({
@@ -71,6 +73,8 @@ const authRole = async (req, res) => {
       }
 
       else{
+        console.log(role);
+        console.log(userExists.rows[0].role);
 
         return res
         .status(401)
