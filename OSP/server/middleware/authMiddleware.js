@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const protect = async (req, res, next) => {
   console.log("reach at protect");
- 
+
   let token;
   if (
     req.headers.authorization &&
@@ -12,16 +12,25 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      
-      const decoded = jwt.verify(token,"hello");
-   
+      const decoded = jwt.verify(token, "hello");
+      console.log(decoded);
+
       const temp = await pool.query(
-        `select * from users where id = '${decoded.id}'`
+        `select * from osp.users where email = '${decoded.email}'`
       );
       req.user = temp.rows[0];
-      console.log("decoded");
+      if (req.user.email == decoded.email) {
+        console.log("decoded");
+        next();
+      }
 
-      next(); 
+      else {
+        res.status(401).json({ mesasge: "Not Authorized, token failed" });
+        // console.log(req.user.email);
+        // console.log(decoded.email);
+      return;
+
+      }
     } catch (error) {
       console.log(error);
       res.status(401).json({ mesasge: "Not Authorized, token failed" });
