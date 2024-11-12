@@ -1,23 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginRegister.css";
 import logo from "../assets/img.jpeg";
 import logodaiict from "../assets/imgdaiict.jpg";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios"; // For making HTTP requests
-
-var endpoint = "http://localhost:8080";
+import { useContextState } from "../../context/userProvider";
 
 const LoginRegister = () => {
+  const navigate = useNavigate();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState(""); // For registration
+  const [username, setUsername] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [captcha, setCaptcha] = useState(generateCaptcha());
   const [selectedRole, setSelectedRole] = useState("student");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const navigate = useNavigate();
+  const { user, baseURL } = useContextState();
+
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo && userInfo.token) {
+      roleCheck(userInfo); 
+    }
+  }, [navigate]);
+
+  const roleCheck = async (userInfo) => {
+    try {
+      const response = await fetch(`${baseURL}/api/user/authRole`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.token}`,
+        },
+        body: JSON.stringify(userInfo),
+      });
+      
+      const check = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("userInfo", JSON.stringify(check));
+        
+        
+        if (check.role === "student") {
+          navigate("/student-dashboard");
+        } else if (check.role === "admin") {
+          navigate("/admin");
+        }
+      } else {
+        localStorage.removeItem("userInfo");
+        alert("Session expired, please log in again.");
+      }
+    } catch (err) {
+      console.log("Unexpected Error. Please login again.");
+    }
+  };
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
@@ -33,19 +71,8 @@ const LoginRegister = () => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    // You can add client-side validation here if needed
-
-    // if(captchaInput != captcha)
-    // {
-    //     return(
-    //         <h3>pls eneter valid captha</h3>
-    //     )
-    // }
-
-    console.log(email, password, captchaInput);
-
     try {
-      const response = await fetch("http://localhost:8080/api/user/login", {
+      const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,18 +85,18 @@ const LoginRegister = () => {
         }),
       });
 
-      // Handle successful login (e.g., navigate to dashboard)
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        
         if (selectedRole === "student") {
           navigate("/student-dashboard");
         } else if (selectedRole === "admin") {
-          navigate("/admin-dashboard");
+          navigate("/admin");
         }
       } else {
-        alert("Login failed: " + response.data.message);
+        alert("Login failed: " + data.message);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -79,10 +106,8 @@ const LoginRegister = () => {
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
-
-
     try {
-      const response = await fetch("http://localhost:8080/api/user/register", {
+      const response = await fetch(`${baseURL}/api/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,15 +120,13 @@ const LoginRegister = () => {
         }),
       });
 
-      // Handle successful registration
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         alert("Registration successful! Please log in.");
-        toggleForm(); // Switch to login form
+        toggleForm();
       } else {
-        alert("Registration failed: " + response.data.message);
+        alert("Registration failed: " + data.message);
       }
     } catch (error) {
       console.error("Registration error:", error);

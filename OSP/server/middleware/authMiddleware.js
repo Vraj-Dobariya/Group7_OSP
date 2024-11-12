@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const protect = async (req, res, next) => {
   console.log("reach at protect");
- 
+  // console.log(req.body);
   let token;
   if (
     req.headers.authorization &&
@@ -12,11 +12,11 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      
+      //decodes token id
       const decoded = jwt.verify(token,"hello");
-   
+        // res.json(decoded);
       const temp = await pool.query(
-        `select * from users where id = '${decoded.id}'`
+        `select * from osp.users where user_id = '${decoded.id}'`
       );
       req.user = temp.rows[0];
       console.log("decoded");
