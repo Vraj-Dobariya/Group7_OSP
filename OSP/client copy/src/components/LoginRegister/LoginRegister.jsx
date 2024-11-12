@@ -148,9 +148,18 @@ const LoginRegister = () => {
         <img src={logo} alt="College Logo" className="logo-background" />
       </div>
       <div className="form-side">
+        <div className="title-box"></div>
+
         <div className="form-container">
           <div className="osp-logo">
-            <img src={logodaiict} alt="DAIICT Logo" className="osp-logo-image" />
+            <div className="osp-logo-o">
+              <img
+                src={logodaiict}
+                alt="DAIICT Logo"
+                className="osp-logo-image"
+              />
+            </div>
+            <span className="osp-logo-text">SP</span>
           </div>
 
           <div className="form-box">
@@ -176,14 +185,21 @@ const LoginRegister = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaLock className="icon" />
-                  <span onClick={togglePasswordVisibility} className="password-toggle">
+                  <span
+                    onClick={togglePasswordVisibility}
+                    className="password-toggle"
+                  >
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
 
                 <div className="captcha-box">
                   <span className="captcha-text">{captcha}</span>
-                  <button type="button" className="refresh-captcha" onClick={refreshCaptcha}>
+                  <button
+                    type="button"
+                    className="refresh-captcha"
+                    onClick={refreshCaptcha}
+                  >
                     🔄
                   </button>
                   <input
@@ -195,28 +211,47 @@ const LoginRegister = () => {
                   />
                 </div>
                 <div className="role-selection">
+                  <div className="input1-box">
+                    <label>
+                      <input
+                        type="radio"
+                        name="role"
+                        value="student"
+                        checked={selectedRole === "student"}
+                        onChange={() => setSelectedRole("student")}
+                      />
+                      Student
+                    </label>
+                  </div>
+                  <div className="input1-box">
+                    <label>
+                      <input
+                        type="radio"
+                        name="role"
+                        value="admin"
+                        checked={selectedRole === "admin"}
+                        onChange={() => setSelectedRole("admin")}
+                      />
+                      Admin
+                    </label>
+                  </div>
+                </div>
+
+                <div className="remember-forgot">
                   <label>
-                    <input
-                      type="radio"
-                      name="role"
-                      value="student"
-                      checked={selectedRole === "student"}
-                      onChange={() => setSelectedRole("student")}
-                    />
-                    Student
+                    <input type="checkbox" /> Remember me
                   </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="role"
-                      value="admin"
-                      checked={selectedRole === "admin"}
-                      onChange={() => setSelectedRole("admin")}
-                    />
-                    Admin
-                  </label>
+                  <a href="#" onClick={handleForgotPassword}>
+                    Forgot Password?
+                  </a>
                 </div>
                 <button type="submit">Login</button>
+                <div className="toggle-link">
+                  <p>
+                    Don't have an account?{" "}
+                    <span onClick={toggleForm}>Register</span>
+                  </p>
+                </div>
               </form>
             ) : (
               <form className="register-form" onSubmit={handleRegisterSubmit}>
@@ -250,11 +285,20 @@ const LoginRegister = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FaLock className="icon" />
-                  <span onClick={togglePasswordVisibility} className="password-toggle">
+                  <span
+                    onClick={togglePasswordVisibility}
+                    className="password-toggle"
+                  >
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
                 <button type="submit">Register</button>
+                <div className="toggle-link">
+                  <p>
+                    Already have an account?{" "}
+                    <span onClick={toggleForm}>Login</span>
+                  </p>
+                </div>
               </form>
             )}
           </div>
