@@ -11,8 +11,6 @@ const registerUser = async (req, res) => {
   var { username, email, password, preview ,role} = req.body;
 
 
-
-
   try {
 
 //     if(preview){
@@ -21,15 +19,15 @@ const registerUser = async (req, res) => {
 //     });
 //   }
  
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       res.status(400).send(JSON.stringify("Please Input all the Feilds"));
       console.error("Please Input all the Feilds");
       return;
     }
 
     const userExist = await pool.query(
-      "select * from users where username=($1)",
-      [name]
+      "select * from osp.users where username=($1)",
+      [username]
     );
 
     if (userExist.rows.length) {
@@ -57,7 +55,7 @@ const registerUser = async (req, res) => {
       }
 
       const user = await pool.query(
-        `select * from users where username='${name}'`
+        `select * from osp.users where username='${username}'`
       );
       console.log(user.rows);
      return res.status(201).json({

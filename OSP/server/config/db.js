@@ -16,20 +16,20 @@ const pool = new Pool({
       // searchPath: ['osp']
     
     // Change it as per you configuration
-//       host: "localhost",
-//       port: 5432,
-//       user: "postgres",
-//       password: "12345",
-//       database: "SEDB",
-//       searchPath: ['osp']
-//   });
+      host: "localhost",
+      port: 5432,
+      user: "postgres",
+      password: "12345",
+      database: "SEDB",
+      searchPath: ['osp']
+  // });
 
-  host: "10.100.71.21",
-  port: 5432,
-  user: "202201106",
-  password: "Vraj@6610",
-  database: "202201106",
-  searchPath: ["osp"],
+  // host: "10.100.71.21",
+  // port: 5432,
+  // user: "202201106",
+  // password: "Vraj@6610",
+  // database: "202201106",
+  // searchPath: ["osp"],
 });
 
 pool

@@ -8,7 +8,8 @@ const getScholarships = async (req, res) => {
 
     const response = await pool.query(getQuery);
 
-    res.status(200).json(response.rows); // Send only one response
+    res.status(200).json(response.rows);
+    console.log(response.rows); // Send only one response
   } catch (error) {
     console.error("Error getting scholarship list:", error.message);
     res.status(500).json({

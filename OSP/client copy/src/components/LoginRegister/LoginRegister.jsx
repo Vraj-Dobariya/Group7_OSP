@@ -18,11 +18,11 @@ const LoginRegister = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { user, baseURL } = useContextState();
 
-  // New useEffect to automatically check for token and validate it on load
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo && userInfo.token) {
-      roleCheck(userInfo); // Call role check function if token exists
+      roleCheck(userInfo); 
     }
   }, [navigate]);
 
@@ -42,11 +42,11 @@ const LoginRegister = () => {
       if (response.ok) {
         localStorage.setItem("userInfo", JSON.stringify(check));
         
-        // Navigate to the appropriate dashboard based on role
+        
         if (check.role === "student") {
           navigate("/student-dashboard");
         } else if (check.role === "admin") {
-          navigate("/admin-dashboard");
+          navigate("/admin");
         }
       } else {
         localStorage.removeItem("userInfo");
@@ -93,7 +93,7 @@ const LoginRegister = () => {
         if (selectedRole === "student") {
           navigate("/student-dashboard");
         } else if (selectedRole === "admin") {
-          navigate("/admin-dashboard");
+          navigate("/admin");
         }
       } else {
         alert("Login failed: " + data.message);
@@ -126,7 +126,7 @@ const LoginRegister = () => {
         alert("Registration successful! Please log in.");
         toggleForm();
       } else {
-        alert("Registration failed: " + response.data.message);
+        alert("Registration failed: " + data.message);
       }
     } catch (error) {
       console.error("Registration error:", error);
