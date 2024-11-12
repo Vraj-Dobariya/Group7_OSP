@@ -10,6 +10,7 @@ router.route('/register').post(registerUser);
 router.route('/login').post(authUser);
 router.route('/authRole').post(protect,authRole);
 
+
  
  
 module.exports=router;  

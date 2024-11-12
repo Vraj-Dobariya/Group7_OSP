@@ -1,21 +1,24 @@
-import { useState } from 'react';
-import './AddScholarship.css';
+import { useState } from "react";
+import "./AddScholarship.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddScholarship = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    scholarshipName: '',
-    amount: '',
-    duration: '',
-    endDate: '',
-    description: '',
-    educationLevel: '',
-    eligibleCourses: '',
-    minPercentage: '',
-    annualFamilyIncome: '',
-    applicationSteps: '',
-    applicationDeadline: '',
-    documentsRequired: '',
-    benefits: '',
+    scholarshipName: "",
+    amount: "",
+    duration: "",
+    endDate: "",
+    description: "",
+    educationLevel: "",
+    eligibleCourses: "",
+    minPercentage: "",
+    annualFamilyIncome: "",
+    applicationSteps: "",
+    applicationDeadline: "",
+    documentsRequired: "",
+    benefits: "",
   });
 
   const handleChange = (e) => {
@@ -26,9 +29,33 @@ const AdminAddScholarship = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Scholarship Data Submitted:', formData);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/scholarship/addScholarship",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      // Handle successful login (e.g., navigate to dashboard)
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        navigate("/admin");
+      } else {
+        alert("Login failed: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred while logging in.");
+    }
   };
 
   return (
@@ -38,23 +65,52 @@ const AdminAddScholarship = () => {
         <div className="form-grid">
           <div className="form-group">
             <label>Scholarship Name</label>
-            <input type="text" name="scholarshipName" value={formData.scholarshipName} onChange={handleChange} required />
+            <input
+              type="text"
+              name="scholarshipName"
+              value={formData.scholarshipName}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Amount</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} required />
+            <input
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Duration</label>
-            <input type="text" name="duration" value={formData.duration} onChange={handleChange} required />
+            <input
+              type="text"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>End Date</label>
-            <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Description</label>
-            <textarea name="description" value={formData.description} onChange={handleChange} required />
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -62,19 +118,43 @@ const AdminAddScholarship = () => {
         <div className="form-grid">
           <div className="form-group">
             <label>Education Level</label>
-            <input type="text" name="educationLevel" value={formData.educationLevel} onChange={handleChange} required />
+            <input
+              type="text"
+              name="educationLevel"
+              value={formData.educationLevel}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Eligible Courses</label>
-            <input type="text" name="eligibleCourses" value={formData.eligibleCourses} onChange={handleChange} required />
+            <input
+              type="text"
+              name="eligibleCourses"
+              value={formData.eligibleCourses}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Minimum Percentage</label>
-            <input type="number" name="minPercentage" value={formData.minPercentage} onChange={handleChange} required />
+            <input
+              type="number"
+              name="minPercentage"
+              value={formData.minPercentage}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Annual Family Income</label>
-            <input type="number" name="annualFamilyIncome" value={formData.annualFamilyIncome} onChange={handleChange} required />
+            <input
+              type="number"
+              name="annualFamilyIncome"
+              value={formData.annualFamilyIncome}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -82,27 +162,53 @@ const AdminAddScholarship = () => {
         <div className="form-grid">
           <div className="form-group">
             <label>Steps (comma separated)</label>
-            <input type="text" name="applicationSteps" value={formData.applicationSteps} onChange={handleChange} required />
+            <input
+              type="text"
+              name="applicationSteps"
+              value={formData.applicationSteps}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label>Deadline</label>
-            <input type="date" name="applicationDeadline" value={formData.applicationDeadline} onChange={handleChange} required />
+            <input
+              type="date"
+              name="applicationDeadline"
+              value={formData.applicationDeadline}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <h3>Documents Required</h3>
         <div className="form-group">
           <label>Documents (comma separated)</label>
-          <input type="text" name="documentsRequired" value={formData.documentsRequired} onChange={handleChange} required />
+          <input
+            type="text"
+            name="documentsRequired"
+            value={formData.documentsRequired}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <h3>Benefits</h3>
         <div className="form-group">
           <label>Benefits (comma separated)</label>
-          <input type="text" name="benefits" value={formData.benefits} onChange={handleChange} required />
+          <input
+            type="text"
+            name="benefits"
+            value={formData.benefits}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <button type="submit" className="submit-button">Submit</button>
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
       </form>
     </div>
   );

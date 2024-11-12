@@ -3,6 +3,7 @@ const pool = require("../config/db");
 const generateToken = require("../config/generateToken");
 
 const authUser = async (req, res) => {
+
   const { email, password ,role } = req.body;
   console.log("Reached Login");
 
