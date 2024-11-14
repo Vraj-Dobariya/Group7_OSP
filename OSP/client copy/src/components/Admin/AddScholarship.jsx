@@ -5,53 +5,70 @@ import { useNavigate } from "react-router-dom";
 const AdminAddScholarship = () => {
   const navigate = useNavigate();
 
-  const documentOptions = ["ID Proof", "Income Certificate", "Marksheet", "Residence Proof"];
-  const educationLevels = ["B.Tech", "M.Tech", "M.Sc", "M.Des", "Ph.D"];
-  const eligibleCoursesOptions = {
+  const documentOptions = [
+    "ID Proof",
+    "Income Certificate",
+    "Marksheet",
+    "Residence Proof",
+  ];
+  const education_levels = ["B.Tech", "M.Tech", "M.Sc", "M.Des", "Ph.D"];
+  const eligible_coursesOptions = {
     "B.Tech": ["ICT", "ICT with CS", "MnC", "EVD"],
-    "M.Tech": ["Machine Learning", "Software Systems", "VLSI and Embedded Systems"],
+    "M.Tech": [
+      "Machine Learning",
+      "Software Systems",
+      "VLSI and Embedded Systems",
+    ],
     "M.Sc": ["IT", "AA", "DS"],
     "M.Des": ["CD"],
     "Ph.D": ["Regular", "Rolling"],
   };
 
   const [formData, setFormData] = useState({
-    scholarshipName: "",
+    scholarship_name: "",
     amount: "",
-    endDate: "",
+    end_date: "",
     description: "",
-    educationLevel: "",
-    eligibleCourses: "",
-    minPercentage: "",
-    annualFamilyIncome: "",
-    documentsRequired: [],
+    education_level: "",
+    eligible_courses: [],
+    min_percentage: "",
+    annual_family_income: "",
+    documents_required: [],
     benefits: "",
   });
 
   const [availableCourses, setAvailableCourses] = useState([]);
 
   useEffect(() => {
-    if (formData.educationLevel) {
-      setAvailableCourses(eligibleCoursesOptions[formData.educationLevel]);
+    if (formData.education_level) {
+      setAvailableCourses(eligible_coursesOptions[formData.education_level]);
       setFormData((prevData) => ({
         ...prevData,
-        eligibleCourses: "",
+        eligible_courses: "",
       }));
     } else {
       setAvailableCourses([]);
     }
-  }, [formData.educationLevel]);
+  }, [formData.education_level]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if ((name === "amount" || name === "annualFamilyIncome") && value < 0) {
+    if ((name === "amount" || name === "annual_family_income") && value < 0) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: 0,
+      }));
       return;
     }
 
-    if (name === "minPercentage") {
+    if (name === "min_percentage") {
       const numericValue = parseFloat(value);
-      if (numericValue < 0 || numericValue > 10 || !/^\d*(\.\d{0,2})?$/.test(value)) {
+      if (
+        numericValue < 0 ||
+        numericValue > 10 ||
+        !/^\d*(\.\d{0,2})?$/.test(value)
+      ) {
         return;
       }
     }
@@ -64,18 +81,43 @@ const AdminAddScholarship = () => {
 
   const handleDocumentChange = (e) => {
     const selectedDocument = e.target.value;
-    if (selectedDocument && !formData.documentsRequired.includes(selectedDocument)) {
+    if (
+      selectedDocument &&
+      !formData.documents_required.includes(selectedDocument)
+    ) {
       setFormData((prevData) => ({
         ...prevData,
-        documentsRequired: [...prevData.documentsRequired, selectedDocument],
+        documents_required: [...prevData.documents_required, selectedDocument],
       }));
     }
+  };
+  
+  const handleCourseChange = (event) => {
+    const selectedCourse = event.target.value;
+
+    if (!formData.eligible_courses.includes(selectedCourse)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        eligible_courses: [...prevData.eligible_courses, selectedCourse],
+      }));
+    }
+  };
+
+  const removeCourse = (courseToRemove) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      eligible_courses: prevData.eligible_courses.filter(
+        (course) => course !== courseToRemove
+      ),
+    }));
   };
 
   const removeDocument = (document) => {
     setFormData((prevData) => ({
       ...prevData,
-      documentsRequired: prevData.documentsRequired.filter((doc) => doc !== document),
+      documents_required: prevData.documents_required.filter(
+        (doc) => doc !== document
+      ),
     }));
   };
 
@@ -83,13 +125,17 @@ const AdminAddScholarship = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/scholarship/addScholarship", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      console.log(formData);
+      const response = await fetch(
+        "http://localhost:8080/api/scholarship/addScholarship",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
@@ -108,7 +154,15 @@ const AdminAddScholarship = () => {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    return tomorrow.toISOString().split("T")[0]; //2024-11-13T00:00:00.000Z
+    const options = {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+    const istDate = tomorrow.toLocaleString("en-IN", options);
+    const [day, month, year] = istDate.split("/");
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -120,31 +174,37 @@ const AdminAddScholarship = () => {
             <label className="required">Scholarship Name</label>
             <input
               type="text"
-              name="scholarshipName"
-              value={formData.scholarshipName}
+              name="scholarship_name"
+              value={formData.scholarship_name}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="form-group">
+        <div className="form-group">
             <label className="required">Amount</label>
             <input
               type="number"
               name="amount"
               value={formData.amount}
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "+") {
+                  e.preventDefault();
+                }
+              }}
               min="0"
               required
             />
           </div>
 
+
           <div className="form-group">
             <label className="required">End Date</label>
             <input
               type="date"
-              name="endDate"
-              value={formData.endDate}
+              name="end_date"
+              value={formData.end_date}
               onChange={handleChange}
               min={getTomorrowDate()}
               required
@@ -167,15 +227,15 @@ const AdminAddScholarship = () => {
           <div className="form-group">
             <label className="required">Education Level</label>
             <select
-              name="educationLevel"
-              value={formData.educationLevel}
+              name="education_level"
+              value={formData.education_level}
               onChange={handleChange}
               required
             >
               <option value="" disabled>
                 Select Education Level
               </option>
-              {educationLevels.map((level) => (
+              {education_levels.map((level) => (
                 <option key={level} value={level}>
                   {level}
                 </option>
@@ -184,16 +244,16 @@ const AdminAddScholarship = () => {
           </div>
 
           <div className="form-group">
-            <label className="required">Eligible Courses</label>
+            <label className="required">Select Eligible Courses</label>
             <select
-              name="eligibleCourses"
-              value={formData.eligibleCourses}
-              onChange={handleChange}
-              required
-              disabled={!formData.educationLevel}
+              onChange={handleCourseChange}
+              value=""
+              disabled={!formData.education_level}
             >
               <option value="" disabled>
-                {formData.educationLevel ? "Select a course" : "Select Education Level first"}
+                {formData.education_level
+                  ? "Select a course"
+                  : "Select Education Level first"}
               </option>
               {availableCourses.map((course) => (
                 <option key={course} value={course}>
@@ -201,15 +261,32 @@ const AdminAddScholarship = () => {
                 </option>
               ))}
             </select>
+
+            <div className="selected-items">
+              {Array.isArray(formData.eligible_courses) &&
+                formData.eligible_courses.map((course) => (
+                  <span key={course} className="item-chip">
+                    {course}
+                    <button type="button" onClick={() => removeCourse(course)}>
+                      x
+                    </button>
+                  </span>
+                ))}
+            </div>
           </div>
 
           <div className="form-group">
             <label className="required">Minimum Percentage (CPI)</label>
             <input
               type="number"
-              name="minPercentage"
-              value={formData.minPercentage}
+              name="min_percentage"
+              value={formData.min_percentage}
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "+") {
+                  e.preventDefault();
+                }
+              }}
               min="0"
               max="10"
               step="0.01"
@@ -221,9 +298,14 @@ const AdminAddScholarship = () => {
             <label className="required">Annual Family Income</label>
             <input
               type="number"
-              name="annualFamilyIncome"
-              value={formData.annualFamilyIncome}
+              name="annual_family_income"
+              value={formData.annual_family_income}
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "+") {
+                  e.preventDefault();
+                }
+              }}
               min="0"
               required
             />
@@ -243,11 +325,11 @@ const AdminAddScholarship = () => {
               </option>
             ))}
           </select>
-          <div className="selected-documents">
-            {formData.documentsRequired.map((doc) => (
-              <span key={doc} className="document-chip">
-                {doc}
-                <button type="button" onClick={() => removeDocument(doc)}>
+          <div className="selected-items">
+            {formData.documents_required.map((document) => (
+              <span key={document} className="item-chip">
+                {document}
+                <button type="button" onClick={() => removeDocument(document)}>
                   x
                 </button>
               </span>
@@ -255,19 +337,16 @@ const AdminAddScholarship = () => {
           </div>
         </div>
 
-        <h3>Benefits</h3>
         <div className="form-group">
-          <label className="required">Benefits</label>
+          <label>Benefits</label>
           <textarea
             name="benefits"
             value={formData.benefits}
             onChange={handleChange}
-            required
-            placeholder="Enter detailed benefits description"
           />
         </div>
 
-        <button type="submit" className="submit-button">
+        <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
