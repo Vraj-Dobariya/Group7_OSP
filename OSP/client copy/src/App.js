@@ -3,8 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import LoginRegister from "./components/LoginRegister/LoginRegister";
 import ForgotPassword from "./components/LoginRegister/ForgotPassword";
 import Admin from "./components/Admin/Admin";
-import AddScholarship from "./components/Admin/AddScholarship";
-import PrivateRoute from "./components/middleware/protectRoute"; // Import the PrivateRoute component
+import AddScholarship from "./components/Admin/AddScholarship"; // Import your AddScholarship page
 
 function App() {
   return (
