@@ -5,23 +5,17 @@ import { useNavigate } from "react-router-dom";
 const AdminAddScholarship = () => {
   const navigate = useNavigate();
 
-  const documentOptions = [
-    "ID Proof",
-    "Income Certificate",
-    "Marksheet",
-    "Residence Proof",
-  ];
   const education_levels = ["B.Tech", "M.Tech", "M.Sc", "M.Des", "Ph.D"];
   const eligible_coursesOptions = {
-    "B.Tech": ["ICT", "ICT with CS", "MnC", "EVD"],
+    "B.Tech": ["B.Tech ICT", "B.Tech ICT with CS", "B.Tech MnC", "B.Tech EVD"],
     "M.Tech": [
-      "Machine Learning",
-      "Software Systems",
-      "VLSI and Embedded Systems",
+      "M.Tech Machine Learning",
+      "M.Tech Software Systems",
+      "M.Tech VLSI and Embedded Systems",
     ],
-    "M.Sc": ["IT", "AA", "DS"],
-    "M.Des": ["CD"],
-    "Ph.D": ["Regular", "Rolling"],
+    "M.Sc": ["M.Sc IT", "M.Sc AA", "M.Sc DS"],
+    "M.Des": ["M.Des CD"],
+    "Ph.D": ["Ph.D Regular", "Ph.D Rolling"],
   };
 
   const [formData, setFormData] = useState({
@@ -33,8 +27,8 @@ const AdminAddScholarship = () => {
     eligible_courses: [],
     min_percentage: "",
     annual_family_income: "",
-    documents_required: [],
     benefits: "",
+    note: "",
   });
 
   const [availableCourses, setAvailableCourses] = useState([]);
@@ -42,10 +36,6 @@ const AdminAddScholarship = () => {
   useEffect(() => {
     if (formData.education_level) {
       setAvailableCourses(eligible_coursesOptions[formData.education_level]);
-      setFormData((prevData) => ({
-        ...prevData,
-        eligible_courses: "",
-      }));
     } else {
       setAvailableCourses([]);
     }
@@ -79,19 +69,6 @@ const AdminAddScholarship = () => {
     }));
   };
 
-  const handleDocumentChange = (e) => {
-    const selectedDocument = e.target.value;
-    if (
-      selectedDocument &&
-      !formData.documents_required.includes(selectedDocument)
-    ) {
-      setFormData((prevData) => ({
-        ...prevData,
-        documents_required: [...prevData.documents_required, selectedDocument],
-      }));
-    }
-  };
-  
   const handleCourseChange = (event) => {
     const selectedCourse = event.target.value;
 
@@ -112,20 +89,13 @@ const AdminAddScholarship = () => {
     }));
   };
 
-  const removeDocument = (document) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      documents_required: prevData.documents_required.filter(
-        (doc) => doc !== document
-      ),
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(formData);
+      let form = formData;
+      form.eligible_courses = JSON.stringify(form.eligible_courses);
+      const formct = JSON.stringify(form);
       const response = await fetch(
         "http://localhost:8080/api/scholarship/addScholarship",
         {
@@ -133,7 +103,7 @@ const AdminAddScholarship = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: formct,
         }
       );
 
@@ -181,7 +151,7 @@ const AdminAddScholarship = () => {
             />
           </div>
 
-        <div className="form-group">
+          <div className="form-group">
             <label className="required">Amount</label>
             <input
               type="number"
@@ -197,7 +167,6 @@ const AdminAddScholarship = () => {
               required
             />
           </div>
-
 
           <div className="form-group">
             <label className="required">End Date</label>
@@ -312,31 +281,6 @@ const AdminAddScholarship = () => {
           </div>
         </div>
 
-        <h3>Documents Required</h3>
-        <div className="form-group">
-          <label className="required">Select Documents</label>
-          <select onChange={handleDocumentChange} defaultValue="">
-            <option value="" disabled>
-              Select a document
-            </option>
-            {documentOptions.map((doc) => (
-              <option key={doc} value={doc}>
-                {doc}
-              </option>
-            ))}
-          </select>
-          <div className="selected-items">
-            {formData.documents_required.map((document) => (
-              <span key={document} className="item-chip">
-                {document}
-                <button type="button" onClick={() => removeDocument(document)}>
-                  x
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-
         <div className="form-group">
           <label>Benefits</label>
           <textarea
@@ -344,6 +288,10 @@ const AdminAddScholarship = () => {
             value={formData.benefits}
             onChange={handleChange}
           />
+        </div>
+        <div className="form-group">
+          <label>Note</label>
+          <textarea name="note" value={formData.note} onChange={handleChange} />
         </div>
 
         <button type="submit" className="btn btn-primary">

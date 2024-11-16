@@ -20,7 +20,6 @@ app.use(
 
 app.use("/api/user", userRoutes);
 app.use("/api/scholarship", scholarshipRoutes);
-
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });

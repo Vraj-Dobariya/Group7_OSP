@@ -4,7 +4,7 @@ const getScholarships = async (req, res) => {
   console.log("Reached getScholarships");
 
   try {
-    const getQuery = `SELECT * FROM osp.Scholarships`;
+    const getQuery = `SELECT scholarship_id,scholarship_name,end_date,amount FROM osp.Scholarships`;
 
     const response = await pool.query(getQuery);
 
@@ -16,5 +16,4 @@ const getScholarships = async (req, res) => {
     });
   }
 };
-
 module.exports = { getScholarships };

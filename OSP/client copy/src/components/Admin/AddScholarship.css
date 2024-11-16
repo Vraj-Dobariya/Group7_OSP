@@ -114,10 +114,6 @@
   transition: background-color 0.2s;
 }
 
-.item-chip:hover {
-  background-color: #d1d1d1;
-}
-
 /* Improved styling for the remove button */
 .item-chip button {
   background: none;
