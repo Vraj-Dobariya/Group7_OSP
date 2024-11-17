@@ -7,6 +7,11 @@ import AddScholarship from "./components/Admin/AddScholarship";
 import PrivateRoute from "./components/middleware/protectRoute"; // Import the PrivateRoute component
 import ViewScholarship from "./components/Admin/viewScholarship";
 import AdminEditScholarship from "./components/Admin/editScholarship";
+// import ViewProfile from "./components/Admin/AdminProfile";
+import ListofScholarship from "./components/Admin/ListofScholarship";
+import ViewApplicants from "./components/Admin/viewapplicants";
+import ApplicantDetails from "./components/Admin/ApplicantDetails";
+
 function App() {
   return (
     <div className="App">
@@ -37,6 +42,14 @@ function App() {
             </PrivateRoute>
           }
         />
+         <Route
+          path="/admin/viewscholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <ViewScholarship />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/admin/edit-scholarship/:scholarship_id"
           element={
@@ -45,7 +58,41 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/admin/list-scholarships"
+          element={
+            <PrivateRoute>
+              <ListofScholarship/>
+            </PrivateRoute>
+          }
+        />
+       
+          <Route
+          path="/scholarships/:id/applicants"
+          element={
+            <PrivateRoute>
+              <ViewApplicants />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/applicant-details/:id"
+          element={
+            <PrivateRoute>
+              <ApplicantDetails />
+            </PrivateRoute>
+          }
+        />
+        {/* <Route
+          path="/admin/profile"
+          element={
+            <PrivateRoute>
+              <ViewProfile />
+            </PrivateRoute>
+          }
+        /> */}
       </Routes>
+
     </div>
   );
 }
