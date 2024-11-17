@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./Admin_Dashboard.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "./useFetch";
 const Admin_Dashboard = () => {
+  const navigate = useNavigate();
   const {
     data: scholarships,
     ispending,
@@ -20,6 +21,10 @@ const Admin_Dashboard = () => {
     console.log("Editing scholarship with ID:", id);
   };
 
+  const handleViewScholarship = (scholarship_id) => {
+    navigate(`/admin/viewscholarship/${scholarship_id}`);
+  };
+
   const toggleOptions = (id) => {
     setShowOptions((prevId) => (prevId === id ? null : id));
   };
@@ -35,7 +40,8 @@ const Admin_Dashboard = () => {
             {scholarships.map((scholarship) => (
               <div
                 key={scholarship.scholarship_id}
-                className="scholarship-card">
+                className="scholarship-card"
+              >
                 <img
                   src="./imgdaiict.jpg"
                   alt="Scholarship Logo"
@@ -52,32 +58,14 @@ const Admin_Dashboard = () => {
                   </span>{" "}
                 </div>
 
-                <button className="view-applications-button">
-                  View Applications
+                <button
+                  className="view-scholarship-button"
+                  onClick={() =>
+                    handleViewScholarship(scholarship.scholarship_id)
+                  }
+                >
+                  View Scholarship Details
                 </button>
-
-                <div className="options-menu">
-                  <button
-                    onClick={() => toggleOptions(scholarship.scholarship_id)}
-                    className="options-button"
-                  >
-                    ⋮
-                  </button>
-                  {showOptions === scholarship.scholarship_id && (
-                    <div className="options-dropdown">
-                      <button
-                        onClick={() => handleEdit(scholarship.scholarship_id)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(scholarship.scholarship_id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
               </div>
             ))}
           </div>

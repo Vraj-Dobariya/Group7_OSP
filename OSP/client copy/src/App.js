@@ -5,7 +5,8 @@ import ForgotPassword from "./components/LoginRegister/ForgotPassword";
 import Admin from "./components/Admin/Admin";
 import AddScholarship from "./components/Admin/AddScholarship";
 import PrivateRoute from "./components/middleware/protectRoute"; // Import the PrivateRoute component
-
+import ViewScholarship from "./components/Admin/viewScholarship";
+import AdminEditScholarship from "./components/Admin/editScholarship";
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,22 @@ function App() {
           element={
             <PrivateRoute>
               <AddScholarship />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/viewscholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <ViewScholarship />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/edit-scholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <AdminEditScholarship />
             </PrivateRoute>
           }
         />
