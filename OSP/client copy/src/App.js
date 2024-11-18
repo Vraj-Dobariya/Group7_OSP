@@ -7,7 +7,7 @@ import AddScholarship from "./components/Admin/AddScholarship";
 import PrivateRoute from "./components/middleware/protectRoute"; // Import the PrivateRoute component
 import ViewScholarship from "./components/Admin/viewScholarship";
 import AdminEditScholarship from "./components/Admin/editScholarship";
-// import ViewProfile from "./components/Admin/AdminProfile";
+import ViewProfile from "./components/Admin/AdminProfile";
 import ListofScholarship from "./components/Admin/ListofScholarship";
 import ViewApplicants from "./components/Admin/viewapplicants";
 import ApplicantDetails from "./components/Admin/ApplicantDetails";
@@ -35,6 +35,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/viewscholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <ViewScholarship />
+            </PrivateRoute>
+          }
+        />
+         <Route
           path="/admin/viewscholarship/:scholarship_id"
           element={
             <PrivateRoute>
@@ -83,14 +91,14 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* <Route
+        <Route
           path="/admin/profile"
           element={
             <PrivateRoute>
               <ViewProfile />
             </PrivateRoute>
           }
-        /> */}
+        />
       </Routes>
 
     </div>

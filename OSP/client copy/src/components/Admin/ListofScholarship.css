@@ -53,3 +53,59 @@
 .view-applicants-btn:focus {
     outline: none;
 }
+
+.scholarship-list-container {
+    margin: 20px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.scholarship-list-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.scholarship-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.scholarship-table th,
+.scholarship-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px; /* Adjusted padding for table cells */
+    text-align: center;
+}
+
+.scholarship-table th {
+    background-color: #4caf50;
+    color: white;
+}
+
+.scholarship-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.scholarship-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.view-applicants-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Adjusted padding for consistency */
+    cursor: pointer;
+    border-radius: 4px; /* Same border radius as the View Details button */
+    font-size: 14px; /* Consistent font size */
+}
+
+.view-applicants-btn:hover {
+    background-color: #0056b3; /* Hover effect similar to View Details button */
+}
+
+.view-applicants-btn:focus {
+    outline: none;
+}
