@@ -5,7 +5,7 @@ import data from "./applicantdata.json";
 const ApplicantDetails = () => {
     const { id } = useParams();
     const applicant = data.find((applicant) => applicant.id === id);
-
+    
     if (!applicant) {
         return <p>Applicant not found.</p>;
     }
