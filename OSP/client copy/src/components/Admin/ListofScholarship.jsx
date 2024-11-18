@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ListofScholarship.css";
-import scholarshipData from "./Scholarshipdata.json"; // Import JSON file directly
 
 const ListofScholarship = () => {
-  const [scholarships] = useState(scholarshipData); // Directly assign imported data
+  const [scholarships, setScholarships] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchScholarships = async () => {
+      console.log('Fetching list of scholarship');
+      // console.log('working');
+      try {
+        const response = await fetch("http://localhost:8080/api/user/getlistofscholarships");
+        const data = await response.json();
+        setScholarships(data);
+      } catch (error) {
+        console.error("Error fetching scholarships:", error);
+      }
+    };
+
+    fetchScholarships();
+  }, []);
 
   const handleViewApplicants = (id) => {
     navigate(`/scholarships/${id}/applicants`);
@@ -28,9 +43,9 @@ const ListofScholarship = () => {
           {scholarships.map((scholarship, index) => (
             <tr key={scholarship.id}>
               <td>{index + 1}</td>
-              <td>{scholarship.id}</td> {/* Scholarship ID Column */}
+              <td>{scholarship.id}</td>
               <td>{scholarship.name}</td>
-              <td>{scholarship.numApplicants}</td> {/* Number of Applicants Column */}
+              <td>{scholarship.numApplicants}</td>
               <td>
                 <button
                   className="view-applicants-btn"
@@ -48,3 +63,4 @@ const ListofScholarship = () => {
 };
 
 export default ListofScholarship;
+

@@ -1,22 +1,36 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import './viewapplicants.css';
-import data from "./applicantdata.json";
 
 const ViewApplicants = () => {
-    const applicants = data;
+    const { id } = useParams(); // Get scholarship ID from URL
+    const [applicants, setApplicants] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState({});
-    const navigate = useNavigate(); // React Router hook to programmatically navigate
+    const navigate = useNavigate();
 
-    const handleStatusChange = (id, status) => {
+    useEffect(() => {
+        const fetchApplicants = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/scholarship/${id}/applicants`);
+                const data = await response.json();
+                setApplicants(data);
+            } catch (error) {
+                console.error("Error fetching applicants:", error);
+            }
+        };
+
+        fetchApplicants();
+    }, [id]);
+
+    const handleStatusChange = (applicantId, status) => {
         setSelectedStatus((prev) => ({
             ...prev,
-            [id]: status
+            [applicantId]: status,
         }));
     };
 
-    const handleViewDetails = (id) => {
-        navigate(`/applicant-details/${id}`); // Navigate to details page
+    const handleViewDetails = (applicantId) => {
+        navigate(`/applicant-details/${applicantId}`);
     };
 
     return (
@@ -37,11 +51,11 @@ const ViewApplicants = () => {
                 <tbody>
                     {applicants.map((applicant, index) => (
                         <tr key={applicant.id}>
-                            <td>{index + 1}</td> {/* Added serial number */}
-                            <td>{applicant.studentId}</td>
-                            <td>{applicant.studentName}</td>
-                            <td>{applicant.appliedDate}</td>
-                            <td>{applicant.endDate}</td>
+                            <td>{index + 1}</td>
+                            <td>{applicant.id}</td>
+                            <td>{applicant.student_name}</td>
+                            <td>{new Date(applicant.applied_date).toLocaleDateString()}</td>
+                            <td>{new Date(applicant.end_date).toLocaleDateString()}</td>
                             <td>
                                 <div className="status-container">
                                     <span className="status-label">{selectedStatus[applicant.id] || "Select Status"}</span>
@@ -66,6 +80,6 @@ const ViewApplicants = () => {
             </table>
         </div>
     );
-}
+};
 
 export default ViewApplicants;
