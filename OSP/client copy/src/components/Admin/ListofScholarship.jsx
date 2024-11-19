@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./ListofScholarship.css";
 
 const ListofScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
   const navigate = useNavigate();
-
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  
+  console.log(scholarships);
   useEffect(() => {
     const fetchScholarships = async () => {
-      console.log('Fetching list of scholarship');
+      console.log("Fetching list of scholarship");
       // console.log('working');
       try {
-        const response = await fetch("http://localhost:8080/api/user/getlistofscholarships");
+        const response = await fetch(
+          `http://localhost:8080/api/scholarship/getScholarships`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
         const data = await response.json();
         setScholarships(data);
       } catch (error) {
@@ -23,6 +33,7 @@ const ListofScholarship = () => {
   }, []);
 
   const handleViewApplicants = (id) => {
+    console.log(id);
     navigate(`/scholarships/${id}/applicants`);
   };
 
@@ -41,15 +52,17 @@ const ListofScholarship = () => {
         </thead>
         <tbody>
           {scholarships.map((scholarship, index) => (
-            <tr key={scholarship.id}>
+            <tr key={scholarship.scholarship_id}>
               <td>{index + 1}</td>
-              <td>{scholarship.id}</td>
-              <td>{scholarship.name}</td>
-              <td>{scholarship.numApplicants}</td>
+              <td>{scholarship.scholarship_id}</td>
+              <td>{scholarship.scholarship_name}</td>
+              <td>{scholarship.applicants_count}</td>
               <td>
                 <button
                   className="view-applicants-btn"
-                  onClick={() => handleViewApplicants(scholarship.id)}
+                  onClick={() =>
+                    handleViewApplicants(scholarship.scholarship_id)
+                  }
                 >
                   View Applicants
                 </button>
@@ -63,4 +76,3 @@ const ListofScholarship = () => {
 };
 
 export default ListofScholarship;
-

@@ -4,8 +4,8 @@ import logo from "../assets/img.jpeg";
 import logodaiict from "../assets/imgdaiict.jpg";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios"; // For making HTTP requests
 import { useContextState } from "../../context/userProvider";
+import { Link } from "react-router-dom";
 
 var endpoint = "http://localhost:8080";
 
@@ -18,12 +18,14 @@ const LoginRegister = () => {
   const [captcha, setCaptcha] = useState(generateCaptcha());
   const [selectedRole, setSelectedRole] = useState("student");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { user, baseURL } = useContextState();
+  const { setUser, baseURL } = useContextState();
 
   const navigate = useNavigate();
 
 
   useEffect(() => {
+    // console.log("That useEffect");
+    // alert("useEffect");
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo && userInfo.token) {
       roleCheck(userInfo); 
@@ -31,6 +33,7 @@ const LoginRegister = () => {
   }, [navigate]);
 
   const roleCheck = async (userInfo) => {
+
     try {
       const response = await fetch(`${baseURL}/api/user/authRole`, {
         method: "POST",
@@ -45,10 +48,11 @@ const LoginRegister = () => {
 
       if (response.ok) {
         localStorage.setItem("userInfo", JSON.stringify(check));
+        localStorage.setItem("roleChecked", "true");
         
-        
+
         if (check.role === "student") {
-          navigate("/student-dashboard");
+          navigate("/student");
         } else if (check.role === "admin") {
           navigate("/admin");
         }
@@ -77,7 +81,7 @@ const LoginRegister = () => {
    const handleLoginSubmit = async (event) => {
     event.preventDefault();
     
-    console.log(selectedRole);
+    // console.log(selectedRole);
     try {
       const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
@@ -93,12 +97,15 @@ const LoginRegister = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.ok) {
         localStorage.setItem("userInfo", JSON.stringify(data));
+        localStorage.setItem("roleChecked", "true");
+
+        setUser(data);
         
         if (data.role === "student") {
-          navigate("/student-dashboard");
+          navigate("/student");
         } else if (data.role === "admin") {
           navigate("/admin");
         }
@@ -249,9 +256,10 @@ const LoginRegister = () => {
                   <label>
                     <input type="checkbox" /> Remember me
                   </label>
-                  <a href="#" onClick={handleForgotPassword}>
+                  {/* <a  onClick={()=>{handleForgotPassword()}}>
                     Forgot Password?
-                  </a>
+                  </a> */}
+                  <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
                 <button type="submit">Login</button>
                 <div className="toggle-link">

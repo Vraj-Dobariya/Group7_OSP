@@ -4,14 +4,20 @@ import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(() => {
+    // Load user from localStorage on initial load
+    const storedUser = localStorage.getItem('userInfo');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [baseURL, setBaseURL] = useState('http://localhost:8080');
   const navigate = useNavigate();
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     setUser(userInfo);
-    if (!userInfo) navigate('/');
+    // if (!user) {
+    //   navigate('/');
+    // }
   }, [navigate]);
 
   return (
