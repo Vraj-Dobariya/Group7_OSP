@@ -1,105 +1,34 @@
-/* Styling for the Apply For Scholarships page */
 .scholarship-list {
-  text-align: center;
-  padding: 2rem;
-  background-color: #f9f9f9;
+  padding: 20px;
 }
 
-.scholarships-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+.scholarship-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.scholarship-card {
+.scholarship-table th, .scholarship-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.scholarship-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.scholarship-table td {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  width: 270px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  transition: transform 0.2s ease;
 }
 
-.scholarship-card:hover {
-  transform: translateY(-5px);
-}
-
-.scholarship-logo {
-  width: 100%;
-  height: 100px;
-  object-fit: contain;
-  margin-bottom: 1rem;
-}
-
-.scholarship-card h2 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 0.75rem;
-  min-height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.read-more {
-  color: #007bff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-top: 0.5rem;
+.view-details-link {
   text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
 }
 
-.read-more:hover {
+.view-details-link:hover {
   text-decoration: underline;
-}
-
-.scholarship-details {
-  font-size: 0.85rem;
-  color: #333;
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 1rem;
-}
-
-.scholarship-amount {
-  font-weight: bold;
-  color: #ff8500;
-}
-
-.scholarship-end-date {
-  color: #888;
-}
-
-.apply-button {
-  background-color: #ff8500;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.apply-button:hover {
-  background-color: #e07a00;
-}
-
-/* Optional media query for smaller screens */
-@media (max-width: 768px) {
-  .scholarship-card {
-      width: 90%;
-      padding: 1rem;
-  }
 }
