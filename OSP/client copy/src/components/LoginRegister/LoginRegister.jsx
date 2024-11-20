@@ -140,7 +140,7 @@ const LoginRegister = () => {
         alert("Registration successful! Please log in.");
         toggleForm();
       } else {
-        alert("Registration failed: " + data);
+        alert("Registration failed: " + data.message);
       }
     } catch (error) {
       console.error("Registration error:", error);
