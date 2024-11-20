@@ -25,8 +25,8 @@ const registerUser = async (req, res) => {
     }
 
     const userExist = await pool.query(
-      "select * from osp.users where username=($1)",
-      [username]
+      "select * from osp.users where email=($1)",
+      [email]
     );
 
     if (userExist.rows.length) {
