@@ -10,14 +10,26 @@ import AdminEditScholarship from "./components/Admin/editScholarship";
 import ViewProfile from "./components/Admin/AdminProfile";
 import ListofScholarship from "./components/Admin/ListofScholarship";
 import ViewApplicants from "./components/Admin/viewapplicants";
-import ApplicantDetails from "./components/Admin/ApplicantDetails";
+import ApplicantData from "./components/Admin/ApplicatsData";
+import StudentRoute from "./components/middleware/studentRoute";
+import ScholarshipList from "./components/Apply/ScholarshipList";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginRegister />} />
+        <Route
+          path="/student"
+          element={
+            <StudentRoute>
+              <ScholarshipList />
+            </StudentRoute>
+          }
+        />
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
+
         <Route
           path="/admin"
           element={
@@ -34,23 +46,23 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* <Route
+          path="/admin/viewscholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <ViewScholarship />
+            </PrivateRoute>
+          }
+        /> */}
+        {/* <Route
+          path="/admin/viewscholarship/:scholarship_id"
+          element={
+            <PrivateRoute>
+              <ViewScholarship />
+            </PrivateRoute>
+          }
+        /> */}
         <Route
-          path="/admin/viewscholarship/:scholarship_id"
-          element={
-            <PrivateRoute>
-              <ViewScholarship />
-            </PrivateRoute>
-          }
-        />
-         <Route
-          path="/admin/viewscholarship/:scholarship_id"
-          element={
-            <PrivateRoute>
-              <ViewScholarship />
-            </PrivateRoute>
-          }
-        />
-         <Route
           path="/admin/viewscholarship/:scholarship_id"
           element={
             <PrivateRoute>
@@ -70,12 +82,12 @@ function App() {
           path="/admin/list-scholarships"
           element={
             <PrivateRoute>
-              <ListofScholarship/>
+              <ListofScholarship />
             </PrivateRoute>
           }
         />
-       
-          <Route
+
+        <Route
           path="/scholarships/:id/applicants"
           element={
             <PrivateRoute>
@@ -83,11 +95,13 @@ function App() {
             </PrivateRoute>
           }
         />
+        
         <Route
-          path="/applicant-details/:id"
+          path="/applicant-details/:id/:sid"
           element={
             <PrivateRoute>
-              <ApplicantDetails />
+              {/* <ApplicantDetails /> */}
+              <ApplicantData/>
             </PrivateRoute>
           }
         />
@@ -99,8 +113,15 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* <Route
+          path="/admin/applicant-data"
+          element={
+            <PrivateRoute>
+              <ApplicantData />
+            </PrivateRoute>
+          }
+        /> */}
       </Routes>
-
     </div>
   );
 }

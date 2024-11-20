@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 const AdminAddScholarship = () => {
   const navigate = useNavigate();
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  
   const education_levels = ["B.Tech", "M.Tech", "M.Sc", "M.Des", "Ph.D"];
   const eligible_coursesOptions = {
     "B.Tech": ["B.Tech ICT", "B.Tech ICT with CS", "B.Tech MnC", "B.Tech EVD"],
@@ -102,13 +104,14 @@ const AdminAddScholarship = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${userInfo.token}`,
           },
           body: formct,
         }
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.ok) {
         navigate("/admin");
       } else {

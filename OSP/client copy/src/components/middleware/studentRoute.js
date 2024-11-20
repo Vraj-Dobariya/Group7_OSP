@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
 
-const PrivateRoute = ({ children }) => {
+const StudentRoute = ({ children }) => {
   const { user, baseURL, setUser } = useContextState();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const PrivateRoute = ({ children }) => {
 
         (async () => {
           try {
-            // alert("Hi");
+           
             const response = await fetch(`${baseURL}/api/user/authRole`, {
               method: "POST",
               headers: {
@@ -30,7 +30,7 @@ const PrivateRoute = ({ children }) => {
             });
 
             const result = await response.json();
-            if (response.ok && ["admin"].includes(result.role)) {
+            if (response.ok && ["student"].includes(result.role)) {
               localStorage.setItem("roleChecked", "true");
             } else {
               throw new Error("Not authorized");
@@ -50,4 +50,4 @@ const PrivateRoute = ({ children }) => {
   return user ? children : <Navigate to="/" />;
 };
 
-export default PrivateRoute;
+export default StudentRoute;

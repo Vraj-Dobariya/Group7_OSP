@@ -2,11 +2,11 @@ const pool = require("../config/db");
 
 const editScholarship = async (req, res) => {
   console.log("Reached editScholarship");
-  console.log(req.params);
+  // console.log(req.params);
   const scholarship_id = req.params.scholarship_id;
 
   // Destructuring the request body
-  console.log(req.body);
+  // console.log(req.body);
   const scholarship_name = req.body.scholarshipName;
   const amount = req.body.amount;
   const end_date = req.body.endDate;

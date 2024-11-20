@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./viewScholarship.css";
 import Navbar from "./Navbar";
+import { useContextState } from "../../context/userProvider";
 
 const ViewScholarship = () => {
   const navigate = useNavigate();
@@ -18,12 +19,20 @@ const ViewScholarship = () => {
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { baseURL} = useContextState();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     const fetchScholarship = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/scholarship/${scholarship_id}`
+          `${baseURL}/api/scholarship/${scholarship_id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -72,9 +81,13 @@ const ViewScholarship = () => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this scholarship?")) {
       fetch(
-        `http://localhost:8080/api/scholarship/deleteScholarship/${scholarship_id}`,
+        `${baseURL}/api/scholarship/deleteScholarship/${scholarship_id}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userInfo.token}`,
+          }
         }
       )
         .then(() => {

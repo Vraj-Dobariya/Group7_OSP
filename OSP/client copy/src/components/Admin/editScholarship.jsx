@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./editScholarship.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useContextState } from "../../context/userProvider";
 const AdminEditScholarship = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const {user,baseURL} = useContextState();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const scholarshipName = state.scholarshipName || "";
   const amount = state.amount || "";
   const endDate = state.endDate || "";
@@ -133,12 +136,14 @@ const AdminEditScholarship = () => {
       const formct = JSON.stringify(form);
 
       const response = await fetch(
-        `http://localhost:8080/api/scholarship/editScholarship/${scholarship_id}`,
+        `${baseURL}/api/scholarship/editScholarship/${scholarship_id}`,
         {
           method: "PUT",
           headers: {
             "Accept-Type": "application/json",
             "Content-Type": "application/json",
+            authorization: `Bearer ${userInfo.token}`,
+            
           },
           body: formct,
         }
