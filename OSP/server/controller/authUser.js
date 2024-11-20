@@ -30,7 +30,7 @@ const authUser = async (req, res) => {
             username: userExists.rows[0].username,
             email: userExists.rows[0].email,
             pic: userExists.rows[0].pic,
-            token: generateToken(userExists.rows[0].email),
+            token: generateToken({email:userExists.rows[0].email,role:userExists.rows[0].role}),
           });
         } else {
           console.log(err);
@@ -50,7 +50,7 @@ const authRole = async (req, res) => {
   // console.log(req.body);
   const { email, role } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
   console.log("Reached authRole");
 
   try {
@@ -67,13 +67,13 @@ const authRole = async (req, res) => {
           email: userExists.rows[0].email,
           pic: userExists.rows[0].pic,
           role: userExists.rows[0].role,
-          token: generateToken(userExists.rows[0].email),
+          token: generateToken({email:userExists.rows[0].email , role:userExists.rows[0].role}),
         });
 
         console.log("Login Successful");
       } else {
-        console.log(role);
-        console.log(userExists.rows[0].role);
+        // console.log(role);
+        // console.log(userExists.rows[0].role);
 
         return res
           .status(401)

@@ -25,12 +25,15 @@ const registerUser = async (req, res) => {
     }
 
     const userExist = await pool.query(
-      "select * from osp.users where username=($1)",
-      [username]
+      "select * from osp.users where email=($1)",
+      [email]
     );
 
     if (userExist.rows.length) {
-      res.status(400).send(JSON.stringify("User already exists"));
+      res.status(400).send({
+        success: false,
+        message: `User already exists`,
+      });
       console.error("User already exists");
       return;
     }
@@ -54,19 +57,19 @@ const registerUser = async (req, res) => {
       const user = await pool.query(
         `select * from osp.users where username='${username}'`
       );
-      console.log(user.rows);
+      // console.log(user.rows);
       res.status(201).json({
         id: user.rows[0].id,
         username: user.rows[0].username,
         role :user.rows[0].role,
         email: user.rows[0].email,
         pic: user.rows[0].pic,
-        token: generateToken(user.rows[0].id),
+        token: generateToken({email:user.rows[0].id , role:user.rows[0].role}),
 
       });
     } catch (error) {
       console.log(error);
-      console.log("this");
+      // console.log("this");
     }
 
 } catch (err) {

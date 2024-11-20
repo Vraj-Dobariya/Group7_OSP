@@ -29,6 +29,10 @@ const Admin_Dashboard = () => {
     setShowOptions((prevId) => (prevId === id ? null : id));
   };
 
+  const handleViewApplicats = () => {
+    navigate(`/admin/list-scholarships`, { state: scholarships });
+  };
+
   return (
     <div className="admin-scholarship-list">
       {ispending && <div>Loading...</div>}

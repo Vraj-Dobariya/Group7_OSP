@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
+
+
+  const handleLogout= ()=>{
+     localStorage.removeItem("userInfo");
+     localStorage.removeItem("roleChecked");
+
+  }
+
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -33,6 +42,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link
+            
                 to="/admin/list-scholarships"
                 className="nav-link active"
               >
@@ -58,8 +68,8 @@ const Navbar = () => {
                     View Profile
                   </Link>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="/admin/logout">
+                <li onClick={()=>handleLogout()}>
+                  <Link className="dropdown-item"  to="/">
                     Logout
                   </Link>
                 </li>
@@ -72,4 +82,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+ export default Navbar;

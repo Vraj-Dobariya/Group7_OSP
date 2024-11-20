@@ -4,9 +4,9 @@ const deleteScholarship = async (req, res) => {
   console.log("Reached deleteScholarship");
 
   // Destructure scholarshipId from request body
-  console.log(req.params);
+  // console.log(req.params);
   const scholarship_id = req.params.scholarship_id;
-  console.log(scholarship_id);
+  // console.log(scholarship_id);
 
   // Input validation
   // if (!scholarship_id) {
