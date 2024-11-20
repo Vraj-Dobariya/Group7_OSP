@@ -30,7 +30,10 @@ const registerUser = async (req, res) => {
     );
 
     if (userExist.rows.length) {
-      res.status(400).send(JSON.stringify("User already exists"));
+      res.status(400).send({
+        success: false,
+        message: `User already exists`,
+      });
       console.error("User already exists");
       return;
     }
