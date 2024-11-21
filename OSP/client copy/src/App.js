@@ -1,4 +1,4 @@
-import "./App.css";
+//import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LoginRegister from "./components/LoginRegister/LoginRegister";
 import ForgotPassword from "./components/LoginRegister/ForgotPassword";
@@ -13,20 +13,26 @@ import ViewApplicants from "./components/Admin/viewapplicants";
 import ApplicantData from "./components/Admin/ApplicatsData";
 import StudentRoute from "./components/middleware/studentRoute";
 import ScholarshipList from "./components/Apply/ScholarshipList";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Scholarship from "./components/Apply/Scholarship";
+import ScholarshipDetails from "./components/Apply/ScholarshipDetails";
+import Profile from "./components/Profile/Profile";
+import Changepass from "./components/Changepassword/Changepass";
+import Logout from "./components/Logout/Logout";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginRegister />} />
-        <Route
+        {/* <Route
           path="/student"
           element={
             <StudentRoute>
               <ScholarshipList />
             </StudentRoute>
           }
-        />
+        /> */}
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
@@ -95,13 +101,13 @@ function App() {
             </PrivateRoute>
           }
         />
-        
+
         <Route
           path="/applicant-details/:id/:sid"
           element={
             <PrivateRoute>
               {/* <ApplicantDetails /> */}
-              <ApplicantData/>
+              <ApplicantData />
             </PrivateRoute>
           }
         />
@@ -121,6 +127,16 @@ function App() {
             </PrivateRoute>
           }
         /> */}
+
+        <Route path="/student" element={<Dashboard />} />
+        <Route path="/student/scholarship" element={<Scholarship />} />
+        <Route
+          path="/student/scholarship/:id"
+          element={<ScholarshipDetails />}
+        />
+        <Route path="/student/profile" element={<Profile />} />
+        <Route path="/student/change-password" element={<Changepass />} />
+        <Route path="/student/logout" element={<Logout />} />
       </Routes>
     </div>
   );
