@@ -82,6 +82,15 @@ const LoginRegister = () => {
     event.preventDefault();
     
     // console.log(selectedRole);
+
+    if(captchaInput != captcha)
+    {
+          // throw new Error("Enter valid Captcha"); 
+          alert('Enter valid Captcha');
+          return;
+    }
+
+    
     try {
       const response = await fetch(`${baseURL}/api/user/login`, {
         method: "POST",
