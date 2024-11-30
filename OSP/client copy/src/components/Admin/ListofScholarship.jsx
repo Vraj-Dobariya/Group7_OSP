@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./ListofScholarship.css";
+import NavbarAdmin from "./Navbar";
+import "../../index.css"
 
 const ListofScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
   const navigate = useNavigate();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  
+
   console.log(scholarships);
   useEffect(() => {
     const fetchScholarships = async () => {
@@ -38,40 +39,70 @@ const ListofScholarship = () => {
   };
 
   return (
-    <div className="scholarship-list-container">
-      <h1>List of Scholarships</h1>
-      <table className="scholarship-table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Scholarship ID</th>
-            <th>Scholarship Name</th>
-            <th>Number of Applicants</th>
-            <th>View Applicants</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scholarships.map((scholarship, index) => (
-            <tr key={scholarship.scholarship_id}>
-              <td>{index + 1}</td>
-              <td>{scholarship.scholarship_id}</td>
-              <td>{scholarship.scholarship_name}</td>
-              <td>{scholarship.applicants_count}</td>
-              <td>
-                <button
-                  className="view-applicants-btn"
-                  onClick={() =>
-                    handleViewApplicants(scholarship.scholarship_id)
-                  }
-                >
-                  View Applicants
-                </button>
-              </td>
+    <>
+    <NavbarAdmin />
+    <div className="h-screen bg-slate-300 mx-auto px-4 py-6">
+      <h1 className=" text-2xl font-bold text-black mb-6">
+        List of Scholarships
+      </h1>
+      <div className="overflow-x-auto shadow-md rounded-lg bg-blue-200">
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="bg-blue-700 text-white">
+              <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
+                No
+              </th>
+              <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
+                Scholarship ID
+              </th>
+              <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
+                Scholarship Name
+              </th>
+              <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
+                Number of Applicants
+              </th>
+              <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
+                View Applicants
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {scholarships.map((scholarship, index) => (
+              <tr
+                key={scholarship.scholarship_id}
+                className={`${
+                  index % 2 === 0 ? "bg-blue-700" : "bg-blue-700"
+                } hover:bg-blue-600 transition-colors `}
+              >
+                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
+                  {index + 1}
+                </td>
+                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
+                  {scholarship.scholarship_id}
+                </td>
+                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
+                  {scholarship.scholarship_name}
+                </td>
+                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
+                  {scholarship.applicants_count}
+                </td>
+                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
+                  <button
+                    className="bg-blue-600 hover:bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    onClick={() =>
+                      handleViewApplicants(scholarship.scholarship_id)
+                    }
+                  >
+                    View Applicants
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
+    </>
   );
 };
 

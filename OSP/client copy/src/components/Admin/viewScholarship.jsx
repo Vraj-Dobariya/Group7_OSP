@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./viewScholarship.css";
 import Navbar from "./Navbar";
+import "../../index.css";
 import { useContextState } from "../../context/userProvider";
 
 const ViewScholarship = () => {
@@ -19,7 +19,7 @@ const ViewScholarship = () => {
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { baseURL} = useContextState();
+  const { baseURL } = useContextState();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
@@ -80,16 +80,13 @@ const ViewScholarship = () => {
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this scholarship?")) {
-      fetch(
-        `${baseURL}/api/scholarship/deleteScholarship/${scholarship_id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${userInfo.token}`,
-          }
-        }
-      )
+      fetch(`${baseURL}/api/scholarship/deleteScholarship/${scholarship_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      })
         .then(() => {
           alert("Scholarship deleted successfully");
           navigate("/admin");
@@ -104,77 +101,102 @@ const ViewScholarship = () => {
   return scholarshipName ? (
     <>
       <Navbar />
-      <div className="view-scholarship">
-        <h1>
-          <span id="scholarshipName">{scholarshipName}</span>
-        </h1>
-        <p>
-          <strong>Amount:</strong>
-          <span className="item-chip"> &#8377;{" " + amount}</span>
-        </p>
-        <p>
-          <strong>End Date:</strong>{" "}
-          <span className="item-chip">
-            {" "}
-            {new Date(endDate).toLocaleDateString()}
-          </span>
-          <i>(mm/dd/yyyy)</i>
-        </p>
-        <h3>Description</h3>
-        <pre class="main-details">
-          <span class="item-chip-details">{description}</span>
-        </pre>
-
-        <h3>Eligibility Criteria</h3>
-        <p>
-          <strong>Eligible Courses:</strong>
-          <span class="item-chip-eC">
-            {eligibleCourses.length ? (
-              eligibleCourses.map((doc, index) => (
-                <div key={index} class="item-chip">
-                  {doc}
+      <div className="bg-slate-600 min-h-screen p-8 flex items-center justify-center">
+        <div className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-3xl p-6 shadow-xl w-full max-w-3xl">
+          <div className="p-8 bg-blue-600 rounded-lg shadow-lg">
+            <h1 className="text-3xl font-semibold text-white mb-6 text-center">
+              <div className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20">
+                {scholarshipName}
+              </div>
+            </h1>
+            <div className="space-y-4">
+              <div className="flex items-center justify-start text-white">
+                <strong className="pr-3">Amount:</strong>
+                <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                  ₹ {amount}
                 </div>
-              ))
-            ) : (
-              <li>None</li>
-            )}
-          </span>
-        </p>
-        <p>
-          <strong>Minimum Percentage (CPI):</strong>{" "}
-          <span class="item-chip">{minPercentage}</span>
-        </p>
-        <p>
-          <strong>Annual Family Income: </strong>
-          <i>(less than)</i>{" "}
-          <span class="item-chip">&#8377;{" " + annualFamilyIncome}</span>{" "}
-        </p>
-
-        {/* <h3>Documents Required</h3>
-      <ul>
-        {documentsRequired.length ? (
-          documentsRequired.map((doc, index) => <li key={index}>{doc}</li>)
-        ) : (
-          <li>None</li>
-        )}
-      </ul> */}
-
-        <h3>Benefits</h3>
-        <pre class="main-details">
-          <span class="item-chip-details">{benefits}</span>
-        </pre>
-        <h3>Note</h3>
-        <pre class="main-details">
-          <span class="item-chip-details">{note}</span>
-        </pre>
-
-        <div className="button-container">
-          <button className="edit-button" onClick={handleEdit}>
-            Edit
-          </button>
-          <button className="delete-button" onClick={handleDelete}>
-            Delete
-          </button>
+              </div>
+              <div className="flex items-center justify-start text-white">
+                <strong className="pr-3">End Date:</strong>
+                <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                  {new Date(endDate).toLocaleDateString()}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium text-white mb-2">
+                  Description
+                </h3>
+                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                  {description}
+                </pre>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium text-white mb-2">
+                  Eligibility Criteria
+                </h3>
+                <div className="flex flex-col space-y-2">
+                  <div className="flex items-center justify-start text-white mb-2">
+                    <strong className="pr-3">Eligible Courses:</strong>
+                    <div className="flex flex-wrap gap-2">
+                      {eligibleCourses.length ? (
+                        eligibleCourses.map((doc, index) => (
+                          <div
+                            key={index}
+                            className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg"
+                          >
+                            {doc}
+                          </div>
+                        ))
+                      ) : (
+                        <span className="text-gray-300">None</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start text-white">
+                    <strong className="pr-3">Minimum Percentage (CPI):</strong>
+                    <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                      {minPercentage}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start text-white">
+                    <strong className="pr-3">Annual Family Income:</strong>
+                    <i className="text-gray-300 pr-3"> (less than) </i>
+                    <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                      ₹ {annualFamilyIncome}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium text-white mb-2">
+                  Benefits
+                </h3>
+                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                  {benefits}
+                </pre>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium text-white mb-2">Note</h3>
+                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                  {note}
+                </pre>
+              </div>
+              <div className="flex justify-center mt-6 gap-4">
+                <button
+                  className="bg-[#4A5F83] hover: bg-white/10 backdrop-blur-sm text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </button>
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -4,8 +4,7 @@ const getScholarships = async (req, res) => {
   console.log("Reached getScholarships");
 
   try {
-    const getQuery = `SELECT scholarship_id,scholarship_name,end_date,amount FROM osp.Scholarships`;
-
+    // const getQuery = `SELECT scholarship_id,scholarship_name,end_date,amount FROM osp.Scholarships`;
     const getQuery2 = `SELECT 
     s.scholarship_id,
     s.scholarship_name,

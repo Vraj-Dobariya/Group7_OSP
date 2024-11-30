@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./viewapplicants.css";
+import NavbarAdmin from "./Navbar";
 
 const ViewApplicants = () => {
   const { id } = useParams(); // Get scholarship ID from URL
@@ -12,13 +13,17 @@ const ViewApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/scholarship/${id}/applicants` ,  { headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${userInfo.token}`,
-          }}
+          `http://localhost:8080/api/scholarship/${id}/applicants`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          }
         );
 
         const data = await response.json();
+        console.log(data);
         setApplicants(data);
         // console.log(data);
       } catch (error) {
@@ -34,58 +39,90 @@ const ViewApplicants = () => {
   };
 
   return (
-    <div className="applicant-list">
-      <h1>List of Applicants</h1>
-      <table className="applicant-table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Student ID</th>
-            <th>Student Name</th>
-            <th>Applied Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applicants.map((applicant, index) => (
-            <tr key={applicant.id}>
-              <td>{index + 1}</td>
-              <td>{applicant.id}</td>
-              <td>{applicant.student_name}</td>
-              <td>{new Date(applicant.applied_date).toLocaleDateString()}</td>
-              <td>{new Date(applicant.end_date).toLocaleDateString()}</td>
-              <td>
-                <div className="status-container">
-                  <span
-                    className={`status ${
-                      applicant.status === "Accepted"
-                        ? "status-accepted"
-                        : applicant.status === "Rejected"
-                        ? "status-rejected"
-                        : applicant.status === "In Review"
-                        ? "status-in-review"
-                        : ""
-                    }`}
+    <>
+      <NavbarAdmin />
+      <div className="h-screen bg-slate-600 mx-auto px-4 py-6">
+        <h1 className="text-2xl font-semibold text-white mb-6 text-center">
+          List of Applicants
+        </h1>
+        <div className="overflow-x-auto shadow-md rounded-lg bg-blue-900">
+          <table className="w-full table-fixed border-collapse">
+            <thead>
+              <tr className="bg-blue-700 text-white">
+                <th className="p-3 w-1/12 hidden sm:table-cell">No</th>
+                <th className="p-3 w-2/12 text-xs sm:text-sm">Student ID</th>
+                <th className="p-3 w-3/12 text-xs sm:text-sm">Student Name</th>
+                <th className="p-3 w-2/12 text-xs sm:text-sm">Applied Date</th>
+                <th className="p-3 w-2/12 text-xs sm:text-sm">End Date</th>
+                <th className="p-3 w-2/12 text-xs sm:text-sm">Status</th>
+                <th className="p-3 w-2/12 hidden md:table-cell">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applicants.length ? (
+                applicants.map((applicant, index) => (
+                  <tr
+                    key={applicant.id}
+                    className={`${
+                      index % 2 === 0 ? "bg-blue-800" : "bg-blue-900"
+                    } hover:bg-blue-700 transition-colors`}
                   >
-                    {applicant.status}
-                  </span>
-                </div>
-              </td>
-              <td>
-                <button
-                  onClick={() => handleViewDetails(applicant.id)}
-                  className="view-details-button"
-                >
-                  View Details
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                    <td className="py-3 px-4 border-b border-blue-800 text-sm text-white hidden sm:table-cell">
+                      {index + 1}
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-xs sm:text-sm text-white">
+                      {applicant.id}
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-xs sm:text-sm text-white">
+                      {applicant.student_name}
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-xs sm:text-sm text-white">
+                      {new Date(applicant.applied_date).toLocaleDateString()}
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-xs sm:text-sm text-white">
+                      {new Date(applicant.end_date).toLocaleDateString()}
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-xs sm:text-sm">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
+                          applicant.status === "Accepted"
+                      ? "bg-green-500 text-white"
+                      : applicant.status === "Rejected"
+                      ? "bg-red-500 text-white"
+                      : applicant.status ===
+                        "Under Review"
+                      ? "bg-yellow-300"
+                      : applicant.status ===
+                        "Documents Verified"
+                      ? "bg-orange-400"
+                      : "bg-gray-300"
+                        }`}
+                      >
+                        {applicant.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 border-b border-blue-800 text-sm hidden md:table-cell">
+                      <button
+                        onClick={() => handleViewDetails(applicant.id)}
+                        className="bg-blue-600 hover:bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-4 text-white">
+                    No applicants found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   );
 };
 

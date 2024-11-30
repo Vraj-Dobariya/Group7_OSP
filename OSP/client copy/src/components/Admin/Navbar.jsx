@@ -1,85 +1,88 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../../index.css";
+import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const NavbarAdmin = () => {
+  const navigate = useNavigate();
 
-
-  const handleLogout= ()=>{
-     localStorage.removeItem("userInfo");
-     localStorage.removeItem("roleChecked");
-
-  }
-
-
+  const location = useLocation();
+  const handleLogout = () => {
+    const confirmSave = window.confirm("Are you sure you want to log out ?");
+    if (!confirmSave) {
+      return; // Exit the function if user does not confirm
+    }
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("roleChecked");
+    navigate("/");
+  };
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
-          Dashboard
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link
-                to="/admin/add-scholarship"
-                className="nav-link active"
-                aria-current="page"
-              >
-                Add Scholarship
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-            
-                to="/admin/list-scholarships"
-                className="nav-link active"
-              >
-                View Application
-              </Link>
-            </li>
-          </ul>
+    <nav className="flex flex-col lg:flex-row lg:items-center lg:justify-around bg-gradient-to-r from-blue-500 to-blue-600 shadow-xl px-4 py-4 lg:px-6">
+      {/* Left Section */}
+      <div
+        as={Link}
+        to="/"
+        className="flex flex-col lg:flex-row items-center text-white font-bold"
+      >
+        {location.pathname !== "/admin" && (
+          <button
+            onClick={handleBack}
+            className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full shadow-lg p-2.5 text-white font-medium m-3 transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+          </button>
+        )}
+        <img
+          src={logo}
+          alt="Scholarship Logo"
+          className="w-20 h-auto lg:w-24 lg:h-30 animate-pulse-grow pl-0 lg:pl-10"
+        />
+        <span className="text-center lg:text-left">OSP- Admin Side</span>
+      </div>
 
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <FaUserCircle size={24} />
-              </a>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li>
-                  <Link className="dropdown-item" to="/admin/profile">
-                    View Profile
-                  </Link>
-                </li>
-                <li onClick={()=>handleLogout()}>
-                  <Link className="dropdown-item"  to="/">
-                    Logout
-                  </Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+      {/* Middle Section */}
+      <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 mt-4 lg:mt-0">
+        <Link
+          className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          to="/admin/add-scholarship"
+        >
+          Add Scholarship
+        </Link>
+        <Link
+          to="/admin/list-scholarships"
+          className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+        >
+          View Applicants
+        </Link>
+      </div>
+
+      {/* Right Section */}
+      <div className="mt-4 lg:mt-0">
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-red-400/20"
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
 };
 
- export default Navbar;
+export default NavbarAdmin;

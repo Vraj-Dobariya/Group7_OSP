@@ -12,7 +12,6 @@ const getUserProfile = async (req, res) => {
     if (userResult.rows.length === 0) {
       return res.status(404).json({ message: "Admin user not found" });
     }
-
     res.status(200).json(userResult.rows[0]);
   } catch (error) {
     console.error("Error fetching user profile:", error.message);

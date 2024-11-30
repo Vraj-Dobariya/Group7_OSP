@@ -1,9 +1,9 @@
 import Admin_Dashboard from "./Admin_Dashboard";
-import Navbar from "./Navbar";
+import NavbarAdmin from "./Navbar";
 const Admin = () => {
   return (
     <>
-      <Navbar />
+      <NavbarAdmin/>
       <Admin_Dashboard />
     </>
   );
