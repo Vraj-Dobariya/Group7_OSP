@@ -15,7 +15,15 @@ const { handelprofiledata } = require("../controller/userprofile");
 const { handeluploads } = require("../controller/uploadpdfs");
 
 const upload = require("../config/multer");
-
+const {
+  getListforApplyscholarships,
+} = require("../controller/getlistforApplyScholarships");
+const { applyForScholarship } = require("../controller/applyForScholarship");
+const { getScholarship } = require("../controller/getScholarship");
+const { getApplicantId } = require("../controller/getApplicantId");
+const {
+  getAppliedScholarships,
+} = require("../controller/getAppliedScholarships");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
@@ -23,9 +31,14 @@ router.route("/login").post(authUser);
 router.route("/authRole").post(protect, authRole);
 
 router.get("/getuserprofile", getUserProfile);
-router.route("/updateuserprofile").post(updateUserProfile);
+router.get("/getApplicantId", getApplicantId);
 
+router.route("/updateuserprofile").post(updateUserProfile);
+router.route("/viewscholarship/:scholarship_id").get(getScholarship);
 router.route("/getlistofscholarships").get(getListOfScholarships);
+router.route("/getlistforApplyscholarships").get(getListforApplyscholarships);
+router.route("/applyForScholarship/:scholarship_id").post(applyForScholarship);
+router.route("/getAppliedScholarships").get(getAppliedScholarships);
 
 //client side
 router.get("/getemail/:email", handelemail);

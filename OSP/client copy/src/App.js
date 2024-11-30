@@ -1,4 +1,4 @@
-//import "./App.css";
+import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LoginRegister from "./components/LoginRegister/LoginRegister";
 import ForgotPassword from "./components/LoginRegister/ForgotPassword";
@@ -10,31 +10,29 @@ import AdminEditScholarship from "./components/Admin/editScholarship";
 import ViewProfile from "./components/Admin/AdminProfile";
 import ListofScholarship from "./components/Admin/ListofScholarship";
 import ViewApplicants from "./components/Admin/viewapplicants";
-import ApplicantData from "./components/Admin/ApplicatsData";
+import ApplicantData from "./components/Admin/ApplicantsData";
 import StudentRoute from "./components/middleware/studentRoute";
-import ScholarshipList from "./components/Apply/ScholarshipList";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Scholarship from "./components/Apply/Scholarship";
-import ScholarshipDetails from "./components/Apply/ScholarshipDetails";
+import ScholarshipList from "./components/Apply/StudentDashboard";
 import Profile from "./components/Profile/Profile";
-import Changepass from "./components/Changepassword/Changepass";
-import Logout from "./components/Logout/Logout";
+import Apply_Dashboard from "./components/Apply/Apply_Dashboard";
+import ViewScholarshipStudent from "./components/Apply/viewScholarshipStudent";
+import Scholarship from "./components/Apply/Scholarship";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginRegister />} />
-        {/* <Route
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        {/* <Route path="/student" element={<Scholarship />} /> */}
+        <Route
           path="/student"
           element={
             <StudentRoute>
-              <ScholarshipList />
+              <Scholarship />
             </StudentRoute>
           }
-        /> */}
-
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        />
 
         <Route
           path="/admin"
@@ -52,22 +50,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* <Route
-          path="/admin/viewscholarship/:scholarship_id"
-          element={
-            <PrivateRoute>
-              <ViewScholarship />
-            </PrivateRoute>
-          }
-        /> */}
-        {/* <Route
-          path="/admin/viewscholarship/:scholarship_id"
-          element={
-            <PrivateRoute>
-              <ViewScholarship />
-            </PrivateRoute>
-          }
-        /> */}
+
         <Route
           path="/admin/viewscholarship/:scholarship_id"
           element={
@@ -128,15 +111,30 @@ function App() {
           }
         /> */}
 
-        <Route path="/student" element={<Dashboard />} />
-        <Route path="/student/scholarship" element={<Scholarship />} />
         <Route
-          path="/student/scholarship/:id"
-          element={<ScholarshipDetails />}
+          path="/student/scholarship"
+          element={
+            <StudentRoute>
+              <Apply_Dashboard />{" "}
+            </StudentRoute>
+          }
         />
-        <Route path="/student/profile" element={<Profile />} />
-        <Route path="/student/change-password" element={<Changepass />} />
-        <Route path="/student/logout" element={<Logout />} />
+        <Route
+          path="/student/viewscholarship/:scholarship_id"
+          element={
+            <StudentRoute>
+              <ViewScholarshipStudent />{" "}
+            </StudentRoute>
+          }
+        />
+        <Route
+          path="/student/profile"
+          element={
+            <StudentRoute>
+              <Profile />{" "}
+            </StudentRoute>
+          }
+        />
       </Routes>
     </div>
   );

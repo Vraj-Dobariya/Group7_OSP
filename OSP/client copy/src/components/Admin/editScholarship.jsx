@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
-import "./editScholarship.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
+import NavbarAdmin from "./Navbar";
+import "../../index.css"
 const AdminEditScholarship = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const {user,baseURL} = useContextState();
+  const { user, baseURL } = useContextState();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const scholarshipName = state.scholarshipName || "";
   const amount = state.amount || "";
@@ -143,7 +144,6 @@ const AdminEditScholarship = () => {
             "Accept-Type": "application/json",
             "Content-Type": "application/json",
             authorization: `Bearer ${userInfo.token}`,
-            
           },
           body: formct,
         }
@@ -177,162 +177,234 @@ const AdminEditScholarship = () => {
   };
 
   return (
-    <div className="admin-add-scholarship">
-      <h1>Edit Scholarship</h1>
-      <form onSubmit={handleSubmit} className="admin-add-scholarship-form">
-        <div className="form-grid">
-          <div className="form-group">
-            <label className="required">Scholarship Name</label>
-            <input
-              type="text"
-              name="scholarshipName"
-              value={formData.scholarshipName}
-              onChange={handleChange}
-              required
-            />
-          </div>
+    <>
+      <NavbarAdmin />
+      <div className="p-8 bg-slate-600 min-h-screen flex items-center justify-center">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 shadow-xl w-full max-w-4xl">
+          <h1 className="text-3xl font-bold text-white mb-8 text-center drop-shadow-lg">
+            Edit Scholarship
+          </h1>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Form Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Scholarship Name */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Scholarship Name
+                </label>
+                <input
+                  type="text"
+                  name="scholarshipName"
+                  value={formData.scholarshipName}
+                  onChange={handleChange}
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
 
-          <div className="form-group">
-            <label className="required">Amount</label>
-            <input
-              type="number"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              min="0"
-              required
-            />
-          </div>
+              {/* Amount */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "+") {
+                      e.preventDefault();
+                    }
+                  }}
+                  min="0"
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
 
-          <div className="form-group">
-            <label className="required">End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              value={formData.endDate}
-              onChange={handleChange}
-              min={getTomorrowDate()}
-              required
-            />
-          </div>
+              {/* End Date */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  min={getTomorrowDate()}
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
 
-          <div className="form-group">
-            <label className="required">Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-
-        <h3>Eligibility Criteria</h3>
-        <div className="form-grid">
-          <div className="form-group">
-            <label className="required">Education Level</label>
-            <select
-              name="educationLevel"
-              value={formData.educationLevel}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>
-                Select Education Level
-              </option>
-              {educationLevels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="required">Select Eligible Courses</label>
-            <select
-              onChange={handleCourseChange}
-              value=""
-              disabled={!formData.educationLevel}
-            >
-              <option value="" disabled>
-                {formData.educationLevel
-                  ? "Select a course"
-                  : "Select Education Level first"}
-              </option>
-              {availableCourses.map((course) => (
-                <option key={course} value={course}>
-                  {course}
-                </option>
-              ))}
-            </select>
-
-            {/* Display Selected Courses */}
-            <div className="selected-items">
-              {Array.isArray(formData.eligibleCourses) &&
-                formData.eligibleCourses.map((course) => (
-                  <span key={course} className="item-chip">
-                    {course}
-                    <button type="button" onClick={() => removeCourse(course)}>
-                      x
-                    </button>
-                  </span>
-                ))}
+              {/* Description */}
+              <div className="col-span-1 md:col-span-2 flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label className="required">Minimum Percentage (CPI)</label>
-            <input
-              type="number"
-              name="minPercentage"
-              value={formData.minPercentage}
-              onChange={handleChange}
-              min="0"
-              max="10"
-              step="0.01"
-              required
-            />
-          </div>
+            <h3 className="text-xl font-medium text-white">
+              Eligibility Criteria
+            </h3>
 
-          <div className="form-group">
-            <label className="required">Annual Family Income</label>
-            <input
-              type="number"
-              name="annualFamilyIncome"
-              value={formData.annualFamilyIncome}
-              onChange={handleChange}
-              min="0"
-              required
-            />
-          </div>
+            {/* Eligibility Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Education Level */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Education Level
+                </label>
+                <select
+                  name="educationLevel"
+                  value={formData.educationLevel}
+                  onChange={handleChange}
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  <option value="" disabled>
+                    Select Education Level
+                  </option>
+                  {educationLevels.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Eligible Courses */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Select Eligible Courses
+                </label>
+                <select
+                  onChange={handleCourseChange}
+                  value=""
+                  disabled={!formData.educationLevel}
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                  <option value="" disabled>
+                    {formData.educationLevel
+                      ? "Select a course"
+                      : "Select Education Level first"}
+                  </option>
+                  {availableCourses.map((course) => (
+                    <option key={course} value={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {Array.isArray(formData.eligibleCourses) &&
+                    formData.eligibleCourses.map((course) => (
+                      <span
+                        key={course}
+                        className="bg-[#4A5F83] text-white py-1 px-3 rounded-lg shadow-md flex items-center gap-2"
+                      >
+                        {course}
+                        <button
+                          type="button"
+                          className="text-red-500 hover:text-red-700"
+                          onClick={() => removeCourse(course)}
+                        >
+                          x
+                        </button>
+                      </span>
+                    ))}
+                </div>
+              </div>
+
+              {/* Minimum Percentage */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Minimum Percentage (CPI)
+                </label>
+                <input
+                  type="number"
+                  name="minPercentage"
+                  value={formData.minPercentage}
+                  onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "+") {
+                      e.preventDefault();
+                    }
+                  }}
+                  min="0"
+                  max="10"
+                  step="0.01"
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
+
+              {/* Annual Family Income */}
+              <div className="flex flex-col">
+                <label className="text-white font-medium mb-2 required">
+                  Annual Family Income
+                </label>
+                <input
+                  type="number"
+                  name="annualFamilyIncome"
+                  value={formData.annualFamilyIncome}
+                  onChange={handleChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "+") {
+                      e.preventDefault();
+                    }
+                  }}
+                  min="0"
+                  required
+                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                />
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div className="flex flex-col">
+              <label className="text-white font-medium mb-2">Benefits</label>
+              <textarea
+                name="benefits"
+                value={formData.benefits}
+                onChange={handleChange}
+                className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+            </div>
+
+            {/* Note */}
+            <div className="flex flex-col">
+              <label className="text-white font-medium mb-2">Note</label>
+              <textarea
+                name="note"
+                value={formData.note}
+                onChange={handleChange}
+                className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="bg-[#4A5F83] hover:bg-white/10 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
-
-        <h3>Benefits</h3>
-        <div className="form-group">
-          <textarea
-            name="benefits"
-            value={formData.benefits}
-            onChange={handleChange}
-            placeholder="Enter detailed benefits description"
-          />
-        </div>
-
-        <h3>Note</h3>
-        <div className="form-group">
-          <textarea
-            name="note"
-            value={formData.note}
-            onChange={handleChange}
-            placeholder="Enter detailed Note"
-          />
-        </div>
-
-        <button type="submit" className="submit-button">
-          Save
-        </button>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 
