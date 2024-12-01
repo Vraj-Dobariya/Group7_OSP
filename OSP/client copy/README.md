@@ -1,70 +1,218 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Scholarship Portal  
 
-## Available Scripts
+## Table of Contents  
+* [Introduction](#introduction)  
+* [Updates](#updates)  
+* [Requirements](#requirements)  
+* [Installation Guide](#installation-guide)  
+  * [Front-end](#front-end)  
+  * [Back-end](#back-end)  
+* [Features](#features)  
+* [Tech Stack](#tech-stack)  
+* [Functionalities](#functionalities)  
+  * [Student Features](#student-features)  
+  * [Admin Features](#admin-features)  
+* [Future Enhancements](#future-enhancements)  
+* [Deployment](#deployment)  
+* [Contributors](#contributors)  
 
-In the project directory, you can run:
+---
 
-### `npm start`
+# Introduction  
+The **Scholarship Portal** is a modern web application designed to simplify the scholarship process for students and administrators. It offers a seamless platform for students to register, apply for scholarships, track their application statuses, and upload required documents, while administrators can efficiently manage scholarships and applications.  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Updates  
 
-### `npm test`
+- **3/11/23 Meet 1:** Brainstormed and shortlisted project ideas.  
+- **7/11/23 Meet 2:** Finalized the project idea and defined core functionalities.  
+- **12/11/23 Meet 3:** Divided work among team members and created the project repository.  
+- **15/11/23 Meet 4:** Designed the UI/UX mockups and finalized the database schema.  
+- **20/11/23 Meet 5:** Implemented student registration and login features.  
+- **25/11/23 Meet 6:** Developed the scholarship application and profile management modules.  
+- **30/11/23 Meet 7:** Integrated the admin dashboard and notification system.  
+- **5/12/23 Meet 8:** Conducted end-to-end testing and finalized deployment.  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+# Requirements  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Software Requirements  
+- Operating System: Windows/Linux/MacOS  
+- Node.js: v18.17.1 or later  
+- MongoDB: v5.0 or later  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Hardware Requirements  
+- Processor: Intel i3 or equivalent  
+- RAM: 4GB or higher  
+- Storage: Minimum 100MB for application files  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+# Installation Guide  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Front-end  
+- Clone the repository:  
+  ```bash
+  git clone https://github.com/your-repo/scholarship-portal.git
+  cd scholarship-portal
+  ```
+- Open the `index.html` file in your browser to test the front-end components.  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Back-end  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Node  
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- #### Node installation on Windows  
+  Download and install Node.js from the [official Node.js website](https://nodejs.org/).  
 
-## Learn More
+- #### Node installation on Ubuntu  
+  Run the following commands:  
+  ```bash
+  sudo apt install nodejs  
+  sudo apt install npm  
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- #### Verify Installation  
+  ```bash
+  node --version  
+  npm --version  
+  ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- #### Update npm (if required)  
+  ```bash
+  npm install npm -g  
+  ```
 
-### Code Splitting
+### ExpressJS Installation  
+Install Express.js in the project directory:  
+```bash
+npm install express  
+```  
+More information: [Express.js Official Website](https://expressjs.com/en/starter/installing.html)  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### MongoDB Installation  
+Install MongoDB driver for Node.js:  
+```bash
+npm install mongodb  
+```  
+More information: [MongoDB Official Website](https://www.mongodb.com/)  
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Features  
 
-### Making a Progressive Web App
+- **Student Registration and Login:**  
+  - Secure account registration with OTP verification.  
+  - Login with "Forgot Password" functionality for account recovery.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **Scholarship Application Management:**  
+  - Students can view available scholarships and apply with required details and documents.  
+  - Real-time updates on application statuses (e.g., Under Review, Accepted, Rejected).  
 
-### Advanced Configuration
+- **Profile and Document Management:**  
+  - Update personal details and securely upload documents.  
+  - Validate file size and format during uploads.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **Admin Dashboard and Controls:**  
+  - Add, update, and delete scholarships.  
+  - Review applications and update statuses.  
+  - View analytics on active users and applications.  
 
-### Deployment
+- **Notifications:**  
+  - Notify students about application updates and deadlines.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+# Tech Stack  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Frontend:**  
+  - HTML, CSS, JavaScript  
+
+- **Backend:**  
+  - Node.js, Express.js  
+
+- **Database:**  
+  - MongoDB  
+
+- **Testing Tools:**  
+  - Mocha, Chai, Postman  
+
+---
+
+# Functionalities  
+
+## Student Features  
+
+- **Account Management:**  
+  - Register with OTP-based verification.  
+  - Login and recover accounts using "Forgot Password".  
+
+- **Scholarship Application:**  
+  - Browse available scholarships and apply with necessary documents.  
+  - Edit applications before submission and track their statuses.  
+
+- **Profile Management:**  
+  - Update personal details and securely upload documents.  
+
+## Admin Features  
+
+- **Scholarship Management:**  
+  - Add, update, or delete scholarships.  
+
+- **Application Review:**  
+  - Review student applications and change statuses.  
+
+- **Analytics:**  
+  - View analytics on total users and active scholarships.  
+
+---
+
+# Future Enhancements  
+
+- **Payment Gateway Integration:**  
+  - Enable online payment for application fees or premium scholarships.  
+
+- **Enhanced Document Validation:**  
+  - Automate document verification for accuracy and completeness.  
+
+- **Mobile App Development:**  
+  - Develop a mobile-friendly app for easier access.  
+
+- **Personalized Scholarship Recommendations:**  
+  - Suggest scholarships based on student profiles.  
+
+- **Multi-language Support:**  
+  - Enable access to the portal in multiple languages.  
+
+---
+
+# Deployment  
+The application is hosted on a cloud platform with the following setup:  
+- **Backend:** Node.js server deployed on AWS EC2  
+- **Database:** MongoDB hosted on MongoDB Atlas  
+
+---
+
+# Contributors  
+[Anuj Contractor](https://github.com/anujcontractor)  
+[Harsh Mungara](https://github.com/Harsh62004)  
+[Priyanshu Gagiya](https://github.com/PriyanshuGagiya)  
+[Dharmin Patel](https://github.com/Dharmin721)  
+[Aaditya Makwana](https://github.com/Aaditya-Makwana)  
+[Bansri Patel](https://github.com/IceStone16)  
+[Het Patel](https://github.com/hetpatel25)  
+[Mann Kataria](https://github.com/MannKataria)  
+[Poojan Shah](https://github.com/PxbxShah)  
+[Shwet Patel](https://github.com/Shwet-Patel)  
+[Vishvas Solanki](https://github.com/Visvas-0440)  
+```
+
+### Instructions:
+1. Replace `https://github.com/your-repo/scholarship-portal.git` with your actual GitHub repository URL.
+2. Save this code as `README.md` in your project directory.
+3. Push the file to your GitHub repository.
+
+Let me know if you need additional edits!
