@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AdminProfile.css";
 import axios from "axios";
 import { FaLockOpen, FaLock } from "react-icons/fa";
-
+import NavbarAdmin from "./Navbar.jsx";
 const AdminProfile = () => {
   // State to hold profile information
 
@@ -93,60 +93,63 @@ const AdminProfile = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card">
-        <div className="card-body text-center">
-          <img
-            src={profile.photo}
-            alt="Admin"
-            className="rounded-circle mb-3"
-            style={{ width: "150px", height: "150px" }}
-          />
-          {isEditing ? (
-            <>
-              <div className="edit-box">
-                <div className="input-container">
-                  <input
-                    type="text"
-                    name="name"
-                    value={profile.name}
-                    onChange={handleChange}
-                    className="form-control mb-2"
-                    placeholder="Name"
-                  />
-                  <FaLockOpen className="icon" />
+    <>
+      <NavbarAdmin />
+      <div className="container mt-5">
+        <div className="card">
+          <div className="card-body text-center">
+            <img
+              src={profile.photo}
+              alt="Admin"
+              className="rounded-circle mb-3"
+              style={{ width: "150px", height: "150px" }}
+            />
+            {isEditing ? (
+              <>
+                <div className="edit-box">
+                  <div className="input-container">
+                    <input
+                      type="text"
+                      name="name"
+                      value={profile.name}
+                      onChange={handleChange}
+                      className="form-control mb-2"
+                      placeholder="Name"
+                    />
+                    <FaLockOpen className="icon" />
+                  </div>
                 </div>
-              </div>
-              <div className="edit-box">
-                <div className="input-container">
-                  <input
-                    type="email"
-                    name="email"
-                    value={profile.email}
-                    disabled
-                    className="form-control mb-3"
-                    placeholder="Email (cannot be changed)"
-                  />
-                  <FaLock className="icon" />
+                <div className="edit-box">
+                  <div className="input-container">
+                    <input
+                      type="email"
+                      name="email"
+                      value={profile.email}
+                      disabled
+                      className="form-control mb-3"
+                      placeholder="Email (cannot be changed)"
+                    />
+                    <FaLock className="icon" />
+                  </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <h3>{profile.name}</h3>
-              <p>{profile.email}</p>
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                <h3>{profile.name}</h3>
+                <p>{profile.email}</p>
+              </>
+            )}
 
-          <button
-            className={`btn ${isEditing ? "btn-success" : "btn-primary"}`}
-            onClick={isEditing ? handleSave : toggleEditMode}
-          >
-            {isEditing ? "Save" : "Edit Profile"}
-          </button>
+            <button
+              className={`btn ${isEditing ? "btn-success" : "btn-primary"}`}
+              onClick={isEditing ? handleSave : toggleEditMode}
+            >
+              {isEditing ? "Save" : "Edit Profile"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

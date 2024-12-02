@@ -14,24 +14,21 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      const decoded = jwt.verify(token, "hello");
+      const decoded = jwt.verify(token, process.env.token_api);
       // console.log(decoded);
 
       const temp = await pool.query(
         `select * from osp.users where email = '${decoded.email}'`
       );
       req.user = temp.rows[0];
-      if (req.user.email == decoded.email && req.user.role==decoded.role) {
+      if (req.user.email == decoded.email && req.user.role == decoded.role) {
         console.log("decoded");
         next();
-      }
-
-      else {
+      } else {
         res.status(401).json({ mesasge: "Not Authorized, token failed" });
         // console.log(req.user.email);
         // console.log(decoded);
-      return;
-
+        return;
       }
     } catch (error) {
       console.log(error);
