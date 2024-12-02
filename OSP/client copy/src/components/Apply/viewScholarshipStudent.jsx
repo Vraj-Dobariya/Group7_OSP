@@ -83,7 +83,6 @@ const ViewScholarshipStudent = () => {
 
       const endpoint3 =
         "https://group7-osp.onrender.com/api/user/getpdfurls/" + userInfo.email;
-
       try {
         // Check if all required document URLs are present
         const response = await fetch(endpoint3, {
@@ -140,7 +139,7 @@ const ViewScholarshipStudent = () => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!issaved) {
-      alert("Please complete your profile section and save it.");
+      toast.error("Please complete your profile section and save it.");
       return;
     }
 
