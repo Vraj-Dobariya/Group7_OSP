@@ -50,7 +50,7 @@ const NavbarStudent = () => {
         />
       </div>
       <div className="whitespace-nowrap text-2xl font-bold pl-4 text-white drop-shadow-sm">
-        OSP- Student Side
+        OSP-Student 
       </div>
 
       <div className="flex items-center gap-6 ml-6">
@@ -74,10 +74,16 @@ const NavbarStudent = () => {
         >
           Profile
         </Link>
+        <Link
+          to="/faqs"
+          className="bg-white/10 backdrop-blur-sm m-1 hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+        >
+          FAQs
+        </Link>
 
         <button
           onClick={handleLogout}
-          className=" pl-72 bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-red-400/20"
+          className=" pl-72 bg-red-500 hover:bg-red-600 px-5 py-2.5 justify-content:right rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-red-400/20"
         >
           Logout
         </button>
