@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(
   cors({
     // origin: "http://localhost:3000",
-    origin: "https://group7-osp.vercel.app/",
+    origin: "https://group7-osp.vercel.app",
   })
 );
 
