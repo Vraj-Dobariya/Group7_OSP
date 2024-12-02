@@ -1,3 +1,4 @@
+
 import FileUpload from "./FileUpload";
 import React, { useState } from "react";
 
@@ -63,8 +64,8 @@ const CurrentEducationDetails = ({
   
     return (
       <>
-        <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
-          <h3 className="text-xl font-semibold text-gray-100 mb-6">
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-black mb-6">
             Current Education Details
           </h3>
   
@@ -72,7 +73,7 @@ const CurrentEducationDetails = ({
             <div className="mb-6">
               <label
                 htmlFor="currentEducationBatch"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-black mb-2"
               >
                 Current Education Batch <span className="text-red-500">*</span>
               </label>
@@ -81,7 +82,7 @@ const CurrentEducationDetails = ({
                 value={formData.currentEducationBatch || ""}
                 onChange={handleInputChange}
                 required
-                className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+                className="block w-full bg-white text-black border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
               >
                 <option value="">Select Batch</option>
                 {batchOptions.map((year) => (
@@ -95,7 +96,7 @@ const CurrentEducationDetails = ({
             <div className="mb-6">
               <label
                 htmlFor="currentSemester"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-black mb-2"
               >
                 Current Semester <span className="text-red-500">*</span>
               </label>
@@ -104,7 +105,7 @@ const CurrentEducationDetails = ({
                 value={formData.currentSemester || ""}
                 onChange={handleInputChange}
                 required
-                className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+                className="block w-full bg-white text-black border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
               >
                 <option value="">Select Semester</option>
                 {semesterOptions.map((sem) => (
@@ -118,7 +119,7 @@ const CurrentEducationDetails = ({
             <div className="mb-6">
               <label
                 htmlFor="currentCgpaObtained"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-black mb-2"
               >
                 CGPA Obtained <span className="text-red-500">*</span>
               </label>
@@ -128,7 +129,7 @@ const CurrentEducationDetails = ({
                 value={formData.currentCgpaObtained || ""}
                 onChange={handleValidatedInputChange}
                 required
-                className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+                className="block w-full bg-white text-black border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter CGPA obtained"
               />
             </div>
@@ -136,7 +137,7 @@ const CurrentEducationDetails = ({
             <div className="mb-6">
               <label
                 htmlFor="currentCgpaTotal"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-black mb-2"
               >
                 Total CGPA <span className="text-red-500">*</span>
               </label>
@@ -146,7 +147,7 @@ const CurrentEducationDetails = ({
                 value={formData.currentCgpaTotal || ""}
                 onChange={handleValidatedInputChange}
                 required
-                className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+                className="block w-full bg-white text-black border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter total CGPA"
               />
             </div>
@@ -156,7 +157,7 @@ const CurrentEducationDetails = ({
               )}
   
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-black mb-2">
                 Percentage
               </label>
               <input
@@ -166,7 +167,7 @@ const CurrentEducationDetails = ({
                   formData.currentCgpaTotal
                 )}
                 readOnly
-                className="block w-full bg-blue-950 text-gray-400 border border-gray-600 rounded-lg p-3 cursor-not-allowed"
+                className="block w-full bg-white text-gray-400 border border-gray-600 rounded-lg p-3 cursor-not-allowed"
               />
             </div>
   

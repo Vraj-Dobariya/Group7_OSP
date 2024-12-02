@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./viewapplicants.css";
 import NavbarAdmin from "./Navbar";
 
 const ViewApplicants = () => {
@@ -41,14 +40,15 @@ const ViewApplicants = () => {
   return (
     <>
       <NavbarAdmin />
-      <div className="h-screen bg-slate-600 mx-auto px-4 py-6">
+      
+      <div className="h-screen bg-white mx-auto px-4 py-6">
         <h1 className="text-2xl font-semibold text-white mb-6 text-center">
           List of Applicants
         </h1>
-        <div className="overflow-x-auto shadow-md rounded-lg bg-blue-900">
+        <div className="overflow-x-auto shadow-md rounded-lg bg-[#0076FF]">
           <table className="w-full table-fixed border-collapse">
             <thead>
-              <tr className="bg-blue-700 text-white">
+              <tr className="bg-[#0076FF] text-white">
                 <th className="p-3 w-1/12 hidden sm:table-cell">No</th>
                 <th className="p-3 w-2/12 text-xs sm:text-sm">Student ID</th>
                 <th className="p-3 w-3/12 text-xs sm:text-sm">Student Name</th>
@@ -64,8 +64,8 @@ const ViewApplicants = () => {
                   <tr
                     key={applicant.id}
                     className={`${
-                      index % 2 === 0 ? "bg-blue-800" : "bg-blue-900"
-                    } hover:bg-blue-700 transition-colors`}
+                      index % 2 === 0 ? "bg-[#0076FF]" : "bg-[#0076FF]"
+                    } hover:bg-[#0076FF] transition-colors`}
                   >
                     <td className="py-3 px-4 border-b border-blue-800 text-sm text-white hidden sm:table-cell">
                       {index + 1}
@@ -104,7 +104,7 @@ const ViewApplicants = () => {
                     <td className="py-3 px-4 border-b border-blue-800 text-sm hidden md:table-cell">
                       <button
                         onClick={() => handleViewDetails(applicant.id)}
-                        className="bg-blue-600 hover:bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        className="bg-[#0076FF] hover:bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                       >
                         View Details
                       </button>

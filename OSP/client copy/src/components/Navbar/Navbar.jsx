@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 
 const NavbarStudent = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
   const handleLogout = () => {
     const confirmSave = window.confirm("Are you sure you want to log out ?");
@@ -20,11 +19,11 @@ const NavbarStudent = () => {
     navigate(-1);
   };
   return (
-    <nav className="flex items-center  bg-gradient-to-r from-blue-500 to-blue-600 shadow-xl px-6 py-4">
+    <nav className="flex items-center  bg-white shadow-xl px-6 py-4">
       {location.pathname !== "/student" && (
         <button
           onClick={handleBack}
-          className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full shadow-lg px-2.5 py-2.5 text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm rounded-full shadow-lg px-2.5 py-2.5 text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,13 +48,13 @@ const NavbarStudent = () => {
           className="w-24 h-30 animate-pulse-grow pl-10"
         />
       </div>
-      <div className="whitespace-nowrap text-2xl font-bold pl-4 text-white drop-shadow-sm">
+      <div className="whitespace-nowrap text-2xl font-bold pl-4 text-black drop-shadow-sm">
         OSP-Student 
       </div>
 
       <div className="flex items-center gap-6 ml-6">
         <Link
-          className="bg-white/10 backdrop-blur-sm m-1 hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm m-1 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
           to="/student"
         >
           Dashboard
@@ -63,20 +62,20 @@ const NavbarStudent = () => {
 
         <Link
           to="/student/scholarship"
-          className="bg-white/10 backdrop-blur-sm m-1 hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm m-1 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
         >
           Apply For Scholarship
         </Link>
 
         <Link
           to="/student/profile"
-          className="bg-white/10 backdrop-blur-sm m-1 hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm m-1 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
         >
           Profile
         </Link>
         <Link
           to="/faqs"
-          className="bg-white/10 backdrop-blur-sm m-1 hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm m-1 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
         >
           FAQs
         </Link>

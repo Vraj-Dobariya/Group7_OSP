@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
-import "./StudentDashboard.css";
 import "../../index.css";
 // import data from "./Data.json";
 
@@ -46,18 +45,21 @@ const ScholarshipList = () => {
   }, [id, userInfo.token]);
 
   return (
-    <div className="h-screen bg-slate-300 mx-auto px-4 py-6">
+    <div
+      className="h-screen  mx-auto px-4 py-6 bg-white "
+     
+    >
       {loading ? (
         <p>Loading scholarships...</p>
       ) : scholarships.length === 0 ? (
         <div className="min-h-2 text-white">
-          <span  className="bg-blue-600 rounded-2xl py-3 px-4 border-b border-blue-800 text-left text-xl font-medium">
+          <span className="bg-[#0076FF] rounded-2xl py-3 px-4 border-b border-blue-600 text-left text-xl font-medium">
             You have not applied for any scholarships yet.
           </span>
         </div>
       ) : (
         <table className="w-full table-auto border-collapse">
-          <thead className="bg-slate-100">
+          <thead className="bg-[#0076FF] text-white">
             <tr>
               <th className="py-3 px-4 border-b border-blue-800 text-left text-sm font-medium">
                 No
@@ -78,9 +80,7 @@ const ScholarshipList = () => {
               <th className="py-3 px-4 border-b border-blue-800 text-left text-sm font-medium">
                 Status
               </th>
-              <th className="py-3 px-4 border-b border-blue-800 text-left text-sm font-medium">
-                Action
-              </th>
+           
             </tr>
           </thead>
           <tbody>
@@ -88,7 +88,7 @@ const ScholarshipList = () => {
               <tr
                 key={scholarship.id}
                 className={`${
-                  index % 2 === 0 ? "bg-blue-800" : "bg-blue-900"
+                  index % 2 === 0 ? "bg-[#0076FF]" : "bg-[#0076FF]"
                 } hover:bg-blue-700 transition-colors`}
               >
                 <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
@@ -109,14 +109,7 @@ const ScholarshipList = () => {
                 <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
                   {scholarship.status}
                 </td>
-                <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
-                  <Link
-                    to={`scholarship/${scholarship.scholarship_id}`}
-                    className="items-center font-semibold"
-                  >
-                    View Details
-                  </Link>
-                </td>
+                
               </tr>
             ))}
           </tbody>

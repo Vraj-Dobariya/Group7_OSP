@@ -51,8 +51,8 @@ const CommunicationAddress = ({
     
     return (
     <>
-      <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
-        <h3 className="text-white font-semibold text-lg mb-6">
+      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h3 className="text-black font-semibold text-lg mb-6">
           Communication Address
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-3">
@@ -71,7 +71,7 @@ const CommunicationAddress = ({
             { label: "PIN", name: "pin", required: true },
           ].map(({ label, name, required }) => (
             <div key={name}>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-sm font-medium text-black mb-2">
                 {label} {required && <span className="text-red-500">*</span>}
               </label>
               <input
@@ -80,7 +80,7 @@ const CommunicationAddress = ({
                 value={formData[name] || ""}
                 onChange={handleValidatedInputChange}
                 required={required}
-                className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full bg-white text-black border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           ))}
@@ -97,7 +97,7 @@ const CommunicationAddress = ({
             onChange={(e) => handlePdfUpload(e, "aadharcard")}
             file={pdfFiles.aadharcard}
             clearFile={() => clearPdfFile("aadharcard")}
-            className="text-white"
+            className="text-black"
             cURL={cloudinaryUrls.aadharcard}
             document_name = {"aadharcard"}
             viewFile = {viewFile}
@@ -111,7 +111,7 @@ const CommunicationAddress = ({
             onChange={(e) => handlePdfUpload(e, "incomeCertificate")}
             file={pdfFiles.aadharcard}
             clearFile={() => clearPdfFile("incomeCertificate")}
-            className="text-white"
+            className="text-black"
             cURL={cloudinaryUrls.incomeCertificate}
             document_name = {"incomeCertificate"}
             viewFile = {viewFile}

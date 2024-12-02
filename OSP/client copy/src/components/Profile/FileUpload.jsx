@@ -1,4 +1,13 @@
-const FileUpload = ({ label, accept, onChange, file, clearFile, cURL, document_name, viewFile }) => (
+const FileUpload = ({
+  label,
+  accept,
+  onChange,
+  file,
+  clearFile,
+  cURL,
+  document_name,
+  viewFile,
+}) => (
   <div className="space-y-2">
     <label className="text-sm font-medium text-white">{label}</label>
 
@@ -6,7 +15,7 @@ const FileUpload = ({ label, accept, onChange, file, clearFile, cURL, document_n
       {/* Upload Button */}
       <button
         type="button"
-        className={`upload-btn px-4 py-2 bg-slate-700 text-white rounded-lg ${
+        className={`upload-btn p-2 bg-slate-700 text-white rounded-lg ${
           file ? "hover:bg-slate-600" : "hover:bg-slate-800"
         }`}
         onClick={() => document.getElementById(label).click()}
@@ -20,7 +29,7 @@ const FileUpload = ({ label, accept, onChange, file, clearFile, cURL, document_n
           className="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-300"
           onClick={clearFile}
         >
-          <span className="text-xl">✖</span>
+          <div className="text-lg text-black font-bold rounded-lg">X</div>
         </button>
       )}
 
@@ -28,7 +37,7 @@ const FileUpload = ({ label, accept, onChange, file, clearFile, cURL, document_n
         <button
           type="button"
           onClick={() => viewFile(cURL)}
-          className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-md shadow-md hover:shadow-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 transition-all duration-300"
+          className="px-4 py-2 bg-[#0076FF] text-white font-semibold rounded-md shadow-md hover:shadow-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 transition-all duration-300"
         >
           View
         </button>

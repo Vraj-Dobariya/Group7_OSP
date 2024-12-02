@@ -7,8 +7,8 @@ import CurrentAcademicDetails from "./CurrentAcademicDetails";
 import Class10Details from "./Class10Details";
 import Class12Details from "./Class12Details";
 import CurrentEducationDetails from "./CurrentEducationDetails";
-
-
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 var Femail = "";
 
 const Profile = () => {
@@ -79,8 +79,6 @@ const Profile = () => {
   const [Bankdetailserror, setBankdetailserror] = useState(false);
   const [communicationAddress, setcommunicationAddress] = useState(false);
 
-
-
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -91,11 +89,11 @@ const Profile = () => {
     setFormData((prev) => ({ ...prev, email: Femail }));
 
     var endpoint3 = "http://localhost:8080/api/user/getpdfurls/";
-    endpoint3=endpoint3+Femail;
+    endpoint3 = endpoint3 + Femail;
 
     (async () => {
       try {
-        const response = await fetch(endpoint3 , {
+        const response = await fetch(endpoint3, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -103,11 +101,7 @@ const Profile = () => {
           body: JSON.stringify(),
         });
 
-
-
-        if (response.ok) 
-        {
-
+        if (response.ok) {
           const data = await response.json();
 
           const formattedPdfFiles = {
@@ -118,7 +112,9 @@ const Profile = () => {
             nonTuitionFeeReceipt: String(data.nonTuitionFeeReceipt || ""),
             class10MarkSheet: String(data.class10MarkSheet || ""),
             class12MarkSheet: String(data.class12MarkSheet || ""),
-            currentEducationMarkSheet: String(data.currentEducationMarkSheet || ""),
+            currentEducationMarkSheet: String(
+              data.currentEducationMarkSheet || ""
+            ),
           };
 
           setCloudinaryUrls({
@@ -129,15 +125,14 @@ const Profile = () => {
             nonTuitionFeeReceipt: formattedPdfFiles.nonTuitionFeeReceipt,
             class10MarkSheet: formattedPdfFiles.class10MarkSheet,
             class12MarkSheet: formattedPdfFiles.class12MarkSheet,
-            currentEducationMarkSheet: formattedPdfFiles.currentEducationMarkSheet
+            currentEducationMarkSheet:
+              formattedPdfFiles.currentEducationMarkSheet,
           });
-        } 
-      } 
-      catch (error) {
+        }
+      } catch (error) {
         console.error("can't find uploaded doctuments", error);
       }
     })();
-
 
     //console.log("f", Femail);
 
@@ -241,75 +236,69 @@ const Profile = () => {
     })();
   }, []);
 
-  const handlePdfUpload = async (e, key) => { // Add 'async' here
+  const handlePdfUpload = async (e, key) => {
+    // Add 'async' here
     const file = e.target.files[0];
     setPdfFiles((prev) => ({ ...prev, [key]: file }));
 
     if (file) {
-        const formData2 = new FormData();
-        formData2.append("file", file);
+      const formData2 = new FormData();
+      formData2.append("file", file);
 
-        const endpoint2 = `http://localhost:8080/api/user/pdf/${Femail}/${key}`;
+      const endpoint2 = `http://localhost:8080/api/user/pdf/${Femail}/${key}`;
 
-        try {
-            const response = await fetch(endpoint2, { // 'await' works because of 'async'
-                method: "POST",
-                body: formData2,
-            });
+      try {
+        const response = await fetch(endpoint2, {
+          // 'await' works because of 'async'
+          method: "POST",
+          body: formData2,
+        });
 
-            if (!response.ok) {
-                throw new Error("File upload failed.");
-            }
-
-            const data = await response.json();
-            const cloudinaryUrl = data.cloudinaryUrl;
-
-            setCloudinaryUrls((prevState) => ({
-                ...prevState,
-                [key]: cloudinaryUrl,
-            }));
-          
-
-        } catch (error) {
-            //console.error("Error uploading file:", error);
-            alert("Error uploading file: " + error.message);
+        if (!response.ok) {
+          throw new Error("File upload failed.");
         }
-    }
-};
 
+        const data = await response.json();
+        const cloudinaryUrl = data.cloudinaryUrl;
+
+        setCloudinaryUrls((prevState) => ({
+          ...prevState,
+          [key]: cloudinaryUrl,
+        }));
+      } catch (error) {
+        //console.error("Error uploading file:", error);
+        toast.error("Error uploading file: " + error.message);
+      }
+    }
+  };
 
   const clearPdfFile = async (key) => {
     setPdfFiles((prev) => ({ ...prev, [key]: null }));
     setCloudinaryUrls((prevState) => ({
       ...prevState,
       [key]: "",
-  }));  
+    }));
 
-  const endpoint = `http://localhost:8080/api/user/clearpdf/${Femail}/${key}/`;
+    const endpoint = `http://localhost:8080/api/user/clearpdf/${Femail}/${key}/`;
 
-  try {
-  
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Specify JSON data format
-      },
-      body: JSON.stringify({}), // Convert the body to JSON
-    });
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON data format
+        },
+        body: JSON.stringify({}), // Convert the body to JSON
+      });
 
-    // Check if the response is not okay
-    if (!response.ok) {
-      const errorData = await response.json(); // Parse any server error details
-      throw new Error(errorData.message || "Failed to clear the PDF file.");
+      // Check if the response is not okay
+      if (!response.ok) {
+        const errorData = await response.json(); // Parse any server error details
+        throw new Error(errorData.message || "Failed to clear the PDF file.");
+      }
+    } catch (error) {
+      // Handle any errors during the request
+      toast.error("Cannot clear PDF file: " + error.message);
     }
-  } catch (error) {
-    // Handle any errors during the request
-    alert("Cannot clear PDF file: " + error.message);
-  }
-
-
-
-
   };
 
   const handleInputChange = (e) => {
@@ -321,45 +310,48 @@ const Profile = () => {
     window.open(url, "_blank");
   };
 
-
   const handleSave = async (e) => {
     e.preventDefault();
 
-
     if (class10ValidationError) {
-      alert("Please correct the errors in Class 10 details before saving.");
+      toast.error(
+        "Please correct the errors in Class 10 details before saving."
+      );
       return false;
     }
 
     if (class12ValidationError) {
-      alert("Please correct the errors in Class 12 details before saving.");
+      toast.error(
+        "Please correct the errors in Class 12 details before saving."
+      );
       return false;
     }
 
     if (educationdetailserror) {
-      alert("Please correct the Current Education Details before saving.");
+      toast.error(
+        "Please correct the Current Education Details before saving."
+      );
       return false;
     }
 
-    if(Academicdetailserror)
-    {
-      alert("Please correct the Academic details error before saving.");
+    if (Academicdetailserror) {
+      toast.error("Please correct the Academic details error before saving.");
       return false;
     }
 
-    if(Bankdetailserror)
-    {
-      alert("Please correct the Bank details error before saving.");
+    if (Bankdetailserror) {
+      toast.error("Please correct the Bank details error before saving.");
       return false;
     }
 
-    if(communicationAddress)
-    {
-      alert("Please correct the Communication Address error details before saving.");
+    if (communicationAddress) {
+      toast.error(
+        "Please correct the Communication Address error details before saving."
+      );
       return false;
     }
 
-   const requiredDocs = [
+    const requiredDocs = [
       "incomeCertificate",
       "bankPassbook",
       "aadharcard",
@@ -367,19 +359,20 @@ const Profile = () => {
       "nonTuitionFeeReceipt",
       "class10MarkSheet",
       "class12MarkSheet",
-      "currentEducationMarkSheet"
+      "currentEducationMarkSheet",
     ];
-  
+
     // Check if any of the documents is missing (empty string)
     for (const doc of requiredDocs) {
       if (!cloudinaryUrls[doc]) {
-        alert(`Please upload your ${doc.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+        toast.error(
+          `Please upload your ${doc.replace(/([A-Z])/g, " $1").toLowerCase()}`
+        );
         return false; // Return false if any document is missing
       }
     }
 
     try {
-      
       const response = await fetch("http://localhost:8080/api/user/profile", {
         method: "POST",
         headers: {
@@ -388,33 +381,42 @@ const Profile = () => {
         body: JSON.stringify(formData),
       });
 
-    
       if (response.ok) {
-      
         //const profileData = { formData, image: preview, pdfFiles };
-        alert("Profile saved successfully!");
-        
-
+        toast.success("Profile saved successfully!");
       } else {
-        alert("Login failed: " + response.data.message);
+        toast.error("Login failed: " + response.data.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred while Profile save");
+      // console.error("Login error:", error);
+      toast.error("An error occurred while Profile save");
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-blue-800 to-blue-600 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-4xl bg-gradient-to-br from-blue-500 via-blue-800 to-blue-600 rounded-xl shadow-md p-8">
-          <h2 className="text-2xl font-bold text-white mb-6 text-center">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        limit={2}
+        newestOnTop={true}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <div className="min-h-screen flex items-center justify-center bg-white px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl bg-[#0076FF]/60 shadow-md p-8">
+          <h2 className="text-2xl font-bold text-black mb-6 text-center">
             Student Details
           </h2>
 
           <form onSubmit={handleSave} className="text-white grid gap-6">
-           
             {/* Other Components */}
             <div className="space-y-6">
               <PersonalDetails
@@ -427,8 +429,8 @@ const Profile = () => {
                 pdfFiles={pdfFiles}
                 handlePdfUpload={handlePdfUpload}
                 clearPdfFile={clearPdfFile}
-                cloudinaryUrls = {cloudinaryUrls}
-                viewFile = {viewFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
                 setValidationErrorStatus={setcommunicationAddress}
               />
               <BankDetails
@@ -437,8 +439,8 @@ const Profile = () => {
                 pdfFiles={pdfFiles}
                 handlePdfUpload={handlePdfUpload}
                 clearPdfFile={clearPdfFile}
-                cloudinaryUrls = {cloudinaryUrls}
-                viewFile = {viewFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
                 setValidationErrorStatus={setBankdetailserror}
               />
               <CurrentAcademicDetails
@@ -447,10 +449,9 @@ const Profile = () => {
                 pdfFiles={pdfFiles}
                 handlePdfUpload={handlePdfUpload}
                 clearPdfFile={clearPdfFile}
-                cloudinaryUrls = {cloudinaryUrls}
-                viewFile = {viewFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
                 setValidationErrorStatus={setAcademicdetailserror}
-
               />
               <Class10Details
                 formData={formData}
@@ -458,8 +459,8 @@ const Profile = () => {
                 pdfFiles={pdfFiles}
                 handlePdfUpload={handlePdfUpload}
                 clearPdfFile={clearPdfFile}
-                cloudinaryUrls = {cloudinaryUrls}
-                viewFile = {viewFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
                 setValidationErrorStatus={setClass10ValidationError}
               />
               <Class12Details
@@ -468,29 +469,28 @@ const Profile = () => {
                 pdfFiles={pdfFiles}
                 handlePdfUpload={handlePdfUpload}
                 clearPdfFile={clearPdfFile}
-                cloudinaryUrls = {cloudinaryUrls}
-                viewFile = {viewFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
                 setValidationErrorStatus={setClass12ValidationError}
               />
 
-
-          <CurrentEducationDetails
-            formData={formData}
-            handleInputChange={handleInputChange}
-            pdfFiles={pdfFiles}
-            handlePdfUpload={handlePdfUpload}
-            clearPdfFile={clearPdfFile}
-            cloudinaryUrls = {cloudinaryUrls}
-            viewFile = {viewFile}
-            setValidationErrorStatus={setEducationdetailserror}
-          />
-        </div>
+              <CurrentEducationDetails
+                formData={formData}
+                handleInputChange={handleInputChange}
+                pdfFiles={pdfFiles}
+                handlePdfUpload={handlePdfUpload}
+                clearPdfFile={clearPdfFile}
+                cloudinaryUrls={cloudinaryUrls}
+                viewFile={viewFile}
+                setValidationErrorStatus={setEducationdetailserror}
+              />
+            </div>
 
             {/* Buttons */}
             <div className="flex justify-end gap-4 mt-6">
               <button
                 type="submit"
-                className="px-6 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                className="px-6 py-2 rounded-lg bg-green-500 text-white  transition"
               >
                 Save
               </button>

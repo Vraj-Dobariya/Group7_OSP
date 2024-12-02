@@ -41,14 +41,14 @@ const ListofScholarship = () => {
   return (
     <>
     <NavbarAdmin />
-    <div className="h-screen bg-slate-300 mx-auto px-4 py-6">
+    <div className="h-screen bg-white mx-auto px-4 py-6">
       <h1 className=" text-2xl font-bold text-black mb-6">
         List of Scholarships
       </h1>
       <div className="overflow-x-auto shadow-md rounded-lg bg-blue-200">
         <table className="w-full table-auto border-collapse">
           <thead>
-            <tr className="bg-blue-700 text-white">
+            <tr className="bg-[#0076FF] text-white">
               <th className="py-3 px-4 border-b border-blue-200 text-left text-sm font-medium">
                 No
               </th>
@@ -71,7 +71,7 @@ const ListofScholarship = () => {
               <tr
                 key={scholarship.scholarship_id}
                 className={`${
-                  index % 2 === 0 ? "bg-blue-700" : "bg-blue-700"
+                  index % 2 === 0 ? "bg-[#0076FF]" : "bg-[#0076FF]"
                 } hover:bg-blue-600 transition-colors `}
               >
                 <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">

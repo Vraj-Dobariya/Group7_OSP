@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
 import NavbarAdmin from "./Navbar";
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
 
 const ApplicantData = () => {
   const [applicants, setApplicants] = useState([]);
@@ -85,10 +86,10 @@ const ApplicantData = () => {
         setApplicants(updatedApplicants);
       }
 
-      alert("Status updated successfully!");
+      toast.success("Status updated successfully!");
     } catch (err) {
       console.error("Error updating status:", err);
-      alert("Failed to update status.");
+      toast.error("Failed to update status.");
     }
   };
 
@@ -99,6 +100,20 @@ const ApplicantData = () => {
   return (
     <>
       <NavbarAdmin />
+      <ToastContainer
+        position="top-right"
+        limit={2}
+        newestOnTop={true}
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <div className="min-h-screen bg-gray-100 px-6 py-8">
         <h2 className="text-2xl font-bold text-center mb-6">
           Applicant Details
@@ -161,7 +176,7 @@ const ApplicantData = () => {
                       "Rejected",
                       "Under Review",
                       "Documents Verified",
-                      "Status",
+                      "Submitted",
                     ].map((status) => (
                       <option
                         key={status}
@@ -185,7 +200,7 @@ const ApplicantData = () => {
                       : selectedStatus[applicant.applicant_id] ===
                         "Documents Verified"
                       ? "bg-orange-400"
-                      : "bg-gray-300"
+                      : "bg-slate-400"
                   }`}
                 >
                   {selectedStatus[applicant.applicant_id] || applicant.status}

@@ -2,7 +2,6 @@ const pool = require("../config/db");
 
 const addScholarship = async (req, res) => {
   console.log("Reached addScholarship");
-
   // Destructuring the request body
   const {
     scholarship_name,

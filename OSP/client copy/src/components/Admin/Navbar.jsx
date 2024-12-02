@@ -20,7 +20,7 @@ const NavbarAdmin = () => {
     navigate(-1);
   };
   return (
-    <nav className="flex flex-col lg:flex-row lg:items-center lg:justify-around bg-gradient-to-r from-blue-500 to-blue-600 shadow-xl px-4 py-4 lg:px-6">
+    <nav className="flex flex-col lg:flex-row lg:items-center lg:justify-around bg-[##0076FF] shadow-2xl px-4 py-4 lg:px-6">
       {/* Left Section */}
       <div
         as={Link}
@@ -30,10 +30,10 @@ const NavbarAdmin = () => {
         {location.pathname !== "/admin" && (
           <button
             onClick={handleBack}
-            className="bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full shadow-lg p-2.5 text-white font-medium m-3 transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+            className="bg-[#0076FF] backdrop-blur-sm hover:bg-[#0076FF] rounded-full shadow-lg p-2.5 text-white font-medium m-3 transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
+              xmlns="http://www.w3.org00/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
@@ -53,22 +53,37 @@ const NavbarAdmin = () => {
           alt="Scholarship Logo"
           className="w-20 h-auto lg:w-24 lg:h-30 animate-pulse-grow pl-0 lg:pl-10"
         />
-        <span className="text-center lg:text-left">OSP- Admin Side</span>
+        <span className="text-center text-black pl-3 text-2xl lg:text-left">
+          OSP- Admin
+        </span>
       </div>
 
       {/* Middle Section */}
+
       <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 mt-4 lg:mt-0">
         <Link
-          className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          to="/admin"
+          className="bg-[#0076FF] backdrop-blur-sm hover:bg-[#0076FF] shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white"
+        >
+          Dashboard
+        </Link>
+        <Link
+          className="bg-[#0076FF] backdrop-blur-sm hover:bg-[#0076FF] shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white"
           to="/admin/add-scholarship"
         >
           Add Scholarship
         </Link>
         <Link
           to="/admin/list-scholarships"
-          className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+          className="bg-[#0076FF] backdrop-blur-sm hover:bg-[#0076FF] shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white"
         >
           View Applicants
+        </Link>
+        <Link
+          to="/admin/profile"
+          className="bg-[#0076FF] backdrop-blur-sm hover:bg-[#0076FF] shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white"
+        >
+          Admin Profile
         </Link>
       </div>
 
@@ -76,7 +91,7 @@ const NavbarAdmin = () => {
       <div className="mt-4 lg:mt-0">
         <button
           onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-red-400/20"
+          className="bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-red-400"
         >
           Logout
         </button>

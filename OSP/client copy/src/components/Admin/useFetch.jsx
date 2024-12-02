@@ -9,7 +9,6 @@ const useFetch = (url) => {
     const fetchData = async () => {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       console.log("Fetching data from URL:", url); // Debug log
-
       try {
         const response = await fetch(url, {
           headers: {

@@ -36,13 +36,13 @@ const CurrentAcademicDetails = ({
     };
   
     return (
-      <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-white mb-6">
+      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-black mb-6">
           Current Academic Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-black mb-1">
               Course Level <span className="text-red-500">*</span>
             </label>
             <select
@@ -50,7 +50,7 @@ const CurrentAcademicDetails = ({
               value={formData.courseLevel || ""}
               onChange={handleInputChange}
               required
-              className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full bg-white text-black border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="" disabled>
                 Select Course Level
@@ -64,7 +64,7 @@ const CurrentAcademicDetails = ({
           </div>
   
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-black mb-1">
               Course Name <span className="text-red-500">*</span>
             </label>
             <select
@@ -72,7 +72,7 @@ const CurrentAcademicDetails = ({
               value={formData.courseName || ""}
               onChange={handleInputChange}
               required
-              className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full bg-white text-black border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="" disabled>
                 Select Course Name
@@ -99,8 +99,8 @@ const CurrentAcademicDetails = ({
             { label: "Tuition Fees", name: "tuitionFees", required: true },
             { label: "Non-Tuition Fees", name: "nonTuitionFees" },
           ].map(({ label, name, required }) => (
-            <div key={name} className="text-white">
-              <label className="block text-sm font-medium text-gray-300 mb-1">
+            <div key={name} className="text-black">
+              <label className="block text-sm font-medium text-black mb-1">
                 {label} {required && <span className="text-red-500">*</span>}
               </label>
               <input
@@ -109,13 +109,13 @@ const CurrentAcademicDetails = ({
                 value={formData[name] || ""}
                 onChange={handleValidatedInputChange}
                 required={required}
-                className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full bg-white text-black border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           ))}
   
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-black mb-1">
               Total Current Fees <span className="text-red-500">*</span>
             </label>
             <input
@@ -123,7 +123,7 @@ const CurrentAcademicDetails = ({
               name="totalCurrentFees"
               value={calculateTotalFees()}
               readOnly
-              className="block w-full bg-blue-500/50 text-gray-400 border border-gray-700 rounded-lg p-2.5 cursor-not-allowed"
+              className="block w-full bg-white text-gray-400 border border-gray-700 rounded-lg p-2.5 cursor-not-allowed"
             />
           </div>
 
@@ -138,7 +138,7 @@ const CurrentAcademicDetails = ({
               onChange={(e) => handlePdfUpload(e, "tuitionFeeReceipt")}
               file={pdfFiles.tuitionFeeReceipt}
               clearFile={() => clearPdfFile("tuitionFeeReceipt")}
-              className="text-white"
+              className="text-black"
               cURL={cloudinaryUrls.tuitionFeeReceipt}
               document_name = {"tuitionFeeReceipt"}
               viewFile = {viewFile}
@@ -152,7 +152,7 @@ const CurrentAcademicDetails = ({
               onChange={(e) => handlePdfUpload(e, "nonTuitionFeeReceipt")}
               file={pdfFiles.nonTuitionFeeReceipt}
               clearFile={() => clearPdfFile("nonTuitionFeeReceipt")}
-              className="text-white"
+              className="text-black"
               cURL={cloudinaryUrls.nonTuitionFeeReceipt}
               document_name = {"nonTuitionFeeReceipt"}
               viewFile = {viewFile}
