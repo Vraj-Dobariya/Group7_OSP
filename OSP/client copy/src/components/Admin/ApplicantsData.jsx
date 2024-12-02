@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
 import NavbarAdmin from "./Navbar";
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
 
 const ApplicantData = () => {
   const [applicants, setApplicants] = useState([]);
@@ -86,10 +87,10 @@ const ApplicantData = () => {
         setApplicants(updatedApplicants);
       }
 
-      alert("Status updated successfully!");
+      toast.success("Status updated successfully!");
     } catch (err) {
       console.error("Error updating status:", err);
-      alert("Failed to update status.");
+      toast.error("Failed to update status.");
     }
   };
 
@@ -100,6 +101,20 @@ const ApplicantData = () => {
   return (
     <>
       <NavbarAdmin />
+      <ToastContainer
+        position="top-right"
+        limit={2}
+        newestOnTop={true}
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <div className="min-h-screen bg-gray-100 px-6 py-8">
         <h2 className="text-2xl font-bold text-center mb-6">
           Applicant Details
@@ -113,152 +128,185 @@ const ApplicantData = () => {
               <table className="w-full table-auto border-collapse">
                 <tbody>
                   {[
-    ["ID", applicant.applicant_id || "No data uploaded"],
-    [
-      "Name",
-      applicant.first_name || applicant.middle_name || applicant.last_name
-        ? `${applicant.first_name} ${applicant.middle_name || ""} ${applicant.last_name}`
-        : "No data uploaded",
-    ],
-    ["DOB", applicant.dob ? new Date(applicant.dob).toLocaleDateString() : "No data uploaded"],
-    ["Gender", applicant.gender || "No data uploaded"],
-    ["Category", applicant.category || "No data uploaded"],
-    ["Email", applicant.email || "No data uploaded"],
-    ["Mobile", applicant.mobile_number || "No data uploaded"],
-    ["Parent Name", applicant.parent_name || "No data uploaded"],
-    ["Occupation", applicant.occupation || "No data uploaded"],
-    ["Income", applicant.income || "No data uploaded"],
-    ["Parent Mobile", applicant.parent_mobile || "No data uploaded"],
-    ["Current Semester", applicant.current_semester || "No data uploaded"],
-    ["Year of Admission", applicant.year_of_admission || "No data uploaded"],
-    ["Street Address", applicant.street_address || "No data uploaded"],
-    ["Pin Code", applicant.pin_code || "No data uploaded"],
-    ["District", applicant.district_name || "No data uploaded"],
-    ["Department", applicant.department_name || "No data uploaded"],
-    ["Tuition Fees", applicant.tuition_fees || "No data uploaded"],
-    ["Non-Tuition Fees", applicant.non_tuition_fees || "No data uploaded"],
-    ["Status", applicant.status || "No data uploaded"],
-    [
-      "Income Certificate",
-      applicant.income_certificate ? (
-        <a
-          href={applicant.income_certificate}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Bank Passbook",
-      applicant.bank_passbook ? (
-        <a
-          href={applicant.bank_passbook}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Aadhar Card",
-      applicant.aadhar_card ? (
-        <a
-          href={applicant.aadhar_card}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Tuition Fee Receipt",
-      applicant.tuition_fee_receipt ? (
-        <a
-          href={applicant.tuition_fee_receipt}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Non-Tuition Fee Receipt",
-      applicant.non_tuition_fee_receipt ? (
-        <a
-          href={applicant.non_tuition_fee_receipt}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Class 10 Marksheet",
-      applicant.class_10_mark_sheet ? (
-        <a
-          href={applicant.class_10_mark_sheet}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Class 12 Marksheet",
-      applicant.class_12_mark_sheet ? (
-        <a
-          href={applicant.class_12_mark_sheet}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-    [
-      "Current Education Marksheet",
-      applicant.current_education_mark_sheet ? (
-        <a
-          href={applicant.current_education_mark_sheet}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          View Document
-        </a>
-      ) : (
-        "No data uploaded"
-      ),
-    ],
-  ].map(([label, value]) => (
+                    ["ID", applicant.applicant_id || "No data uploaded"],
+                    [
+                      "Name",
+                      applicant.first_name ||
+                      applicant.middle_name ||
+                      applicant.last_name
+                        ? `${applicant.first_name} ${
+                            applicant.middle_name || ""
+                          } ${applicant.last_name}`
+                        : "No data uploaded",
+                    ],
+                    [
+                      "DOB",
+                      applicant.dob
+                        ? new Date(applicant.dob).toLocaleDateString()
+                        : "No data uploaded",
+                    ],
+                    ["Gender", applicant.gender || "No data uploaded"],
+                    ["Category", applicant.category || "No data uploaded"],
+                    ["Email", applicant.email || "No data uploaded"],
+                    ["Mobile", applicant.mobile_number || "No data uploaded"],
+                    [
+                      "Parent Name",
+                      applicant.parent_name || "No data uploaded",
+                    ],
+                    ["Occupation", applicant.occupation || "No data uploaded"],
+                    ["Income", applicant.income || "No data uploaded"],
+                    [
+                      "Parent Mobile",
+                      applicant.parent_mobile || "No data uploaded",
+                    ],
+                    [
+                      "Current Semester",
+                      applicant.current_semester || "No data uploaded",
+                    ],
+                    [
+                      "Year of Admission",
+                      applicant.year_of_admission || "No data uploaded",
+                    ],
+                    [
+                      "Street Address",
+                      applicant.street_address || "No data uploaded",
+                    ],
+                    ["Pin Code", applicant.pin_code || "No data uploaded"],
+                    ["District", applicant.district_name || "No data uploaded"],
+                    [
+                      "Department",
+                      applicant.department_name || "No data uploaded",
+                    ],
+                    [
+                      "Tuition Fees",
+                      applicant.tuition_fees || "No data uploaded",
+                    ],
+                    [
+                      "Non-Tuition Fees",
+                      applicant.non_tuition_fees || "No data uploaded",
+                    ],
+                    ["Status", applicant.status || "No data uploaded"],
+                    [
+                      "Income Certificate",
+                      applicant.income_certificate ? (
+                        <a
+                          href={applicant.income_certificate}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Bank Passbook",
+                      applicant.bank_passbook ? (
+                        <a
+                          href={applicant.bank_passbook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Aadhar Card",
+                      applicant.aadhar_card ? (
+                        <a
+                          href={applicant.aadhar_card}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Tuition Fee Receipt",
+                      applicant.tuition_fee_receipt ? (
+                        <a
+                          href={applicant.tuition_fee_receipt}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Non-Tuition Fee Receipt",
+                      applicant.non_tuition_fee_receipt ? (
+                        <a
+                          href={applicant.non_tuition_fee_receipt}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Class 10 Marksheet",
+                      applicant.class_10_mark_sheet ? (
+                        <a
+                          href={applicant.class_10_mark_sheet}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Class 12 Marksheet",
+                      applicant.class_12_mark_sheet ? (
+                        <a
+                          href={applicant.class_12_mark_sheet}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                    [
+                      "Current Education Marksheet",
+                      applicant.current_education_mark_sheet ? (
+                        <a
+                          href={applicant.current_education_mark_sheet}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          View Document
+                        </a>
+                      ) : (
+                        "No data uploaded"
+                      ),
+                    ],
+                  ].map(([label, value]) => (
                     <tr key={label} className="border-b">
                       <th className="text-left py-2 px-4 font-medium w-1/3">
                         {label}
