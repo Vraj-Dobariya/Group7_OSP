@@ -21,7 +21,7 @@ const protect = async (req, res, next) => {
         `select * from osp.users where email = '${decoded.email}'`
       );
       req.user = temp.rows[0];
-      if (req.user.email == decoded.email && req.user.role == decoded.role) {
+      if (req.user.email == decoded.email && req.user.role == decoded.role && req.user.role == "admin") {
         console.log("decoded");
         next();
       } else {

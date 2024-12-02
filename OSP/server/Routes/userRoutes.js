@@ -31,7 +31,7 @@ const router = express.Router();
 
 router.route("/register").post(registerUser);
 router.route("/login").post(authUser);
-router.route("/authRole").post(protect, authRole);
+router.route("/authRole").post(authRole);
 
 router.get("/getuserprofile", getUserProfile);
 router.get("/getApplicantId", getApplicantId);
