@@ -78,6 +78,7 @@ const Apply_Dashboard = () => {
 
                     <button
                       className="bg-[#0076FF] backdrop-blur-sm  shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
+
                       onClick={() =>
                         handleViewScholarship(scholarship.scholarship_id)
                       }

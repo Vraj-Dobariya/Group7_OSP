@@ -134,6 +134,7 @@ const Class10Details = ({
           </div>
           
 
+
           <div className="flex">
             <FileUpload
               label="Upload Class 10 Mark Sheet (PDF)"
