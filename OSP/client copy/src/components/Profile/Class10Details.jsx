@@ -1,4 +1,6 @@
 import FileUpload from "./FileUpload";
+import React, { useState } from "react";
+
 
 const Class10Details = ({
     formData,
@@ -8,8 +10,13 @@ const Class10Details = ({
     clearPdfFile,
     cloudinaryUrls,
     viewFile,
+    setValidationErrorStatus
   }) => {
     // Function to calculate percentage
+
+    const [validationError, setValidationError] = useState("");
+
+
     const calculatePercentage = (marksObtained, totalMarks) => {
       if (marksObtained && totalMarks && totalMarks > 0) {
         return (
@@ -19,6 +26,45 @@ const Class10Details = ({
       }
       return "";
     };
+
+    const handleValidatedInputChange = (e) => {
+      const { name, value } = e.target;
+  
+      if (name === "class10MarksObtained" || name === "class10TotalMarks") {
+        // Temporarily update the input
+         handleInputChange(e);
+
+         if (parseFloat(value) < 0) {
+          setValidationError("Negative CGPA are not allowed.");
+          setValidationErrorStatus(true);
+          return;
+        }
+  
+        const marksObtained = 
+          name === "class10MarksObtained" ? value : formData.class10MarksObtained;
+        const totalMarks = 
+          name === "class10TotalMarks" ? value : formData.class10TotalMarks;
+  
+        if (
+          marksObtained &&
+          totalMarks &&
+          parseFloat(marksObtained) > parseFloat(totalMarks)
+        ) {
+          setValidationError(
+            "Total Marks Obtained cannot exceed Out of Total Marks."
+          );
+          setValidationErrorStatus(true);
+          } else 
+          {
+          setValidationError("");
+          setValidationErrorStatus(false);
+        }
+      } else {
+        // For other inputs, simply update the form
+        handleInputChange(e);
+      }
+    };
+  
   
     return (
       <>
@@ -64,13 +110,17 @@ const Class10Details = ({
                   name={name}
                   id={name}
                   value={formData[name] || ""}
-                  onChange={handleInputChange}
+                  onChange={handleValidatedInputChange}
                   required={required}
                   className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                   placeholder={`Enter ${label.toLowerCase()}`}
                 />
               </div>
             ))}
+
+            {validationError && (
+                <p className="text-red-500 text-sm mt-1">{validationError}</p>
+              )}
   
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">

@@ -1,4 +1,5 @@
 import FileUpload from "./FileUpload";
+import React, { useState } from "react";
 
 const CurrentEducationDetails = ({
     formData,
@@ -8,6 +9,7 @@ const CurrentEducationDetails = ({
     clearPdfFile,
     cloudinaryUrls,
     viewFile,
+    setValidationErrorStatus
   }) => {
     // Function to calculate percentage based on CGPA
     const calculateCgpaPercentage = (cgpaObtained, cgpaTotal) => {
@@ -16,14 +18,48 @@ const CurrentEducationDetails = ({
           (parseFloat(cgpaObtained) / parseFloat(cgpaTotal)) * 100
         ).toFixed(2);
       }
-      return ""; // Return empty if no valid data
+      return ""; 
+    };
+
+    const [validationError, setValidationError] = useState("");
+
+    const handleValidatedInputChange = (e) => {
+      const { name, value } = e.target;
+
+      if (parseFloat(value) < 0) {
+        setValidationError("Negative CGPA are not allowed.");
+        setValidationErrorStatus(true);
+        return;
+      }
+  
+      handleInputChange(e);
+  
+      const cgpaObtained =
+        name === "currentCgpaObtained" ? value : formData.currentCgpaObtained;
+      const cgpaTotal =
+        name === "currentCgpaTotal" ? value : formData.currentCgpaTotal;
+  
+      if (
+        cgpaObtained &&
+        cgpaTotal &&
+        parseFloat(cgpaObtained) > parseFloat(cgpaTotal)
+      ) {
+        setValidationError("CGPA Obtained cannot exceed Total CGPA.");
+        setValidationErrorStatus(true);
+      } else {
+        setValidationError("");
+        setValidationErrorStatus(false);
+      }
     };
   
-    // Array for batch options
-    const batchOptions = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
   
-    // Array for semester options
+  
+    
+    const batchOptions = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+
     const semesterOptions = Array.from({ length: 8 }, (_, i) => i + 1);
+
+
   
     return (
       <>
@@ -90,7 +126,7 @@ const CurrentEducationDetails = ({
                 type="number"
                 name="currentCgpaObtained"
                 value={formData.currentCgpaObtained || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required
                 className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter CGPA obtained"
@@ -108,12 +144,16 @@ const CurrentEducationDetails = ({
                 type="number"
                 name="currentCgpaTotal"
                 value={formData.currentCgpaTotal || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required
                 className="block w-full bg-blue-500/50 text-white border border-gray-600 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter total CGPA"
               />
             </div>
+
+            {validationError && (
+                <p className="text-red-500 text-sm mt-1">{validationError}</p>
+              )}
   
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">

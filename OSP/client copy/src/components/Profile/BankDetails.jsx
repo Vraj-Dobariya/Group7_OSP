@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import FileUpload from "./FileUpload";
 
 const BankDetails = ({
@@ -8,7 +9,69 @@ const BankDetails = ({
     clearPdfFile,
     cloudinaryUrls,
     viewFile,
-  }) => (
+    setValidationErrorStatus
+  }) => {
+
+    const [validationError, setValidationError] = useState('');
+
+    const handleValidatedInputChange = (e) => {
+      const { name, value } = e.target;
+
+      console.log(name , value);
+     // handleInputChange(e);
+    
+      if (name === 'bankAccount') {
+        const numericOnly = value.replace(/\D/g, '');
+        const limitedLength = numericOnly.slice(0, 18);
+
+        handleInputChange({ 
+          target: { 
+            name, 
+            value: numericOnly.slice(0, 18) 
+          } 
+        });
+
+
+        if (limitedLength.length < 9) {
+          setValidationError('Bank Account Number must be at least 9 digits.');
+          setValidationErrorStatus(true);
+        } else {
+          setValidationError('');
+          setValidationErrorStatus(false);
+          //handleInputChange({ target: { name, value: limitedLength } });
+        }
+      } else if (name === 'ifscCode') {
+    
+        const numericOnly = value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 11); 
+        const limitedLength = numericOnly.slice(0, 11);
+
+        handleInputChange({ 
+          target: { 
+            name, 
+            value: numericOnly.slice(0, 11) 
+          } 
+        });
+
+        if (limitedLength.length != 11) {
+          setValidationError('IFSC code must be at 11 digits.');
+          setValidationErrorStatus(true);
+        } 
+        else 
+        {
+          setValidationError('');
+          setValidationErrorStatus(false);
+        }
+
+      } else if (['bankName', 'bankBranch'].includes(name)) {
+        const alphabetsOnly = value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
+        handleInputChange({ target: { name, value: alphabetsOnly } });
+      } else {
+        handleInputChange(e);
+      }
+    };
+    
+  
+    return(
     <>
       <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
         <h3 className="text-white font-bold">Bank Details</h3>
@@ -21,7 +84,7 @@ const BankDetails = ({
             },
             { label: "IFSC Code", name: "ifscCode", required: true },
             { label: "Bank Name", name: "bankName", required: true },
-            { label: "Bank Branch", name: "bankBranch", required: true },
+            { label: "Bank Branch", name: "bankBranch", required: true},
           ].map(({ label, name, required }) => (
             <div key={name}>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -31,12 +94,16 @@ const BankDetails = ({
                 type="text"
                 name={name}
                 value={formData[name] || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required={required}
                 className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           ))}
+
+            {validationError && (
+                <p className="text-red-500 text-sm mt-1">{validationError}</p>
+              )}
   
   
   <div className="flex">
@@ -56,6 +123,8 @@ const BankDetails = ({
       </div>
     </>
   );
+
+}
 
   
 export default BankDetails;

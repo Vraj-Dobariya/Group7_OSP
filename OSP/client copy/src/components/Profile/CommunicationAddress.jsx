@@ -1,4 +1,5 @@
 import FileUpload from "./FileUpload";
+import React, { useState } from 'react';
 
 const CommunicationAddress = ({
     formData,
@@ -8,7 +9,47 @@ const CommunicationAddress = ({
     clearPdfFile,
     cloudinaryUrls,
     viewFile,
-  }) => (
+    setValidationErrorStatus
+  }) => {
+
+
+    const [validationError, setValidationError] = useState('');
+
+    const handleValidatedInputChange = (e) => {
+      const { name, value } = e.target;
+      
+      
+      if (name === 'pin') {
+
+        const numericOnly = value.replace(/\D/g, '').slice(0, 6);
+        const limitedLength = numericOnly.slice(0, 6);
+
+        handleInputChange({ 
+          target: { 
+            name, 
+            value: numericOnly.slice(0, 6) 
+          } 
+        });
+
+        if (limitedLength.length != 6) {
+          setValidationError('PIN code must be at 6 digits.');
+          setValidationErrorStatus(true);
+        } 
+        else 
+        {
+          setValidationError('');
+          setValidationErrorStatus(false);
+        }
+        
+      }
+      else{
+        handleInputChange(e);
+      }
+
+    };
+  
+    
+    return (
     <>
       <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
         <h3 className="text-white font-semibold text-lg mb-6">
@@ -37,13 +78,17 @@ const CommunicationAddress = ({
                 type="text"
                 name={name}
                 value={formData[name] || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required={required}
                 className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           ))}
         </div>
+
+        {validationError && (
+                <p className="text-red-500 text-sm mt-1">{validationError}</p>
+              )}
   
         <div>
           <FileUpload
@@ -75,7 +120,7 @@ const CommunicationAddress = ({
   
       </div>
     </>
-  );
+  );}
 
   
 export default CommunicationAddress;
