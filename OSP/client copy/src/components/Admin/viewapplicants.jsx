@@ -12,7 +12,7 @@ const ViewApplicants = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/scholarship/${id}/applicants`,
+          `https://group7-osp.onrender.com/api/scholarship/${id}/applicants`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const ViewApplicants = () => {
   return (
     <>
       <NavbarAdmin />
-      
+
       <div className="h-screen bg-white mx-auto px-4 py-6">
         <h1 className="text-2xl font-semibold text-white mb-6 text-center">
           List of Applicants
@@ -86,16 +86,14 @@ const ViewApplicants = () => {
                       <span
                         className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
                           applicant.status === "Accepted"
-                      ? "bg-green-500 text-white"
-                      : applicant.status === "Rejected"
-                      ? "bg-red-500 text-white"
-                      : applicant.status ===
-                        "Under Review"
-                      ? "bg-yellow-300"
-                      : applicant.status ===
-                        "Documents Verified"
-                      ? "bg-orange-400"
-                      : "bg-gray-300"
+                            ? "bg-green-500 text-white"
+                            : applicant.status === "Rejected"
+                            ? "bg-red-500 text-white"
+                            : applicant.status === "Under Review"
+                            ? "bg-yellow-300"
+                            : applicant.status === "Documents Verified"
+                            ? "bg-orange-400"
+                            : "bg-gray-300"
                         }`}
                       >
                         {applicant.status}

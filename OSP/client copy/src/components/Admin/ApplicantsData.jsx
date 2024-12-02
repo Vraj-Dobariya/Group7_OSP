@@ -16,7 +16,7 @@ const ApplicantData = () => {
     const fetchApplicants = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/scholarship/getApplicantData?id=${id}&scholarship_id=${sid}`,
+          `https://group7-osp.onrender.com/api/scholarship/getApplicantData?id=${id}&scholarship_id=${sid}`,
           {
             method: "GET",
             headers: {
@@ -58,7 +58,7 @@ const ApplicantData = () => {
     const status = selectedStatus[applicantId];
     try {
       const response = await fetch(
-        `http://localhost:8080/api/scholarship/statusUpdate`,
+        `https://group7-osp.onrender.com/api/scholarship/statusUpdate`,
         {
           method: "PUT",
           headers: {

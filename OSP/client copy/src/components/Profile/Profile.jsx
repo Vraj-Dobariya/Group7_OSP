@@ -88,7 +88,7 @@ const Profile = () => {
 
     setFormData((prev) => ({ ...prev, email: Femail }));
 
-    var endpoint3 = "http://localhost:8080/api/user/getpdfurls/";
+    var endpoint3 = "https://group7-osp.onrender.com/api/user/getpdfurls/";
     endpoint3 = endpoint3 + Femail;
 
     (async () => {
@@ -136,7 +136,7 @@ const Profile = () => {
 
     //console.log("f", Femail);
 
-    const endpoint1 = "http://localhost:8080/api/user/getprofile/";
+    const endpoint1 = "https://group7-osp.onrender.com/api/user/getprofile/";
     const id2 = endpoint1 + email;
 
     //console.log(id2);
@@ -207,7 +207,7 @@ const Profile = () => {
       }
     };
 
-    const endpoint = "http://localhost:8080/api/user/getemail/";
+    const endpoint = "https://group7-osp.onrender.com/api/user/getemail/";
     const id = endpoint + email;
 
     //console.log(email);
@@ -245,7 +245,7 @@ const Profile = () => {
       const formData2 = new FormData();
       formData2.append("file", file);
 
-      const endpoint2 = `http://localhost:8080/api/user/pdf/${Femail}/${key}`;
+      const endpoint2 = `https://group7-osp.onrender.com/api/user/pdf/${Femail}/${key}`;
 
       try {
         const response = await fetch(endpoint2, {
@@ -279,7 +279,7 @@ const Profile = () => {
       [key]: "",
     }));
 
-    const endpoint = `http://localhost:8080/api/user/clearpdf/${Femail}/${key}/`;
+    const endpoint = `https://group7-osp.onrender.com/api/user/clearpdf/${Femail}/${key}/`;
 
     try {
       const response = await fetch(endpoint, {
@@ -373,13 +373,16 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/user/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://group7-osp.onrender.com/api/user/profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         //const profileData = { formData, image: preview, pdfFiles };
