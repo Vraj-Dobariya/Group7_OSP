@@ -17,12 +17,14 @@ import Profile from "./components/Profile/Profile";
 import Apply_Dashboard from "./components/Apply/Apply_Dashboard";
 import ViewScholarshipStudent from "./components/Apply/viewScholarshipStudent";
 import Scholarship from "./components/Apply/Scholarship";
+import Faqs from "./components/Faqs/faqs";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginRegister />} />
+        <Route path="/faqs" element={<Faqs />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* <Route path="/student" element={<Scholarship />} /> */}
         <Route
