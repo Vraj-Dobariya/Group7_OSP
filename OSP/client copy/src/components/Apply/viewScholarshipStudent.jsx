@@ -267,7 +267,7 @@ const ViewScholarshipStudent = () => {
                   Eligibility Criteria
                 </h3>
                 <div className="flex flex-col space-y-2">
-                  <div className="flex items-center justify-start text-white mb-2">
+                  <div className="flex items-center justify-start text-black mb-2">
                     <strong className="pr-3">Eligible Courses:</strong>
                     <div className="flex flex-wrap gap-2">
                       {eligibleCourses.length ? (
