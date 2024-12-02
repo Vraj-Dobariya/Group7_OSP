@@ -5,7 +5,8 @@ import { useContextState } from "../../context/userProvider";
 import "../../index.css";
 import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const images = ["/image1.png", "/image2.png", "/image3.png", "/image4.png"];
+import image3 from "../assets/image3.png";
+import logo from "../assets/group7.png";
 var endpoint = "http://localhost:8080";
 
 const LoginRegister = () => {
@@ -164,55 +165,61 @@ const LoginRegister = () => {
         theme="light"
         transition={Bounce}
       />
-      <div className="p-8 bg-gradient-to-br from-black via-blue-800 to-blue-600 min-h-screen flex items-center justify-center">
-        {/* <ImageCarousel images={images} /> */}
-        <div className="w-full max-w-md bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl shadow-lg p-8 border border-white/20">
-          <div className="flex items-center justify-center">
+      <div
+        className="p-8 bg-white min-h-screen flex items-center justify-center"
+        style={{
+          backgroundImage: `url(${image3})`,
+          backgroundSize: "cover", // Ensures the image fully covers the background
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+        }}
+      >
+        <div className="w-full max-w-lg bg-gradient-to-br from-blue-600/40 to-blue-600/40 rounded-xl shadow-lg p-6 border border-white/20">
+          <div className="flex items-center justify-center space-x-4">
             <img
-              src="/group1.png"
+              src={logo}
               alt="Logo"
-              className=" w-24 h-28 object-contain animate-pulse-grow"
+              className="w-20 h-20 object-contain animate-pulse-grow"
             />
-            <div className="text-7xl text-[#000080] font-extrabold drop-shadow-sm animate-fade-in">
+            <div className="text-5xl text-blue-950 font-extrabold drop-shadow-sm animate-fade-in">
               OSP
             </div>
           </div>
 
-          {/* Form Title with Animation */}
-          <h3 className="text-4xl font-bold text-white mt-2 mb-2 text-center drop-shadow-sm animate-fade-in">
+          <h3 className="text-3xl font-bold text-black mt-4 mb-6 text-center drop-shadow-sm animate-fade-in">
             {isRegistering ? "Register" : "Login"}
           </h3>
           <form
-            className="space-y-6"
+            className="space-y-4"
             onSubmit={isRegistering ? handleRegisterSubmit : handleLoginSubmit}
           >
             {isRegistering && (
               <div className="space-y-2">
-                <label className="text-white/90">Username</label>
+                <label className="text-black/90">Username</label>
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter your username"
-                  className="w-full px-4 py-2.5 bg-slate-8000 backdrop-blur-sm rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-4 py-2 bg-white backdrop-blur-sm rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-white/30"
                 />
               </div>
             )}
 
             <div className="space-y-2">
-              <label className="text-white/90">Email</label>
+              <label className="text-black/90">Email</label>
               <input
                 type="email"
                 value={email}
                 required
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-4 py-2.5 bg-slate-800 backdrop-blur-sm rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-slate-600"
+                className="w-full px-4 py-2 bg-white backdrop-blur-sm rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-slate-600"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-white/90">Password</label>
+              <label className="text-black/90">Password</label>
               <div className="relative">
                 <input
                   type={passwordVisible ? "text" : "password"}
@@ -220,15 +227,16 @@ const LoginRegister = () => {
                   required
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-2.5 bg-slate-800 backdrop-blur-sm rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  className="w-full px-4 py-2 bg-white backdrop-blur-sm rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-slate-600"
                 />
-                <span className="absolute inset-y-0 right-3 flex items-center text-white/70 cursor-pointer">
+                <span className="absolute inset-y-0 right-3 flex items-center text-black/70 cursor-pointer">
                   <span onClick={togglePasswordVisibility}>
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </span>
               </div>
             </div>
+
             {!isRegistering && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
@@ -262,13 +270,13 @@ const LoginRegister = () => {
 
             <div className="space-y-2">
               <div className="flex items-start space-x-2">
-                <span className="px-4 py-2 bg-slate-800 backdrop-blur-sm text-white rounded-lg font-bold">
+                <span className="px-4 py-2 bg-white backdrop-blur-sm text-black rounded-full font-bold">
                   {captcha}
                 </span>
                 <button
                   type="button"
                   onClick={refreshCaptcha}
-                  className="px-2 py-1 text-sm text-white bg-slate-800 backdrop-blur-sm rounded-lg hover:bg-white/20"
+                  className="px-2 py-1 text-sm text-black bg-white backdrop-blur-sm rounded-lg hover:bg-white/20"
                 >
                   Refresh
                 </button>
@@ -278,37 +286,33 @@ const LoginRegister = () => {
                   required
                   onChange={(e) => setCaptchaInput(e.target.value)}
                   placeholder="Enter the captcha"
-                  className="w-full px-4 py-2.5 bg-slate-800 backdrop-blur-sm rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-3 py-2 bg-white backdrop-blur-sm rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-white/30"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-slate-800 backdrop-blur-sm text-white font-semibold rounded-xl shadow-lg hover:bg-white/20 border border-white/20 transition-all duration-300"
+              className="w-full py-2 bg-white/40 backdrop-blur-sm text-black font-semibold rounded-lg shadow-lg hover:bg-white/10 border border-white/20 transition-all duration-300"
             >
               {isRegistering ? "Register" : "Login"}
             </button>
           </form>
 
-          <div className="flex flex-col items-center justify-center space-y-4">
+          <div className="flex items-center justify-center mt-6">
             <div
               onClick={toggleForm}
-              className="flex items-center pt-2 space-x-2 text-white font-semibold cursor-pointer hover:underline"
+              className="flex items-center space-x-2 bg-blue-800/30 rounded-full p-2 text-white font-semibold cursor-pointer hover:underline"
             >
-              <p className="text-center text-lg text-white/90">
-                {isRegistering
-                  ? "Already have an account? "
-                  : "Don't have an account? "}
-              </p>
-              <span className="text-lg">
-                {isRegistering ? " Login" : " Register"}
-              </span>
+              <span>{isRegistering ? " Login" : " Register"}</span>
             </div>
 
+            {!isRegistering ? <h2 className="text-2xl text-white"> / </h2> : ""}
             {!isRegistering && (
-              <div className="text-white font-semibold cursor-pointer hover:underline">
-                <Link to="/forgot-password"><span>Forgot/Change Password</span></Link>
+              <div className="text-white bg-blue-800/30 rounded-full p-2 font-semibold cursor-pointer hover:underline">
+                <Link to="/forgot-password">
+                  <span>Forgot/Change Password</span>
+                </Link>
               </div>
             )}
           </div>

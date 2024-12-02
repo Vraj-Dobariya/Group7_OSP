@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
 import "../../index.css";
 import { useContextState } from "../../context/userProvider";
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
+import NavbarAdmin from "./Navbar";
 
 const ViewScholarship = () => {
   const navigate = useNavigate();
@@ -80,18 +81,24 @@ const ViewScholarship = () => {
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this scholarship?")) {
-      fetch(`${baseURL}/api/scholarship/deleteScholarship/${scholarship_id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${userInfo.token}`,
-        },
-      })
-        .then(() => {
-          alert("Scholarship deleted successfully");
+      try {
+        fetch(
+          `${baseURL}/api/scholarship/deleteScholarship/${scholarship_id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
+        toast.success("Deleted Scholarship Successfully");
+        setTimeout(() => {
           navigate("/admin");
-        })
-        .catch((error) => console.error("Error deleting scholarship:", error));
+        }, 1500);
+      } catch (error) {
+        toast.error("error deleting the scholarship");
+      }
     }
   };
 
@@ -100,49 +107,61 @@ const ViewScholarship = () => {
 
   return scholarshipName ? (
     <>
-      <Navbar />
-      <div className="bg-slate-600 min-h-screen p-8 flex items-center justify-center">
-        <div className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-3xl p-6 shadow-xl w-full max-w-3xl">
-          <div className="p-8 bg-blue-600 rounded-lg shadow-lg">
-            <h1 className="text-3xl font-semibold text-white mb-6 text-center">
-              <div className="bg-white/10 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20">
+      <NavbarAdmin />
+      <ToastContainer
+        position="top-right"
+        limit={2}
+        newestOnTop={true}
+        autoClose={1000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <div className="min-h-screen p-8 flex items-center justify-center">
+        <div className="bg-white rounded-3xl p-6 w-full max-w-3xl">
+          <div className="p-8 bg-white rounded-lg shadow-lg">
+            <h1 className="text-3xl font-semibold mb-6 text-center">
+              <div className="bg-[#0076FF] text-white backdrop-blur-sm shadow-lg px-5 py-2.5 rounded-xl font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20">
                 {scholarshipName}
               </div>
             </h1>
             <div className="space-y-4">
-              <div className="flex items-center justify-start text-white">
+              <div className="flex items-center justify-start">
                 <strong className="pr-3">Amount:</strong>
-                <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                <div className=" bg-[#0076FF] text-white backdrop-blur-sm py-1 px-3 rounded-lg">
                   ₹ {amount}
                 </div>
               </div>
-              <div className="flex items-center justify-start text-white">
+              <div className="flex items-center justify-start">
                 <strong className="pr-3">End Date:</strong>
-                <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                <div className=" bg-[#0076FF] text-white backdrop-blur-sm py-1 px-3 rounded-lg">
                   {new Date(endDate).toLocaleDateString()}
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
-                  Description
-                </h3>
-                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <h3 className="text-xl font-medium mb-2">Description</h3>
+                <pre className=" bg-[#0076FF] text-white backdrop-blur-sm p-4 rounded-lg">
                   {description}
                 </pre>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
+                <h3 className="text-xl font-medium mb-2">
                   Eligibility Criteria
                 </h3>
                 <div className="flex flex-col space-y-2">
-                  <div className="flex items-center justify-start text-white mb-2">
+                  <div className="flex items-center justify-start mb-2">
                     <strong className="pr-3">Eligible Courses:</strong>
                     <div className="flex flex-wrap gap-2">
                       {eligibleCourses.length ? (
                         eligibleCourses.map((doc, index) => (
                           <div
                             key={index}
-                            className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg"
+                            className=" bg-[#0076FF] text-white backdrop-blur-sm py-1 px-3 rounded-lg"
                           >
                             {doc}
                           </div>
@@ -152,44 +171,42 @@ const ViewScholarship = () => {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center justify-start text-white">
+                  <div className="flex items-center justify-start">
                     <strong className="pr-3">Minimum Percentage (CPI):</strong>
-                    <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                    <div className=" bg-[#0076FF] text-white backdrop-blur-sm py-1 px-3 rounded-lg">
                       {minPercentage}
                     </div>
                   </div>
-                  <div className="flex items-center justify-start text-white">
+                  <div className="flex items-center justify-start">
                     <strong className="pr-3">Annual Family Income:</strong>
                     <i className="text-gray-300 pr-3"> (less than) </i>
-                    <div className=" bg-white/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                    <div className=" bg-[#0076FF] text-white backdrop-blur-sm py-1 px-3 rounded-lg">
                       ₹ {annualFamilyIncome}
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
-                  Benefits
-                </h3>
-                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <h3 className="text-xl font-medium mb-2">Benefits</h3>
+                <pre className=" bg-[#0076FF] text-white backdrop-blur-sm p-4 rounded-lg">
                   {benefits}
                 </pre>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">Note</h3>
-                <pre className=" bg-white/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <h3 className="text-xl font-medium mb-2">Note</h3>
+                <pre className=" bg-[#0076FF] text-white backdrop-blur-sm p-4 rounded-lg">
                   {note}
                 </pre>
               </div>
               <div className="flex justify-center mt-6 gap-4">
                 <button
-                  className="bg-[#4A5F83] hover: bg-white/10 backdrop-blur-sm text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
+                  className="bg-[#0076FF] text-white text-white backdrop-blur-sm font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
                   onClick={handleEdit}
                 >
                   Edit
                 </button>
                 <button
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
+                  className="bg-red-600 text-white hover:bg-red-700 font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
                   onClick={handleDelete}
                 >
                   Delete

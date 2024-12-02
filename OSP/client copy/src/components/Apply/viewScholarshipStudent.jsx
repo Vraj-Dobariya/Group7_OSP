@@ -2,7 +2,7 @@ import { useState, useEffect, Children } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
 import NavbarStudent from "../Navbar/Navbar";
-import { ToastContainer, toast, Slide,Bounce } from "react-toastify";
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
 const ViewScholarshipStudent = () => {
@@ -23,9 +23,6 @@ const ViewScholarshipStudent = () => {
   const { baseURL } = useContextState();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [issaved, setIsSaved] = useState(false);
-
-
-  
 
   useEffect(() => {
     const fetchScholarship = async () => {
@@ -57,7 +54,7 @@ const ViewScholarshipStudent = () => {
 
       const endpoint = "http://localhost:8080/api/user/getemail/";
       const id = endpoint + userInfo.email;
-  
+
       try {
         const response = await fetch(id, {
           method: "GET",
@@ -65,11 +62,10 @@ const ViewScholarshipStudent = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.ok) {
           //console.log("Email exists in the database.");
           setIsSaved(true);
-
         } else if (response.status === 404) {
           //console.log("Email not found in the database.");
           setIsSaved(false);
@@ -85,7 +81,8 @@ const ViewScholarshipStudent = () => {
         return;
       }
 
-      const endpoint3 = "http://localhost:8080/api/user/getpdfurls/" + userInfo.email;
+      const endpoint3 =
+        "http://localhost:8080/api/user/getpdfurls/" + userInfo.email;
 
       try {
         // Check if all required document URLs are present
@@ -95,10 +92,10 @@ const ViewScholarshipStudent = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.ok) {
           const data = await response.json();
-  
+
           if (
             data.incomeCertificate &&
             data.bankPassbook &&
@@ -112,7 +109,7 @@ const ViewScholarshipStudent = () => {
             setIsSaved(true); // All documents are present, mark as saved
           } else {
             // console.log("Missing one or more required documents.");
-            setIsSaved(false); 
+            setIsSaved(false);
           }
         } else {
           // console.error("Error fetching document URLs.");
@@ -122,8 +119,7 @@ const ViewScholarshipStudent = () => {
         console.error("Can't find uploaded documents:", error);
         setIsSaved(false);
       }
-
-  };
+    };
 
     fetchScholarship();
   }, [scholarship_id]);
@@ -140,30 +136,20 @@ const ViewScholarshipStudent = () => {
     return `${year}-${month}-${day}`;
   };
   const handleApply = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-if (!issaved) {
-  alert("Please complete your profile section and save it.");
-  return;
-}
-
-
+    if (!issaved) {
+      alert("Please complete your profile section and save it.");
+      return;
+    }
 
     const confirmSave = window.confirm(
       "Are you sure you want to Apply for this Scholarship ?"
     );
     if (!confirmSave) {
-      return; 
+      return;
     }
-
-
-    
-
-
-
-
-
 
     try {
       const response1 = await fetch(
@@ -209,15 +195,16 @@ if (!issaved) {
             const data = await response.json();
 
             if (data.errCode === 23505) {
-              alert("You have already applied for this scholarship\n");
+              toast.warning("You have already applied for this scholarship\n");
               throw new Error("Applied for this scholarship already");
-              navigate(`/student/scholarship`);
             }
           }
           throw new Error("Failed to fetch data");
         }
-
-        navigate(`/student/scholarship`);
+        toast.success("Applied for scholarship Successfully\n");
+        setTimeout(() => {
+          navigate(`/student/scholarship`);
+        }, 1500);
       } catch (err) {
         console.error("Error fetching scholarship data:", err);
       }
@@ -231,51 +218,52 @@ if (!issaved) {
 
   return scholarshipName ? (
     <>
-<ToastContainer
-position="top-right"
-autoClose={3000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-transition= {Bounce}
-/>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        limit={2}
+        newestOnTop={true}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <NavbarStudent />
-      <div className="bg-gradient-to-br rounded-lg from-black via-blue-800 to-blue-600 min-h-screen p-8 flex items-center justify-center">
-        <div className="p-8 rounded-lg bg-blue-600 w-full max-w-3xl">
-          <div className="p-8 bg-blue-900/50 rounded-lg shadow-lg">
-            <h1 className="text-3xl font-semibold text-white mb-6 text-center">
-              <div className="bg-blue-500/50 backdrop-blur-sm hover:bg-white/20 shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20">
+      <div className="bg-gradient-to-br rounded-lg min-h-screen p-8 flex items-center justify-center">
+        <div className="p-8 rounded-lg bg-white w-full max-w-3xl">
+          <div className="p-8 bg-white rounded-lg shadow-lg">
+            <h1 className="text-3xl font-semibold text-black mb-6 text-center">
+              <div className="bg-[#0076FF] backdrop-blur-sm  shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20">
                 {scholarshipName}
               </div>
             </h1>
-            <div className="space-y-4">
-              <div className="flex items-center justify-start text-white">
+            <div className="space-y-4 text-black">
+              <div className="flex items-center justify-start ">
                 <strong className="pr-3">Amount:</strong>
-                <div className=" bg-blue-100/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                <div className=" bg-[#0076FF] backdrop-blur-sm text-white py-1 px-3 rounded-lg">
                   ₹ {amount}
                 </div>
               </div>
-              <div className="flex items-center justify-start text-white">
+              <div className="flex items-center justify-start ">
                 <strong className="pr-3">End Date:</strong>
-                <div className=" bg-blue-100/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                <div className=" bg-[#0076FF] backdrop-blur-sm text-white py-1 px-3 rounded-lg">
                   {new Date(endDate).toLocaleDateString()}
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
+                <h3 className="text-xl font-medium mb-2">
                   Description
                 </h3>
-                <pre className=" bg-blue-100/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <pre className=" bg-[#0076FF] backdrop-blur-sm text-white p-4 rounded-lg">
                   {description}
                 </pre>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
+                <h3 className="text-xl font-medium  mb-2">
                   Eligibility Criteria
                 </h3>
                 <div className="flex flex-col space-y-2">
@@ -286,7 +274,7 @@ transition= {Bounce}
                         eligibleCourses.map((doc, index) => (
                           <div
                             key={index}
-                            className=" bg-blue-100/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg"
+                            className=" bg-[#0076FF] backdrop-blur-sm py-1 px-3 rounded-lg"
                           >
                             {doc}
                           </div>
@@ -296,32 +284,32 @@ transition= {Bounce}
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center justify-start text-white">
+                  <div className="flex items-center justify-start ">
                     <strong className="pr-3">Minimum Percentage (CPI):</strong>
-                    <div className=" bg-blue-100/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                    <div className=" bg-[#0076FF] backdrop-blur-sm text-white py-1 px-3 rounded-lg">
                       {minPercentage}
                     </div>
                   </div>
-                  <div className="flex items-center justify-start text-white">
+                  <div className="flex items-center justify-start ">
                     <strong className="pr-3">Annual Family Income:</strong>
                     <i className="text-gray-300 pr-3"> (less than) </i>
-                    <div className=" bg-blue-100/10 backdrop-blur-sm text-white py-1 px-3 rounded-lg">
+                    <div className=" bg-[#0076FF] backdrop-blur-sm text-white py-1 px-3 rounded-lg">
                       ₹ {annualFamilyIncome}
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">
+                <h3 className="text-xl font-medium  mb-2">
                   Benefits
                 </h3>
-                <pre className=" bg-blue-100/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <pre className=" bg-[#0076FF] backdrop-blur-sm p-4 rounded-lg">
                   {benefits}
                 </pre>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-white mb-2">Note</h3>
-                <pre className=" bg-blue-100/10 backdrop-blur-sm text-white p-4 rounded-lg">
+                <h3 className="text-xl font-medium mb-2">Note</h3>
+                <pre className=" bg-[#0076FF] backdrop-blur-sm text-white p-4 rounded-lg">
                   {note}
                 </pre>
               </div>

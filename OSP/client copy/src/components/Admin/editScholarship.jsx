@@ -2,7 +2,9 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useContextState } from "../../context/userProvider";
 import NavbarAdmin from "./Navbar";
-import "../../index.css"
+import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
+
+import "../../index.css";
 const AdminEditScholarship = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -151,13 +153,16 @@ const AdminEditScholarship = () => {
 
       const data = await response.json();
       if (response.ok) {
-        navigate(`/admin/viewscholarship/${data.scholarship_id}`);
+        toast.success("Edited Scholarship Successfully");
+        setTimeout(() => {
+          navigate(`/admin/viewscholarship/${data.scholarship_id}`);
+        }, 1500);
       } else {
-        alert("Submission failed: " + data.message);
+        toast.error("Submission failed: " + data.message);
       }
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("An error occurred while submitting.");
+      // console.error("Submission error:", error);
+      toast.error("An error occurred while submitting.");
     }
   };
 
@@ -179,9 +184,23 @@ const AdminEditScholarship = () => {
   return (
     <>
       <NavbarAdmin />
-      <div className="p-8 bg-slate-600 min-h-screen flex items-center justify-center">
-        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 shadow-xl w-full max-w-4xl">
-          <h1 className="text-3xl font-bold text-white mb-8 text-center drop-shadow-lg">
+      <ToastContainer
+        position="top-right"
+        limit={2}
+        newestOnTop={true}
+        autoClose={1000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <div className="p-8 min-h-screen flex items-center justify-center">
+        <div className="bg-white rounded-3xl p-8 shadow-xl w-full max-w-4xl">
+          <h1 className="text-3xl font-bold text-black mb-8 text-center drop-shadow-lg">
             Edit Scholarship
           </h1>
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -189,8 +208,8 @@ const AdminEditScholarship = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Scholarship Name */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
-                  Scholarship Name
+                <label className="text-black font-medium mb-2 required">
+                  Scholarship Name<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -198,14 +217,14 @@ const AdminEditScholarship = () => {
                   value={formData.scholarshipName}
                   onChange={handleChange}
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               {/* Amount */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
-                  Amount
+                <label className="text-black font-medium mb-2 required">
+                  Amount<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -219,14 +238,14 @@ const AdminEditScholarship = () => {
                   }}
                   min="0"
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               {/* End Date */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
-                  End Date
+                <label className="text-black font-medium mb-2 required">
+                  End Date<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -235,34 +254,34 @@ const AdminEditScholarship = () => {
                   onChange={handleChange}
                   min={getTomorrowDate()}
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               {/* Description */}
               <div className="col-span-1 md:col-span-2 flex flex-col">
-                <label className="text-white font-medium mb-2 required">
-                  Description
+                <label className="text-black font-medium mb-2 required">
+                  Description<span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
             </div>
 
-            <h3 className="text-xl font-medium text-white">
-              Eligibility Criteria
+            <h3 className="text-xl font-medium text-black">
+              Eligibility Criteria<span className="text-red-500">*</span>
             </h3>
 
             {/* Eligibility Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Education Level */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
+                <label className="text-black font-medium mb-2 required">
                   Education Level
                 </label>
                 <select
@@ -270,7 +289,7 @@ const AdminEditScholarship = () => {
                   value={formData.educationLevel}
                   onChange={handleChange}
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 >
                   <option value="" disabled>
                     Select Education Level
@@ -285,14 +304,14 @@ const AdminEditScholarship = () => {
 
               {/* Eligible Courses */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
+                <label className="text-black font-medium mb-2 required">
                   Select Eligible Courses
                 </label>
                 <select
                   onChange={handleCourseChange}
                   value=""
                   disabled={!formData.educationLevel}
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 >
                   <option value="" disabled>
                     {formData.educationLevel
@@ -310,7 +329,7 @@ const AdminEditScholarship = () => {
                     formData.eligibleCourses.map((course) => (
                       <span
                         key={course}
-                        className="bg-[#4A5F83] text-white py-1 px-3 rounded-lg shadow-md flex items-center gap-2"
+                        className="bg-[#0076FF] text-black py-1 px-3 rounded-lg shadow-md flex items-center gap-2"
                       >
                         {course}
                         <button
@@ -327,7 +346,7 @@ const AdminEditScholarship = () => {
 
               {/* Minimum Percentage */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
+                <label className="text-black font-medium mb-2 required">
                   Minimum Percentage (CPI)
                 </label>
                 <input
@@ -344,13 +363,13 @@ const AdminEditScholarship = () => {
                   max="10"
                   step="0.01"
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               {/* Annual Family Income */}
               <div className="flex flex-col">
-                <label className="text-white font-medium mb-2 required">
+                <label className="text-black font-medium mb-2 required">
                   Annual Family Income
                 </label>
                 <input
@@ -365,30 +384,30 @@ const AdminEditScholarship = () => {
                   }}
                   min="0"
                   required
-                  className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
             </div>
 
             {/* Benefits */}
             <div className="flex flex-col">
-              <label className="text-white font-medium mb-2">Benefits</label>
+              <label className="text-black font-medium mb-2">Benefits</label>
               <textarea
                 name="benefits"
                 value={formData.benefits}
                 onChange={handleChange}
-                className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
 
             {/* Note */}
             <div className="flex flex-col">
-              <label className="text-white font-medium mb-2">Note</label>
+              <label className="text-black font-medium mb-2">Note</label>
               <textarea
                 name="note"
                 value={formData.note}
                 onChange={handleChange}
-                className="bg-white/10 backdrop-blur-sm text-white p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="bg-white backdrop-blur-sm text-black p-3 rounded-lg shadow-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
 
@@ -396,7 +415,7 @@ const AdminEditScholarship = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-[#4A5F83] hover:bg-white/10 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300"
+                className="bg-green-500 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-300"
               >
                 Save
               </button>

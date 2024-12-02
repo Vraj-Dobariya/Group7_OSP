@@ -9,7 +9,7 @@ const handelemail = async (req, res) => {
   console.log(email);
 
   try {
-    const query = "SELECT * FROM osp.applicants WHERE email = $1";
+    const query = "SELECT osp.applicants.email FROM osp.applicants WHERE email = $1";
     const result = await pool.query(query, [email]);
 
     if (result.rows.length > 0) {

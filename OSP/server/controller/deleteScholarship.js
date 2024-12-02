@@ -16,12 +16,14 @@ const deleteScholarship = async (req, res) => {
 
   try {
     // Delete query for Scholarships table
+    const deleteQuery1 = `DELETE FROM osp.applied_in WHERE scholarship_id = ${scholarship_id}`;
     const deleteQuery = `
       DELETE FROM osp.Scholarships
       WHERE scholarship_id = ${scholarship_id}
     `;
 
     // Execute the delete query
+    await pool.query(deleteQuery1);
     const result = await pool.query(deleteQuery);
 
     if (result.rowCount === 0) {
