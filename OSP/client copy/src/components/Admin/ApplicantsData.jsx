@@ -58,7 +58,7 @@ const ApplicantData = () => {
     const status = selectedStatus[applicantId];
     try {
       const response = await fetch(
-        `https://group7-osp-forked.onrender.com/api/scholarship/statusUpdate`,
+        `https://group7-osp.onrender.com/api/scholarship/statusUpdate`,
         {
           method: "PUT",
           headers: {
