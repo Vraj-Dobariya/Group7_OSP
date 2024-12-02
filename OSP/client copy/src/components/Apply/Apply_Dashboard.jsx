@@ -11,7 +11,9 @@ const Apply_Dashboard = () => {
     data: scholarships,
     ispending,
     error,
-  } = useFetch("http://localhost:8080/api/user/getlistforApplyscholarships");
+  } = useFetch(
+    "https://group7-osp.onrender.com/api/user/getlistforApplyscholarships"
+  );
   const [showOptions, setShowOptions] = useState(null);
 
   const handleViewScholarship = (scholarship_id) => {
@@ -78,7 +80,6 @@ const Apply_Dashboard = () => {
 
                     <button
                       className="bg-[#0076FF] backdrop-blur-sm  shadow-lg px-5 py-2.5 rounded-xl text-white font-medium transition-all duration-300 hover:-translate-y-px hover:shadow-xl border border-white/20"
-
                       onClick={() =>
                         handleViewScholarship(scholarship.scholarship_id)
                       }

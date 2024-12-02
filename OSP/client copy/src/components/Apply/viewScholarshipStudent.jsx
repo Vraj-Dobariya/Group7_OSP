@@ -28,7 +28,7 @@ const ViewScholarshipStudent = () => {
     const fetchScholarship = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/user/viewscholarship/${scholarship_id}`
+          `https://group7-osp.onrender.com/api/user/viewscholarship/${scholarship_id}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -52,7 +52,7 @@ const ViewScholarshipStudent = () => {
         setLoading(false);
       }
 
-      const endpoint = "http://localhost:8080/api/user/getemail/";
+      const endpoint = "https://group7-osp.onrender.com/api/user/getemail/";
       const id = endpoint + userInfo.email;
 
       try {
@@ -82,7 +82,7 @@ const ViewScholarshipStudent = () => {
       }
 
       const endpoint3 =
-        "http://localhost:8080/api/user/getpdfurls/" + userInfo.email;
+        "https://group7-osp.onrender.com/api/user/getpdfurls/" + userInfo.email;
 
       try {
         // Check if all required document URLs are present
@@ -153,7 +153,7 @@ const ViewScholarshipStudent = () => {
 
     try {
       const response1 = await fetch(
-        `http://localhost:8080/api/user/getApplicantId`,
+        `https://group7-osp.onrender.com/api/user/getApplicantId`,
         {
           method: "GET",
           headers: {
@@ -180,7 +180,7 @@ const ViewScholarshipStudent = () => {
       const jsoneddata = JSON.stringify(applieddata);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/user/applyForScholarship/${scholarship_id}`,
+          `https://group7-osp.onrender.com/api/user/applyForScholarship/${scholarship_id}`,
           {
             method: "POST",
             headers: {
@@ -255,9 +255,7 @@ const ViewScholarshipStudent = () => {
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium mb-2">
-                  Description
-                </h3>
+                <h3 className="text-xl font-medium mb-2">Description</h3>
                 <pre className=" bg-[#0076FF] backdrop-blur-sm text-white p-4 rounded-lg">
                   {description}
                 </pre>
@@ -300,9 +298,7 @@ const ViewScholarshipStudent = () => {
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-medium  mb-2">
-                  Benefits
-                </h3>
+                <h3 className="text-xl font-medium  mb-2">Benefits</h3>
                 <pre className=" bg-[#0076FF] backdrop-blur-sm p-4 rounded-lg">
                   {benefits}
                 </pre>

@@ -18,7 +18,7 @@ const ScholarshipList = () => {
       console.log(userInfo);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/user/getAppliedScholarships`,
+          `https://group7-osp.onrender.com/api/user/getAppliedScholarships`,
           {
             method: "GET",
             headers: {
@@ -45,10 +45,7 @@ const ScholarshipList = () => {
   }, [id, userInfo.token]);
 
   return (
-    <div
-      className="h-screen  mx-auto px-4 py-6 bg-white "
-     
-    >
+    <div className="h-screen  mx-auto px-4 py-6 bg-white ">
       {loading ? (
         <p>Loading scholarships...</p>
       ) : scholarships.length === 0 ? (
@@ -80,7 +77,6 @@ const ScholarshipList = () => {
               <th className="py-3 px-4 border-b border-blue-800 text-left text-sm font-medium">
                 Status
               </th>
-           
             </tr>
           </thead>
           <tbody>
@@ -109,7 +105,6 @@ const ScholarshipList = () => {
                 <td className="py-3 px-4 border-b border-blue-800 text-sm text-white">
                   {scholarship.status}
                 </td>
-                
               </tr>
             ))}
           </tbody>
