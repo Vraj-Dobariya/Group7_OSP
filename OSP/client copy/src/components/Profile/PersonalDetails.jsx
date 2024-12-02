@@ -1,6 +1,51 @@
-import FileUpload from "./FileUpload";
+import React from 'react';
 
-const PersonalDetails = ({ formData, handleInputChange }) => (
+const PersonalDetails = ({ formData, handleInputChange }) => {
+
+  const handleValidatedInputChange = (e) => {
+    const { name, value } = e.target;
+
+    
+    const alphabetsOnlyFields = [
+      'firstname', 
+      'middlename', 
+      'lastname', 
+      'category', 
+      'parentName', 
+      'occupation'
+    ];
+
+    
+    const numericOnlyFields = [
+      'mobileNumber', 
+      'parentMobile', 
+      'incomelimit'
+    ];
+
+    if (alphabetsOnlyFields.includes(name)) {
+      
+      const alphabetsOnly = value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
+      handleInputChange({ target: { name, value: alphabetsOnly } });
+    } else if (numericOnlyFields.includes(name)) {
+      
+      const numericOnly = value.replace(/\D/g, '');
+      
+      if (['mobileNumber', 'parentMobile'].includes(name)) {
+        handleInputChange({ 
+          target: { 
+            name, 
+            value: numericOnly.slice(0, 10) 
+          } 
+        });
+      } else {
+        handleInputChange({ target: { name, value: numericOnly } });
+      }
+    } else {
+      handleInputChange(e);
+    }
+  };
+
+  return (
     <div className="max-w-4xl mx-auto p-6 bg-blue-950 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold text-white mb-6">Personal Details</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -16,7 +61,7 @@ const PersonalDetails = ({ formData, handleInputChange }) => (
             options: ["Male", "Female", "Other"],
             required: true,
           },
-          { label: "Category", name: "category", required: true },
+          { label: "Category", name: "category", required: true},
           { label: "Mobile Number", name: "mobileNumber", required: true },
           { label: "Parent's Full Name", name: "parentName" },
           { label: "Occupation", name: "occupation" },
@@ -47,18 +92,15 @@ const PersonalDetails = ({ formData, handleInputChange }) => (
                 type={type}
                 name={name}
                 value={formData[name] || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required={required}
                 pattern={pattern?.source}
                 className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
             )}
-  
           </div>
         ))}
-  
-          
-        {/* Email Field */}
+
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-300 mb-1">
             Email
@@ -70,10 +112,9 @@ const PersonalDetails = ({ formData, handleInputChange }) => (
             className="block w-full bg-blue-500/50 text-gray-400 border border-gray-700 rounded-lg p-2.5 cursor-not-allowed"
           />
         </div>
-     
       </div>
     </div>
   );
-  
-  
+};
+
 export default PersonalDetails;

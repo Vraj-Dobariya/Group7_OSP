@@ -72,6 +72,15 @@ const Profile = () => {
     currentSemester: "",
   });
 
+  const [class10ValidationError, setClass10ValidationError] = useState(false);
+  const [class12ValidationError, setClass12ValidationError] = useState(false);
+  const [educationdetailserror, setEducationdetailserror] = useState(false);
+  const [Academicdetailserror, setAcademicdetailserror] = useState(false);
+  const [Bankdetailserror, setBankdetailserror] = useState(false);
+  const [communicationAddress, setcommunicationAddress] = useState(false);
+
+
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -315,6 +324,41 @@ const Profile = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+
+
+    if (class10ValidationError) {
+      alert("Please correct the errors in Class 10 details before saving.");
+      return false;
+    }
+
+    if (class12ValidationError) {
+      alert("Please correct the errors in Class 12 details before saving.");
+      return false;
+    }
+
+    if (educationdetailserror) {
+      alert("Please correct the Current Education Details before saving.");
+      return false;
+    }
+
+    if(Academicdetailserror)
+    {
+      alert("Please correct the Academic details error before saving.");
+      return false;
+    }
+
+    if(Bankdetailserror)
+    {
+      alert("Please correct the Bank details error before saving.");
+      return false;
+    }
+
+    if(communicationAddress)
+    {
+      alert("Please correct the Communication Address error details before saving.");
+      return false;
+    }
+
    const requiredDocs = [
       "incomeCertificate",
       "bankPassbook",
@@ -385,7 +429,7 @@ const Profile = () => {
                 clearPdfFile={clearPdfFile}
                 cloudinaryUrls = {cloudinaryUrls}
                 viewFile = {viewFile}
-
+                setValidationErrorStatus={setcommunicationAddress}
               />
               <BankDetails
                 formData={formData}
@@ -395,6 +439,7 @@ const Profile = () => {
                 clearPdfFile={clearPdfFile}
                 cloudinaryUrls = {cloudinaryUrls}
                 viewFile = {viewFile}
+                setValidationErrorStatus={setBankdetailserror}
               />
               <CurrentAcademicDetails
                 formData={formData}
@@ -404,6 +449,8 @@ const Profile = () => {
                 clearPdfFile={clearPdfFile}
                 cloudinaryUrls = {cloudinaryUrls}
                 viewFile = {viewFile}
+                setValidationErrorStatus={setAcademicdetailserror}
+
               />
               <Class10Details
                 formData={formData}
@@ -413,6 +460,7 @@ const Profile = () => {
                 clearPdfFile={clearPdfFile}
                 cloudinaryUrls = {cloudinaryUrls}
                 viewFile = {viewFile}
+                setValidationErrorStatus={setClass10ValidationError}
               />
               <Class12Details
                 formData={formData}
@@ -422,6 +470,7 @@ const Profile = () => {
                 clearPdfFile={clearPdfFile}
                 cloudinaryUrls = {cloudinaryUrls}
                 viewFile = {viewFile}
+                setValidationErrorStatus={setClass12ValidationError}
               />
 
 
@@ -433,6 +482,7 @@ const Profile = () => {
             clearPdfFile={clearPdfFile}
             cloudinaryUrls = {cloudinaryUrls}
             viewFile = {viewFile}
+            setValidationErrorStatus={setEducationdetailserror}
           />
         </div>
 

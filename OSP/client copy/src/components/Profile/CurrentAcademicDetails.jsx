@@ -1,4 +1,5 @@
 import FileUpload from "./FileUpload";
+import React, { useState } from "react";
 
 const CurrentAcademicDetails = ({
     formData,
@@ -8,11 +9,30 @@ const CurrentAcademicDetails = ({
     clearPdfFile,
     cloudinaryUrls,
     viewFile,
+    setValidationErrorStatus
   }) => {
     const calculateTotalFees = () => {
       const tuitionFees = parseFloat(formData.tuitionFees) || 0;
       const nonTuitionFees = parseFloat(formData.nonTuitionFees) || 0;
       return tuitionFees + nonTuitionFees;
+    };
+
+    const [validationError, setValidationError] = useState("");
+
+    const handleValidatedInputChange = (e) => {
+      const { name, value } = e.target;
+
+      if (parseFloat(value) < 0) {
+        setValidationError("Negative Fees are not allowed.");
+        setValidationErrorStatus(true);
+        return;
+      }
+      else
+      {
+        setValidationError("");
+        setValidationErrorStatus(false);
+      }
+      handleInputChange(e);
     };
   
     return (
@@ -87,7 +107,7 @@ const CurrentAcademicDetails = ({
                 type="number"
                 name={name}
                 value={formData[name] || ""}
-                onChange={handleInputChange}
+                onChange={handleValidatedInputChange}
                 required={required}
                 className="block w-full bg-blue-500/50 text-gray-300 border border-gray-700 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               />
@@ -106,6 +126,10 @@ const CurrentAcademicDetails = ({
               className="block w-full bg-blue-500/50 text-gray-400 border border-gray-700 rounded-lg p-2.5 cursor-not-allowed"
             />
           </div>
+
+          {validationError && (
+                <p className="text-red-500 text-sm mt-1">{validationError}</p>
+              )}
   
           <div className="md:col-span-2">
             <FileUpload
