@@ -5,8 +5,8 @@ import { useContextState } from "../../context/userProvider";
 import "../../index.css";
 import { ToastContainer, toast, Slide, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import image3 from "../assets/image3.png";
-import logo from "../assets/group7.png";
+import image3 from "./image3.png";
+import logo from "./group7.png";
 var endpoint = "https://group7-osp.onrender.com";
 
 const LoginRegister = () => {
