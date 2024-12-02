@@ -129,9 +129,11 @@ const Class10Details = ({
                 formData.class10TotalMarks
               )}
               readOnly
-              className="block w-full bg-blue-950 text-gray-400 border border-gray-600 rounded-lg p-3 cursor-not-allowed"
+              className="block w-full bg-white text-gray-400 border border-gray-600 rounded-lg p-3 cursor-not-allowed"
             />
           </div>
+          
+
 
           <div className="flex">
             <FileUpload

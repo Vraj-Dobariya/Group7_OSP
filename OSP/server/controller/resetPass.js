@@ -6,8 +6,8 @@ var transport = nodemailer.createTransport({
   secure: true,
   port: 465,
   auth: {
-    user: "seproject1705@gmail.com",
-    pass: "hhcz hmnw zbhm fazj",
+    user: process.env.user,
+    pass: process.env.pass,
   },
 });
 const generateOTP = () => {
@@ -29,7 +29,7 @@ const emailSender = async (req, res) => {
     const otp = generateOTP();
     const salt = await bcrypt.genSalt(10);
     const hashedOTP = await bcrypt.hash(otp, salt);
-    
+
     await pool.query(
       "INSERT INTO osp.forgot_pass (email, otp, created_at) VALUES ($1, $2, NOW()) ON CONFLICT (email) DO UPDATE SET otp = $2, created_at = NOW()",
       [email, hashedOTP]
@@ -37,8 +37,8 @@ const emailSender = async (req, res) => {
     // Send the OTP via email
     try {
       const mailOptions = {
-        from: "<no-reply>osp_password_reset",  
-        to: email, 
+        from: "<no-reply>osp_password_reset",
+        to: email,
         subject: "Your OTP for Password Reset",
         text: `Your OTP for password reset is: ${otp}`,
         html: `<!DOCTYPE html>
@@ -66,7 +66,7 @@ const emailSender = async (req, res) => {
     <p>This is an automated message. Please do not reply to this email.</p>
   </div>
 </body>
-</html>`, 
+</html>`,
       };
       const info = await transport.sendMail(mailOptions);
       console.log("Email sent: %s", info.messageId);
@@ -101,10 +101,10 @@ const validateOTP = async (req, res) => {
     const currentTime = new Date();
     const otpTime = new Date(created_at);
     const timeDifference = currentTime - otpTime;
-    if (timeDifference > 600000) {
-      // 10 minutes in milliseconds
-      return res.status(400).json({ valid: false, message: "OTP has expired" });
-    }
+    // if (timeDifference > 600000) {
+    //   // 10 minutes in milliseconds
+    //   return res.status(400).json({ valid: false, message: "OTP has expired" });
+    // }
     const isMatch = bcrypt.compareSync(otp, storedOTP);
     // console.log(storedOTP);
     // console.log(otp);
@@ -147,12 +147,10 @@ const setPassword = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
-   
-    
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-   
-    
+
     await pool.query("UPDATE osp.users SET password = $1 WHERE email = $2", [
       hashedPassword,
       email,

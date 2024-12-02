@@ -9,7 +9,7 @@ const FileUpload = ({
   viewFile,
 }) => (
   <div className="space-y-2">
-    <label className="text-sm font-medium text-white">{label}</label>
+    <label className="text-sm font-medium text-black">{label}</label>
 
     <div className="flex items-center justify-center gap-4">
       {/* Upload Button */}
