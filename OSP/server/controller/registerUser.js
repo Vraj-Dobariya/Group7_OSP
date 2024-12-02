@@ -2,22 +2,16 @@
 const generateToken = require("../config/generateToken");
 const bcrypt = require("bcryptjs");
 const pool = require("../config/db");
-const cloudinary = require("./cloud");
+
 
 const registerUser = async (req, res) => {
 
 
     console.log("Reached registerUser")
-  var { username, email, password, preview ,role} = req.body;
+  var { username, email, password} = req.body;
 
   try {
 
-//     if(preview){
-//     pic = await cloudinary.uploader.upload(preview, {
-//       folder: "/user_DP",
-//     });
-//   }
- 
     if (!username || !email || !password) {
       res.status(400).send(JSON.stringify("Please Input all the Feilds"));
       console.error("Please Input all the Feilds");
@@ -42,17 +36,12 @@ const registerUser = async (req, res) => {
     password = await bcrypt.hash(password, salt);
 
     try {
-      if (preview && pic) {
-        await pool.query(
-          "insert into osp.users (username, email, password,pic,role) values  ($1,$2,$3,$4,$5)",
-          [username, email, password, pic.url ,role]
-        );
-      } else {
+      
         await pool.query(
           "insert into osp.users (username, email, password ,role) values  ($1,$2,$3,$4)",
-          [username, email, password,role]
+          [username, email, password,"student"]
         );
-      }
+      
 
       const user = await pool.query(
         `select * from osp.users where username='${username}'`
@@ -69,7 +58,7 @@ const registerUser = async (req, res) => {
       });
     } catch (error) {
       console.log(error);
-      // console.log("this");
+     
     }
 
 } catch (err) {
