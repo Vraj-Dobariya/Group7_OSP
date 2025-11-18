@@ -155,6 +155,7 @@ More information: [Express.js Official Website](https://expressjs.com/en/starter
 The application is hosted on a cloud platform with the following setup:  
 - *Backend:* Node.js server deployed on AWS EC2  
 - *Database:* MongoDB hosted on MongoDB Atlas  
+- *Live:* https://onlinescholarshipportal.vercel.app/ 
 
 ---
 
